@@ -213,8 +213,11 @@ When live: add `appStoreUrl` / `webUrl`, remove or replace Coming soon badge.
 
 **Why:** 1-page site + admin + images + free tier + easy to extend for bebe landing later.
 
-**Sanity:** Account created. Project name **`logusstudio`**.  
-When scaffolding: use this project’s **Project ID** + dataset (`production`). Admin UI embeds at `/admin`.
+**Sanity:** Account created.  
+- Project name: **`logusstudio`**  
+- Project ID: **`7wq3nq5m`**  
+- Dataset: `production` (confirm at scaffold)  
+Schema + Studio at `/admin` are set up during local Phase 1 — no extra Sanity console steps needed right now.
 
 ### Admin URL
 

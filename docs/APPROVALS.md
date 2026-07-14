@@ -14,8 +14,10 @@ Answers from founder. Local development must follow these.
 - **Yes, use Sanity.**
 - Signup: done.
 - **Project name:** `logusstudio`
+- **Project ID:** `7wq3nq5m`
+- Dataset: `production` (default; confirm at scaffold time)
 - Mount admin at `/admin`.
-- Still needed when scaffolding locally: **Project ID** (Sanity manage → Project settings) + dataset (usually `production`).
+- Full schema/Studio setup = during local Phase 1 scaffolding (not required now).
 
 ### 2. Stack
 - **Next.js + Tailwind + TypeScript + Vercel** — approved.

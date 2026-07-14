@@ -36,4 +36,4 @@ Develop on **Cursor Desktop**, not Cloud Agent.
 
 ## Stack (approved)
 
-Next.js · Tailwind · Sanity (`/admin`) · Vercel · Cloudflare DNS
+Next.js · Tailwind · Sanity project **`logusstudio`** (`/admin`) · Vercel · Cloudflare DNS

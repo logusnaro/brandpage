@@ -12,7 +12,10 @@ Answers from founder. Local development must follow these.
 
 ### 1. Sanity
 - **Yes, use Sanity.**
-- Signup required: free Sanity account (Google login OK). Linked to the project once; admin at `/admin`.
+- Signup: done.
+- **Project name:** `logusstudio`
+- Mount admin at `/admin`.
+- Still needed when scaffolding locally: **Project ID** (Sanity manage → Project settings) + dataset (usually `production`).
 
 ### 2. Stack
 - **Next.js + Tailwind + TypeScript + Vercel** — approved.

@@ -213,7 +213,8 @@ When live: add `appStoreUrl` / `webUrl`, remove or replace Coming soon badge.
 
 **Why:** 1-page site + admin + images + free tier + easy to extend for bebe landing later.
 
-**Sanity signup:** Free account required once (`sanity.io` → create project → connect to this repo). Admin UI embeds at `/admin`.
+**Sanity:** Account created. Project name **`logusstudio`**.  
+When scaffolding: use this project’s **Project ID** + dataset (`production`). Admin UI embeds at `/admin`.
 
 ### Admin URL
 

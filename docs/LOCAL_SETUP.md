@@ -62,7 +62,8 @@ Start from planning — do **not** invent new product decisions.
 ```bash
 # Suggested first commands (run after Open Folder)
 npx create-next-app@latest . --typescript --tailwind --app --src-dir --eslint --import-alias "@/*"
-# then add Sanity per PLANNING.md
+# then add Sanity per PLANNING.md — project name: logusstudio
+# You'll need Project ID from https://www.sanity.io/manage
 ```
 
 > If the folder is not empty (already has `docs/` + `README.md`), use create-next-app carefully or scaffold into a temp dir and merge. Prefer keeping `docs/PLANNING.md`.

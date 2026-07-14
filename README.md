@@ -5,6 +5,12 @@ Brand hub for [logUs Studio](https://logusstudio.com).
 **Domain:** logusstudio.com  
 **Status:** Planning complete → local development next
 
+## Local development (required)
+
+Develop on **Cursor Desktop**, not Cloud Agent.
+
+**[docs/LOCAL_SETUP.md](./docs/LOCAL_SETUP.md)** — clone into an existing `logus` / Projects nest, then start today’s build.
+
 ## Planning
 
 All product, design, CMS, and content decisions are documented in:

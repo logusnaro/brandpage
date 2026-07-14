@@ -20,13 +20,18 @@
 
 | Element | Definition |
 |---------|------------|
-| Company name | logUs Studio |
-| Brand / Logo | `logUs[:]` |
+| Company name | logUs Studio (로그어스스튜디오) |
+| Homepage name | logUs Studio |
+| Logo (wordmark) | logUs Studio |
+| Symbol | `[:]` |
 | Service naming (full) | `logUs: OOO` |
-| Service naming (short) | `[:] OOO` |
+| Service naming (short) | `[:]OOO` / `[:] OOO` |
+| App Store (bebe) | `[:]bebe` |
 | Domain | logusstudio.com |
 | Contact | logus.naro@gmail.com |
+| Threads | https://www.threads.com/@logus.naro |
 | Location | Based in Korea |
+| Logo assets | `assets/brand/` |
 
 ### Decisions (locked)
 
@@ -35,7 +40,18 @@
 | Language | English only (v1) |
 | Personal name | Not shown on site |
 | Tone | Calm, warm, slightly premium — not productivity/SaaS startup |
-| SNS | No accounts yet — admin supports add/publish/unpublish/delete |
+| Color | Black & white only (`#111111` / white) — no coral |
+| Type | Inter SemiBold (logo + UI), tracking slightly tight |
+| `:` blink | Black, same as logo |
+| Admin URL | `/admin` |
+| Admin auth | Single account (`logus.naro@gmail.com`); changeable later |
+| CMS | Sanity |
+| Stack | Next.js + Tailwind + Vercel |
+| DNS | Cloudflare → Vercel |
+| SNS | Threads published at launch; admin supports add/publish/unpublish/delete |
+| v1 scope | **Phase 1 only** — see Approvals |
+
+Full approval transcript: [`docs/APPROVALS.md`](./APPROVALS.md)
 
 ---
 
@@ -84,40 +100,26 @@ logus.naro@gmail.com
 
 ## Visual Direction
 
-### Core principle: texture and typography over color
-
-Logo is already **white background + black text + blinking `:`** in `[:]`. The site follows the same tone.
+### Core principle: black & white + Inter
 
 | Element | Spec |
 |---------|------|
 | Background | White or very light warm white (`#FFFFFF` / `#FAFAF8`) |
-| Text | Black / dark gray (`#1A1A1A`) |
-| Logo | `logUs[:]` — `:` blink effect (reuse in Hero) |
-| Texture | Subtle paper grain on Philosophy / Studio sections only |
-| Accent | Coral (`~#FF6B5B`) — used sparingly |
+| Text / logo | `#111111` |
+| Wordmark | `logUs Studio` (Inter SemiBold, tracking ~-4%) |
+| Symbol | `[:]` — reusable as favicon; `:` blink in black |
+| Accent | None (B&W only). Hover = underline / opacity |
+| Texture | Subtle paper grain on Philosophy / Studio only — review after first build |
 
-### Where to use coral (sparingly)
+### Paper texture (simple explanation)
 
-| Element | Usage |
-|---------|-------|
-| `:` blink | Optional: coral blink to match accent |
-| Link hover | Underline or color shift |
-| `Coming soon` badge | Small label |
-| Section dividers | 1px accent line |
-| CTA button | `Say hello` only |
-
-**Do not use coral for:** large backgrounds, body text, full product cards.
-
-### Paper texture
-
-- Apply only to Philosophy / Studio section backgrounds
-- Hero stays clean white so logo blink is visible
-- Low opacity on mobile
+A barely visible grain so those sections feel like paper instead of pure plastic white. If it looks noisy, remove it.
 
 ### Typography
 
-- **logUs / logo:** geometric sans
-- **Body / philosophy:** readable sans or humanist sans, generous line-height
+- **Logo / UI headings:** Inter SemiBold
+- **Body / philosophy:** Inter Regular/Medium, generous line-height
+- Load via `next/font/google` (Inter)
 
 ---
 
@@ -128,7 +130,7 @@ Single-page scroll. Five sections.
 ```
 ┌──────────────────────────────────────────┐
 │  HERO                                    │
-│  logUs[:]  (: blink)                     │
+│  logUs Studio  +  [:] (: blink, black)   │
 │  Little things. Your story.        [CMS] │
 │  Independent software studio...    [CMS] │
 ├──────────────────────────────────────────┤
@@ -138,14 +140,14 @@ Single-page scroll. Five sections.
 ├──────────────────────────────────────────┤
 │  PRODUCTS  (published only; hidden if 0) │
 │  ┌────────────────┐                      │
-│  │ [:] bebe       │  Coming soon   [CMS] │
+│  │ [:]bebe        │  Coming soon   [CMS] │
 │  │ one-liner      │                      │
 │  └────────────────┘                      │
 ├──────────────────────────────────────────┤
 │  CONTACT                           [CMS] │
 │  Let's build little things together.     │
 │  logus.naro@gmail.com                    │
-│  [SNS icons — published + url only]      │
+│  [Threads — published]                   │
 ├──────────────────────────────────────────┤
 │  FOOTER                                  │
 │  © 2026 logUs Studio                     │
@@ -164,13 +166,14 @@ Single-page scroll. Five sections.
 
 ## Products
 
-### First product: `[:] bebe`
+### First product: `[:]bebe`
 
 | Field | Value |
 |-------|-------|
-| displayName | `[:] bebe` |
+| displayName | `[:]bebe` (site short) / `logUs: bebe` (full where needed) |
 | description | A little app for remembering your baby's everyday moments. |
 | status | **published** (shown as Coming soon) |
+| App Store name (planned) | `[:]bebe` |
 | appStoreUrl | empty |
 | screenshot | empty (add via admin when ready) |
 
@@ -180,7 +183,7 @@ Single-page scroll. Five sections.
 
 ```
 ┌─────────────────────────────┐
-│  [:] bebe                   │
+│  [:]bebe                    │
 │                             │
 │  A little app for           │
 │  remembering your baby's    │
@@ -205,24 +208,27 @@ When live: add `appStoreUrl` / `webUrl`, remove or replace Coming soon badge.
 | Hosting | Vercel |
 | Domain | logusstudio.com |
 | Images | Sanity CDN |
-| Auth | Google OAuth (owner email only) |
+| Auth | Single user (`logus.naro@gmail.com`) — changeable later |
+| DNS | Cloudflare → Vercel |
 
 **Why:** 1-page site + admin + images + free tier + easy to extend for bebe landing later.
 
+**Sanity signup:** Free account required once (`sanity.io` → create project → connect to this repo). Admin UI embeds at `/admin`.
+
 ### Admin URL
 
-- `logusstudio.com/studio` (Sanity Studio)
-- `noindex` on `/studio`
-- Auth: `logus.naro@gmail.com` only
+- `logusstudio.com/admin` (Sanity Studio embedded)
+- `noindex` on `/admin`
+- Auth: single account only
 
 ### What lives in CMS vs code
 
 | CMS (editable) | Code (fixed) |
 |----------------|--------------|
 | Hero, Philosophy, Studio, Contact copy | Logo blink animation |
-| Products (CRUD + publish) | Layout, fonts |
-| Social links (CRUD + publish) | Paper texture, coral accent |
-| Product screenshots | Section structure |
+| Products (CRUD + publish) | Layout, Inter font |
+| Social links (CRUD + publish) | Paper texture (review later) |
+| Product screenshots | Section structure, B&W theme |
 
 ---
 
@@ -349,7 +355,7 @@ List view:
 |-------|-------|
 | Title | logUs Studio — Little things. Your story. |
 | Description | Independent software studio building small products that help people remember more. Based in Korea. |
-| OG image | Minimal: `logUs[:]` + tagline |
+| OG image | Open Graph preview image when links are shared — minimal wordmark/symbol + tagline (Phase 1 deploy) |
 
 Note: "Logus Studio" may conflict with unrelated businesses in search results. Include **software**, **Korea**, **remember** in meta description.
 
@@ -357,22 +363,27 @@ Note: "Logus Studio" may conflict with unrelated businesses in search results. I
 
 ## Launch Phases
 
-### Phase 1 — Launch
+There are **3 phases**. **v1 development = Phase 1 only.**
+
+### Phase 1 — Launch (= v1)
 
 - [ ] Hero, Philosophy, Studio, Contact (CMS)
-- [ ] `[:] bebe` published as Coming soon
+- [ ] `[:]bebe` published as Coming soon
 - [ ] Products / SNS publish · unpublish · delete in admin
-- [ ] SNS hidden when empty
-- [ ] Sanity Studio deployed at `/studio`
+- [ ] Threads published
+- [ ] Sanity embedded at `/admin`
+- [ ] Deploy Vercel + Cloudflare DNS
 
 ### Phase 2 — bebe release
 
 - [ ] Update description, add screenshot via admin
 - [ ] Add `appStoreUrl`, update badge to Live or remove Coming soon
 
-### Phase 3 — SNS
+### Phase 3 — Extra polish
 
-- [ ] Add links in admin → Publish
+- [ ] More SNS if needed
+- [ ] OG / favicon polish
+- [ ] Paper texture keep/remove decision
 
 ---
 
@@ -395,42 +406,44 @@ Note: "Logus Studio" may conflict with unrelated businesses in search results. I
   "products": [
     {
       "name": "bebe",
-      "displayName": "[:] bebe",
+      "displayName": "[:]bebe",
       "description": "A little app for remembering your baby's everyday moments.",
       "status": "published",
       "sortOrder": 0
     }
   ],
-  "socialLinks": []
+  "socialLinks": [
+    {
+      "platform": "threads",
+      "url": "https://www.threads.com/@logus.naro",
+      "status": "published",
+      "sortOrder": 0
+    }
+  ]
 }
 ```
 
 ---
 
-## Open Questions (non-blocking)
-
-1. **bebe full name on App Store** — `logUs: bebe` vs `[:] bebe` (brand page uses `[:] bebe`)
-2. **Coral blink** — match site accent or keep black blink from logo file
-3. **Paper texture scope** — Philosophy/Studio only vs subtle site-wide
-
----
-
 ## Local Development — Suggested Next Steps
+
+See also [`docs/LOCAL_SETUP.md`](./LOCAL_SETUP.md) and [`docs/APPROVALS.md`](./APPROVALS.md).
 
 ```bash
 # 1. Clone (if not already)
 git clone https://github.com/logusnaro/brandpage.git
 cd brandpage
+git checkout cursor/brand-page-planning-8071
 
-# 2. Scaffold
+# 2. Scaffold (keep docs/ + assets/)
 npx create-next-app@latest . --typescript --tailwind --app --src-dir
 
-# 3. Add Sanity
-npm install next-sanity @sanity/client @sanity/image-url
-npm create sanity@latest -- --project-plan free
+# 3. Add Sanity (needs free signup)
+npm install next-sanity @sanity/client @sanity/image-url sanity
+# create Sanity project, mount Studio at /admin
 
-# 4. Implement schema from this doc
-# 5. Deploy to Vercel, connect logusstudio.com
+# 4. Implement schema + UI from this doc
+# 5. Deploy to Vercel, point Cloudflare DNS for logusstudio.com
 ```
 
 Refer to this document for schema, copy, visual rules, and publish workflow.

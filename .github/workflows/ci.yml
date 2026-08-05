@@ -16,5 +16,12 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-      - run: npm install
-      - run: npm run build
+      - name: Build when package manifest exists
+        shell: bash
+        run: |
+          if [ -f package.json ]; then
+            npm install
+            npm run build
+          else
+            echo "::warning::package.json is not present on the default branch; build deferred until the app scaffold is committed."
+          fi

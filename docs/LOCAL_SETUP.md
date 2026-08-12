@@ -49,24 +49,26 @@ git checkout cursor/brand-page-planning-8071
    - https://cursor.com/agents/bc-2fbcbfe6-bf13-40b0-8ea0-fa233d718071
 4. Or start a **new local Agent** chat and point it at `docs/PLANNING.md`
 
-## 4. Today’s work (after folder is open)
+## 4. Run locally
 
-Start from planning — do **not** invent new product decisions.
-
-1. Read `docs/PLANNING.md`
-2. Scaffold: Next.js + Tailwind + TypeScript
-3. Build the single-page brand site (Hero → Philosophy → Studio → Products → Contact)
-4. Wire Sanity for Products / SNS publish · unpublish · delete
-5. Later: Vercel + logusstudio.com
+Phase 1 scaffold is in the repo. From the `brandpage` folder:
 
 ```bash
-# Suggested first commands (run after Open Folder)
-npx create-next-app@latest . --typescript --tailwind --app --src-dir --eslint --import-alias "@/*"
-# then add Sanity per PLANNING.md
-# project: logusstudio | ID: 7wq3nq5m | dataset: production
+npm install
+npm run dev
 ```
 
-> If the folder is not empty (already has `docs/` + `README.md`), use create-next-app carefully or scaffold into a temp dir and merge. Prefer keeping `docs/PLANNING.md`.
+- Site: http://localhost:3000 (or next free port)
+- Admin: http://localhost:3000/admin
+- Until CMS is seeded, homepage uses fallback content from `docs/PLANNING.md`
+
+Optional CMS seed (Sanity Editor token in `.env.local`):
+
+```bash
+npm run seed
+```
+
+Later: deploy Vercel + Cloudflare DNS for logusstudio.com.
 
 ## Links
 

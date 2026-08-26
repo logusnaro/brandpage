@@ -1,37 +1,34 @@
-import { Contact } from "@/components/Contact";
-import { Hero } from "@/components/Hero";
-import { Philosophy } from "@/components/Philosophy";
-import { Products } from "@/components/Products";
-import { SiteNav } from "@/components/SiteNav";
-import { Studio } from "@/components/Studio";
+import type { Metadata } from "next";
+import { StudioHomepage } from "@/components/StudioHomepage";
 import { fetchPageData } from "@/sanity/lib/fetchPageData";
 
 export const revalidate = 60;
 
+export async function generateMetadata(): Promise<Metadata> {
+  const { settings } = await fetchPageData();
+
+  return {
+    title: settings.metadata.title.ko,
+    description: settings.metadata.description.ko,
+    alternates: { canonical: "/" },
+    openGraph: {
+      title: settings.metadata.title.ko,
+      description: settings.metadata.description.ko,
+      type: "website",
+      locale: "ko_KR",
+      alternateLocale: ["en_US"],
+      siteName: "logUs Studio",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: settings.metadata.title.ko,
+      description: settings.metadata.description.ko,
+    },
+  };
+}
+
 export default async function Home() {
-  const { products, socialLinks, settings } = await fetchPageData();
+  const { settings, products, socialLinks } = await fetchPageData();
 
-  const navItems = [
-    { id: "hero", label: "Home" },
-    { id: "philosophy", label: "Philosophy" },
-    ...(products.length > 0 ? [{ id: "products", label: "Products" }] : []),
-    { id: "studio", label: "Studio" },
-    { id: "contact", label: "Contact" },
-  ];
-
-  return (
-    <>
-      <SiteNav items={navItems} />
-      <main className="flex min-h-full flex-col">
-        <Hero />
-        <Philosophy />
-        <Products products={products} />
-        <Studio />
-        <Contact
-          email={settings.contact.email}
-          socialLinks={socialLinks}
-        />
-      </main>
-    </>
-  );
+  return <StudioHomepage settings={settings} products={products} socialLinks={socialLinks} />;
 }

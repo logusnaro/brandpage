@@ -21,10 +21,28 @@ export const product = defineType({
     }),
     defineField({
       name: "description",
-      title: "Description",
+      title: "Description (이전 데이터)",
       type: "text",
       rows: 5,
       validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: "displayNameI18n",
+      title: "제품 표시 이름 · 한국어/English",
+      type: "localizedString",
+      description: "비워두면 이전 Display name이 사용됩니다.",
+    }),
+    defineField({
+      name: "categoryI18n",
+      title: "제품 분류 · 한국어/English",
+      type: "localizedString",
+      description: "예: 육아 기록 / Parenting journal",
+    }),
+    defineField({
+      name: "descriptionI18n",
+      title: "제품 설명 · 한국어/English",
+      type: "localizedText",
+      description: "비워두면 이전 Description이 사용됩니다.",
     }),
     defineField({
       name: "sortOrder",

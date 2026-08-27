@@ -15,11 +15,11 @@ const dailyImages = [
 ];
 
 const introArtwork = {
-  wake: dailyImages[0],
-  family: dailyImages[2],
-  commute: dailyImages[1],
+  wake: "/story/daily/daily-01-wake-v1.webp",
+  family: "/story/daily/daily-07-family-v1.webp",
+  commute: "/story/daily/daily-03-commute-v1.webp",
   later: "/story/life/life-08-later-v1.webp",
-  night: dailyImages[3],
+  night: "/story/daily/daily-08-night-v1.webp",
 } as const;
 
 const productFallbackImages = [
@@ -30,6 +30,14 @@ const productFallbackImages = [
 
 function localized(value: Partial<{ ko: string; en: string }> | undefined, locale: Locale, fallback = "") {
   return value?.[locale]?.trim() || fallback;
+}
+
+const pointPattern = /(logUs|logi|(?<![A-Za-z])i(?![A-Za-z])|(?<![A-Za-z])I(?![A-Za-z]))/g;
+
+function emphasizePoints(value: string) {
+  return value.split(pointPattern).map((part, index) => index % 2 === 1
+    ? <span className="studio-point" key={`${part}-${index}`}>{part}</span>
+    : part);
 }
 
 function productName(product: Product) {
@@ -91,7 +99,7 @@ export function StudioHomepage({ settings, products, socialLinks }: Props) {
 
   const active = activeProduct === null ? null : products[activeProduct] ?? null;
   const activeGallery = useMemo(() => active ? productGallery(active, activeProduct ?? 0) : [], [active, activeProduct]);
-  const productOverview = localized(settings.products.support, locale, "삶 속에서 그 곁을 지키는 logi를 만나보세요.");
+  const productOverview = localized(settings.products.support, locale, "우리의 곁에 있는 logi를 만나보세요.");
   const productGuide = localized(settings.products.guide, locale, "이미지 속 logi를 클릭하면 앱 소개가 열립니다.");
   const contactBody = localized(settings.contact.body, locale, "서비스, 협업 또는 logUs Studio에 관해 함께 나누고 싶은 이야기를 남겨주세요.");
   const formCopy = locale === "ko"
@@ -142,8 +150,8 @@ export function StudioHomepage({ settings, products, socialLinks }: Props) {
           <h1 className={`studio-intro-heading ${sceneIndex === 0 ? "visible" : "hidden"}`}>Intro</h1>
           <div className="studio-intro-copy" onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}>
             <div className={`studio-symbol ${scene.symbol.replace("logUs : Studio", "logUs: Studio") === "logUs: Studio" ? "studio-brand-symbol" : ""}`}>{scene.symbol.replace("logUs : Studio", "logUs: Studio")}</div>
-            <h2 key={`title-${sceneIndex}`}>{scene.titleText}</h2>
-            <p key={`body-${sceneIndex}`}>{scene.bodyText}</p>
+            <h2 key={`title-${sceneIndex}`}>{emphasizePoints(scene.titleText)}</h2>
+            {scene.bodyText ? <p key={`body-${sceneIndex}`}>{emphasizePoints(scene.bodyText)}</p> : null}
             <div className="studio-progress" aria-label="Intro 진행">
               {introScenes.map((item, index) => <button key={item.symbol} type="button" aria-label={`${index + 1}번째 장면`} className={index === sceneIndex ? "active" : ""} onClick={() => setSceneIndex(index)} />)}
             </div>

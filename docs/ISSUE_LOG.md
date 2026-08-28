@@ -138,3 +138,12 @@ Preview: https://logus-brandpage-9quhs3l4s-log-us.vercel.app
 - Vercel Preview 상태 `READY`
 - 고정 테스트 주소 응답 `HTTP 200`
 - `test.logusstudio.com`을 최신 배포본으로 갱신
+
+## 2026-08-28 — Intro 주제목 자간 조정
+
+### 처리 내용
+
+- Intro 주제목은 Pretendard Variable 700 굵기를 유지.
+- 주제목 자간을 `-0.052em`에서 `-0.035em`으로 소폭 확대.
+- Intro 섹션 제목과 보조문구는 변경하지 않음.
+- 고정 테스트 주소를 최신 배포본으로 갱신.

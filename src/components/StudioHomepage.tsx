@@ -7,18 +7,11 @@ import type { Locale, Product, SiteSettings, SocialLink } from "@/sanity/lib/typ
 
 type Props = { settings: SiteSettings; products: Product[]; socialLinks: SocialLink[] };
 
-const dailyImages = [
-  "/story/daily/daily-01-wake-v1.webp",
-  "/story/daily/daily-03-commute-v1.webp",
-  "/story/daily/daily-07-family-v1.webp",
-  "/story/daily/daily-08-night-v1.webp",
-];
-
 const introArtwork = {
   wake: "/story/daily/daily-01-wake-v1.webp",
-  family: "/story/daily/daily-07-family-v1.webp",
-  commute: "/story/daily/daily-03-commute-v1.webp",
-  later: "/story/life/life-08-later-v1.webp",
+  family: "/story/life/life-02-kindergarten-v1.webp",
+  commute: "/story/life/life-08-later-v1.webp",
+  later: "/story/intro/intro-05-family-dinner-v2.webp",
   night: "/story/daily/daily-08-night-v1.webp",
 } as const;
 
@@ -178,7 +171,7 @@ export function StudioHomepage({ settings, products, socialLinks }: Props) {
 
         <section id="contact" className="studio-contact">
           <div className="studio-contact-head"><h2>{localized(settings.pageLabels.contact, locale, "Contact")}</h2><p>{contactBody}</p></div>
-          <div className="studio-contact-body"><div className="studio-contact-image"><Image src={dailyImages[3]} alt="하루 끝, logi의 주머니가 열리는 장면" fill sizes="(max-width: 800px) 92vw, 43vw" className="studio-cover" /></div>
+          <div className="studio-contact-body"><div className="studio-contact-image"><Image src="/story/life/life-07-family-v1.webp" alt="가족의 이야기를 함께 바라보는 logi" fill sizes="(max-width: 800px) 92vw, 43vw" className="studio-cover" /></div>
           <div className="studio-contact-copy" ref={contactCopyRef}><p className="studio-contact-label">{formCopy.eyebrow}</p><h3>{contactTitleFirst}{contactTitleLast ? <><br /><span className="studio-question-line" ref={questionLineRef}>{contactTitleLast}</span></> : <span className="studio-question-line" ref={questionLineRef}>{contactTitleFirst}</span>}</h3>{!formSent ? <form ref={formRef} className="studio-contact-form" onSubmit={(event) => { event.preventDefault(); setFormSent(true); }}><select aria-label={formCopy.inquiry} required defaultValue=""><option value="" disabled>{formCopy.inquiry}</option><option>{formCopy.product}</option><option>{formCopy.collaboration}</option><option>{formCopy.other}</option></select><input required placeholder={formCopy.name} /><input required type="email" placeholder={formCopy.email} /><textarea required placeholder={formCopy.message} /><label><input required type="checkbox" /> {formCopy.consent}</label><button className="studio-submit" type="submit">{formCopy.submit}</button></form> : null}{formSent ? <div className="studio-sent"><h4>{formCopy.sent}</h4><p>{formCopy.sentBody}</p></div> : null}</div></div>
           <footer className="studio-footer"><div>{localized(settings.contact.copyright, locale, "© 2026 logUs Studio. All rights reserved.")}</div><div>이용약관 · 개인정보처리방침</div><div>사업자정보 확인</div><div className="studio-footer-social">{socialLinks.map((link) => <a key={link._id} href={link.url} target="_blank" rel="noreferrer">{link.label || link.platform}</a>)}</div></footer>
         </section>

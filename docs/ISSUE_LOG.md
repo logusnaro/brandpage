@@ -79,3 +79,25 @@ Preview: https://logus-brandpage-ajhfb5gdj-log-us.vercel.app
 
 - 위 후보와 기존 이미지 중 최종 Intro 5장 확정.
 - Product 진입 시 기존 `product-origin-v1.webp`를 전체 화면 전환 이미지로 사용할지 결정.
+
+## 2026-08-28 — Intro 문구 겹침 수정 및 Preview 재배포
+
+### 원인
+
+- Intro 보조문구와 장면 이동 바가 화면 중앙 절대좌표에 함께 배치되어 심볼·메인 문구와 순서가 뒤집히고 겹침.
+
+### 처리 내용
+
+- 보조문구를 Intro 왼쪽 영역 하단 110px 기준으로 고정.
+- 장면 이동 바를 하단 70px 기준으로 고정.
+- 문구, 이미지, CMS 데이터와 운영 도메인은 변경하지 않음.
+
+### 검증 결과
+
+- `npm run build` 통과
+- Intro 5개 장면 PC 화면 배치 확인
+- Vercel Preview 상태 `READY`
+- Preview 응답 `HTTP 200`
+- 브라우저 오류 없음
+
+Preview: https://logus-brandpage-9quhs3l4s-log-us.vercel.app

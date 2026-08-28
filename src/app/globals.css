@@ -714,11 +714,11 @@ button { color: inherit; }
 .studio-intro { height: 100svh; min-height: 100svh; grid-template-columns: 42% 58%; }
 .studio-intro-heading { top: 95px; left: 5vw; font-size: clamp(58px, 9vw, 128px); font-weight: 640; }
 .studio-intro-copy { padding: 10vw 5vw 4vw 5vw; }
-.studio-symbol { min-height: 120px; font-size: clamp(66px, 9.5vw, 140px); font-weight: 300; letter-spacing: -.12em; line-height: .82; }
+.studio-symbol { min-height: 120px; padding-bottom: 12px; font-size: clamp(66px, 9.5vw, 140px); font-weight: 300; letter-spacing: -.12em; line-height: .82; }
 .studio-brand-symbol { font-size: clamp(43px, 6.4vw, 88px); font-weight: 680; letter-spacing: -.08em; }
-.studio-intro-copy h2 { max-width: none; min-height: 100px; margin: 30px 0 12px; font-size: clamp(25px, 3vw, 44px); font-weight: 700; letter-spacing: -.052em; line-height: 1.12; }
+.studio-intro-copy h2 { max-width: none; min-height: 100px; margin: 42px 0 12px; font-size: clamp(25px, 3vw, 44px); font-weight: 700; letter-spacing: -.052em; line-height: 1.12; }
 .studio-point { color: var(--studio-coral); font-family: monospace; }
-.studio-intro-copy p { min-height: 50px; max-width: 490px; color: var(--studio-muted); font-size: 16px; line-height: 1.55; }
+.studio-intro-copy p { position: absolute; top: calc(50% - 72px); left: 5vw; min-height: 0; max-width: 490px; color: var(--studio-muted); font-size: 16px; line-height: 1.55; }
 .studio-progress { position: absolute; z-index: 6; top: 50%; left: 5vw; display: flex; margin-top: 0; transform: translateY(-50%); }
 .studio-progress button { background: #ccc; }
 .studio-progress button { height: 6px; }
@@ -769,10 +769,10 @@ button { color: inherit; }
   .studio-intro { display: block; }
   .studio-intro-heading { top: 78px; left: 18px; font-size: 52px; }
   .studio-intro-copy { position: absolute; z-index: 5; inset: auto 14px 3%; padding: 18px; background: rgb(246 246 242 / 94%); }
-  .studio-symbol { min-height: 42px; font-size: 45px; }
+  .studio-symbol { min-height: 42px; padding-bottom: 5px; font-size: 45px; }
   .studio-brand-symbol { font-size: 39px; }
-  .studio-intro-copy h2 { min-height: 50px; margin: 12px 0 6px; font-size: 22px; }
-  .studio-intro-copy p { min-height: 38px; font-size: 12px; }
+  .studio-intro-copy h2 { min-height: 50px; margin: 22px 0 6px; font-size: 22px; }
+  .studio-intro-copy p { position: absolute; top: auto; right: 18px; bottom: 60px; left: 18px; min-height: 0; font-size: 12px; }
   .studio-progress { top: auto; right: 32px; bottom: 22px; left: 32px; margin-top: 0; transform: none; }
   .studio-intro-image { position: absolute; inset: 65px 14px 30%; min-height: 0; margin: 0; }
   .studio-product { padding: 85px 17px 75px; }

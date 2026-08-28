@@ -28,7 +28,7 @@ body {
   margin: 0;
   background: var(--paper);
   color: var(--ink);
-  font-family: Inter, Pretendard, "Noto Sans KR", Arial, sans-serif;
+  font-family: var(--font-pretendard), Pretendard, "Noto Sans KR", Arial, sans-serif;
 }
 
 button,
@@ -682,7 +682,7 @@ button { color: inherit; }
 .studio-home {
   --studio-ink: #171717;
   --studio-muted: #747470;
-  font-family: Inter, Pretendard, "Noto Sans KR", Arial, sans-serif;
+  font-family: var(--font-pretendard), Pretendard, "Noto Sans KR", Arial, sans-serif;
   line-height: 1.55;
 }
 .studio-home button,

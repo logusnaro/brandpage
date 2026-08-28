@@ -716,7 +716,7 @@ button { color: inherit; }
 .studio-intro-copy { padding: 10vw 5vw 4vw 5vw; }
 .studio-symbol { min-height: 120px; padding-bottom: 12px; font-size: clamp(66px, 9.5vw, 140px); font-weight: 300; letter-spacing: -.12em; line-height: .82; }
 .studio-brand-symbol { font-size: clamp(43px, 6.4vw, 88px); font-weight: 680; letter-spacing: -.08em; }
-.studio-intro-copy h2 { max-width: none; min-height: 100px; margin: 42px 0 12px; font-size: clamp(25px, 3vw, 44px); font-weight: 700; letter-spacing: -.052em; line-height: 1.12; }
+.studio-intro-copy h2 { max-width: none; min-height: 100px; margin: 42px 0 12px; font-size: clamp(25px, 3vw, 44px); font-weight: 700; letter-spacing: -.035em; line-height: 1.12; }
 .studio-point { color: inherit; font-family: inherit; }
 .studio-intro-copy p { position: absolute; top: auto; bottom: 110px; left: 5vw; min-height: 0; max-width: 490px; color: var(--studio-muted); font-size: 16px; line-height: 1.55; }
 .studio-progress { position: absolute; z-index: 6; top: auto; bottom: 70px; left: 5vw; display: flex; margin-top: 0; transform: none; }

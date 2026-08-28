@@ -101,3 +101,22 @@ Preview: https://logus-brandpage-ajhfb5gdj-log-us.vercel.app
 - 브라우저 오류 없음
 
 Preview: https://logus-brandpage-9quhs3l4s-log-us.vercel.app
+
+## 2026-08-28 — Pretendard 통일 및 고정 테스트 주소 연결
+
+### 처리 내용
+
+- 공식 Pretendard Variable 웹폰트를 프로젝트에 자체 호스팅.
+- 홈페이지 전체 폰트 기준을 Pretendard로 통일.
+- Cloudflare에 `test.logusstudio.com` CNAME 레코드 추가.
+- 최신 Vercel Preview를 고정 테스트 주소에 연결.
+- Vercel 로그인 보호와 검색엔진 차단 상태 유지.
+
+### 검증 결과
+
+- `npm run build` 및 TypeScript 검사 통과
+- 고정 테스트 주소 응답 `HTTP 200` 확인
+- 비로그인 접근 시 Vercel SSO 이동 확인
+- Pretendard WOFF2 preload 및 실제 배포 확인
+
+고정 테스트 주소: https://test.logusstudio.com

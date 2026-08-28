@@ -120,3 +120,21 @@ Preview: https://logus-brandpage-9quhs3l4s-log-us.vercel.app
 - Pretendard WOFF2 preload 및 실제 배포 확인
 
 고정 테스트 주소: https://test.logusstudio.com
+
+## 2026-08-28 — Intro 및 Contact 이미지 확정안 반영
+
+### 적용 이미지
+
+- Intro 1: 기존 이미지 유지
+- Intro 2: `life-02-kindergarten-v1.webp`
+- Intro 3: `life-08-later-v1.webp`
+- Intro 4: `intro-05-family-dinner-v2.webp`
+- Intro 5: 기존 이미지 유지
+- Contact: `life-07-family-v1.webp`
+
+### 검증 결과
+
+- `npm run build` 및 TypeScript 검사 통과
+- Vercel Preview 상태 `READY`
+- 고정 테스트 주소 응답 `HTTP 200`
+- `test.logusstudio.com`을 최신 배포본으로 갱신

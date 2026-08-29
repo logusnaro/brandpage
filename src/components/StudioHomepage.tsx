@@ -2,24 +2,22 @@
 
 import Image from "next/image";
 import { useEffect, useMemo, useRef, useState } from "react";
+import type { CSSProperties } from "react";
 import { urlFor } from "@/sanity/lib/image";
 import type { Locale, Product, SiteSettings, SocialLink } from "@/sanity/lib/types";
 
 type Props = { settings: SiteSettings; products: Product[]; socialLinks: SocialLink[] };
 
-const introArtwork = {
-  wake: "/story/daily/daily-01-wake-v1.webp",
-  family: "/story/life/life-02-kindergarten-v1.webp",
-  commute: "/story/life/life-08-later-v1.webp",
-  later: "/story/life/life-07-family-v1.webp",
-  night: "/story/daily/daily-08-night-v1.webp",
-} as const;
 const introArtworkCycle = [
-  ...Object.values(introArtwork),
-  "/story/intro/intro-02-mother-work-v2.webp",
-  "/story/intro/intro-03-daughter-study-v2.webp",
-  "/story/intro/intro-04-son-study-v2.webp",
-  "/story/life/life-03-school-v1.webp",
+  { src: "/story/daily/daily-01-wake-v1.webp", alt: "아침을 맞는 사람과 logi", focus: "54% center", mobileFocus: "57% center" },
+  { src: "/story/life/life-02-kindergarten-v1.webp", alt: "유치원에 도착한 아이와 logi", focus: "48% center", mobileFocus: "46% center" },
+  { src: "/story/life/life-03-school-v1.webp", alt: "학교에서 이야기를 나누는 아이들과 logi", focus: "50% center", mobileFocus: "48% center" },
+  { src: "/story/intro/intro-04-son-study-v2.webp", alt: "책상에서 공부하는 학생과 logi", focus: "55% center", mobileFocus: "57% center" },
+  { src: "/story/intro/intro-03-daughter-study-v2.webp", alt: "도서관에서 공부하는 학생과 logi", focus: "54% center", mobileFocus: "56% center" },
+  { src: "/story/intro/intro-02-mother-work-v2.webp", alt: "집에서 일하는 여성과 logi", focus: "55% center", mobileFocus: "57% center" },
+  { src: "/story/life/life-08-later-v1.webp", alt: "세대가 함께 걷는 저녁과 logi", focus: "54% center", mobileFocus: "57% center" },
+  { src: "/story/life/life-07-family-v1.webp", alt: "저녁을 함께하는 가족과 logi", focus: "56% center", mobileFocus: "58% center" },
+  { src: "/story/daily/daily-08-night-v1.webp", alt: "하루를 돌아보는 밤과 logi", focus: "55% center", mobileFocus: "57% center" },
 ];
 
 const productFallbackImages = [
@@ -61,6 +59,7 @@ export function StudioHomepage({ settings, products, socialLinks }: Props) {
   const [languageOpen, setLanguageOpen] = useState(false);
   const [sceneIndex, setSceneIndex] = useState(0);
   const [imageIndex, setImageIndex] = useState(0);
+  const [previousImageIndex, setPreviousImageIndex] = useState<number | null>(null);
   const [paused, setPaused] = useState(false);
   const [activeProduct, setActiveProduct] = useState<number | null>(null);
   const [activeSection, setActiveSection] = useState("intro");
@@ -72,7 +71,6 @@ export function StudioHomepage({ settings, products, socialLinks }: Props) {
     ...item,
     titleText: localized(item.title, locale),
     bodyText: localized(item.body, locale),
-    image: introArtwork[item.visual],
     alt: localized(item.title, locale) || item.symbol,
   }));
   const sceneCount = introScenes.length;
@@ -89,10 +87,12 @@ export function StudioHomepage({ settings, products, socialLinks }: Props) {
   }, [paused, sceneIndex, sceneCount]);
 
   useEffect(() => {
-    if (paused) return;
-    const timer = window.setInterval(() => setImageIndex((current) => (current + 1) % introArtworkCycle.length), 4200);
+    const timer = window.setInterval(() => setImageIndex((current) => {
+      setPreviousImageIndex(current);
+      return (current + 1) % introArtworkCycle.length;
+    }), 6800);
     return () => window.clearInterval(timer);
-  }, [paused]);
+  }, []);
 
   useEffect(() => {
     const sections = ["intro", "product", "contact"].map((id) => document.getElementById(id)).filter(Boolean);
@@ -163,9 +163,10 @@ export function StudioHomepage({ settings, products, socialLinks }: Props) {
               {introScenes.map((item, index) => <button key={item.symbol} type="button" aria-label={`${index + 1}번째 장면`} className={index === sceneIndex ? "active" : ""} onClick={() => setSceneIndex(index)} />)}
             </div>
           </div>
-          <button className="studio-intro-image" type="button" aria-label="다음 Intro 이미지" onClick={() => setImageIndex((current) => (current + 1) % introArtworkCycle.length)} onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}>
-            <Image key={introArtworkCycle[imageIndex]} src={introArtworkCycle[imageIndex]} alt={scene.alt} fill priority={imageIndex === 0} sizes="(max-width: 800px) 92vw, 54vw" className="studio-cover" />
-          </button>
+          <div className="studio-intro-image" aria-label="Intro 이미지 모음">
+            {previousImageIndex !== null ? <Image key={`previous-${previousImageIndex}`} src={introArtworkCycle[previousImageIndex].src} alt="" fill sizes="(max-width: 800px) 92vw, 54vw" className="studio-cover studio-intro-image-previous" style={{ "--intro-focus": introArtworkCycle[previousImageIndex].focus, "--intro-mobile-focus": introArtworkCycle[previousImageIndex].mobileFocus } as CSSProperties} /> : null}
+            <Image key={`current-${imageIndex}`} src={introArtworkCycle[imageIndex].src} alt={introArtworkCycle[imageIndex].alt} fill priority={imageIndex === 0} sizes="(max-width: 800px) 92vw, 54vw" className="studio-cover studio-intro-image-current" style={{ "--intro-focus": introArtworkCycle[imageIndex].focus, "--intro-mobile-focus": introArtworkCycle[imageIndex].mobileFocus } as CSSProperties} />
+          </div>
         </section>
 
         <section id="product" className="studio-product">

@@ -14,10 +14,10 @@ export const fallbackSiteSettings: SiteSettings = {
   language: { korean: "한국어", english: "English" },
   intro: {
     scenes: [
-      { _key: "i", symbol: "i", title: { ko: "", en: "" }, body: { ko: "우리의 삶은 수많은 기억들(i)로 이루어져 있습니다.", en: "Our lives are made of countless memories (i)." }, visual: "wake" },
-      { _key: "log-i", symbol: "logi = log + i", title: { ko: "기억의 조각돌 logi는,", en: "The pebble of memory, logi," }, body: { ko: "늘 당신의 곁에서 i들을 간직합니다.", en: "always keeps the i's beside you." }, visual: "family" },
-      { _key: "log-us", symbol: "logUs", title: { ko: "logi들이 모여서, logUs.", en: "logi gather into logUs." }, body: { ko: "각양각색의 logi들이 모여 있습니다.", en: "A gathering of logi, each one different." }, visual: "commute" },
-      { _key: "studio", symbol: "logUs Studio", title: { ko: "", en: "" }, body: { ko: "삶의 순간을 기록하는 다양한 이야기를 만듭니다.", en: "We make diverse stories that record life's moments." }, visual: "later" },
+      { _key: "i", symbol: "i", title: { ko: "", en: "" }, body: { ko: "우리의 삶은 셀 수 없이 많은 기억의 조각, i로 이루어져 있습니다.", en: "Our lives are made of countless fragments of memory, i." }, visual: "wake" },
+      { _key: "log-i", symbol: "logi = log + i", title: { ko: "", en: "" }, body: { ko: "기억의 조각돌 logi는 늘 당신의 곁에서 흘러가는 i들을 조용히 간직합니다.", en: "The memory pebble logi quietly keeps the passing i beside you." }, visual: "family" },
+      { _key: "log-us", symbol: "logUs", title: { ko: "", en: "" }, body: { ko: "저마다 다른 logi들이 모여, 당신과 우리의 이야기 logUs가 됩니다.", en: "Different logi gather and become logUs, a story shared by you and us." }, visual: "commute" },
+      { _key: "studio", symbol: "logUs Studio", title: { ko: "", en: "" }, body: { ko: "흘러가는 삶의 순간들이 오래 남도록, 다양한 이야기를 만듭니다.", en: "We make diverse stories so life's passing moments can remain." }, visual: "later" },
     ],
   },
   daily: {

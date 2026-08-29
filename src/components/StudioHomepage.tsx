@@ -14,6 +14,7 @@ const introArtwork = {
   later: "/story/life/life-07-family-v1.webp",
   night: "/story/daily/daily-08-night-v1.webp",
 } as const;
+const introArtworkCycle = Object.values(introArtwork);
 
 const productFallbackImages = [
   "/story/life/life-01-baby-v1.webp",
@@ -53,6 +54,7 @@ export function StudioHomepage({ settings, products, socialLinks }: Props) {
   const [locale, setLocale] = useState<Locale>("ko");
   const [languageOpen, setLanguageOpen] = useState(false);
   const [sceneIndex, setSceneIndex] = useState(0);
+  const [imageIndex, setImageIndex] = useState(0);
   const [paused, setPaused] = useState(false);
   const [activeProduct, setActiveProduct] = useState<number | null>(null);
   const [activeSection, setActiveSection] = useState("intro");
@@ -78,6 +80,12 @@ export function StudioHomepage({ settings, products, socialLinks }: Props) {
     const timer = window.setTimeout(() => setSceneIndex((current) => (current + 1) % sceneCount), duration);
     return () => window.clearTimeout(timer);
   }, [paused, sceneIndex, sceneCount]);
+
+  useEffect(() => {
+    if (paused) return;
+    const timer = window.setInterval(() => setImageIndex((current) => (current + 1) % introArtworkCycle.length), 4200);
+    return () => window.clearInterval(timer);
+  }, [paused]);
 
   useEffect(() => {
     const sections = ["intro", "product", "contact"].map((id) => document.getElementById(id)).filter(Boolean);
@@ -150,7 +158,7 @@ export function StudioHomepage({ settings, products, socialLinks }: Props) {
             </div>
           </div>
           <button className="studio-intro-image" type="button" aria-label="다음 Intro 장면" onClick={() => setSceneIndex((current) => (current + 1) % introScenes.length)} onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}>
-            <Image key={scene.image} src={scene.image} alt={scene.alt} fill priority={sceneIndex === 0} sizes="(max-width: 800px) 92vw, 54vw" className="studio-cover" />
+            <Image key={introArtworkCycle[imageIndex]} src={introArtworkCycle[imageIndex]} alt={scene.alt} fill priority={imageIndex === 0} sizes="(max-width: 800px) 92vw, 54vw" className="studio-cover" />
           </button>
         </section>
 

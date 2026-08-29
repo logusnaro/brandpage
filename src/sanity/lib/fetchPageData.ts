@@ -56,13 +56,13 @@ type RawSettings = Partial<{
 
 function mergeIntroScenes(value: RawSettings["introScenes"]): IntroScene[] {
   if (!value?.length) return fallbackSiteSettings.intro.scenes;
-  return value.map((scene, index) => {
+  return value.slice(0, 4).map((scene, index) => {
     const fallback = fallbackSiteSettings.intro.scenes[index % fallbackSiteSettings.intro.scenes.length];
     return {
       _key: scene._key || fallback._key,
-      symbol: scene.symbol?.trim() || fallback.symbol,
-      title: localized(scene.title, fallback.title),
-      body: localized(scene.body, fallback.body),
+      symbol: fallback.symbol,
+      title: fallback.title,
+      body: fallback.body,
       visual: scene.visual || fallback.visual,
     };
   });

@@ -14,11 +14,10 @@ export const fallbackSiteSettings: SiteSettings = {
   language: { korean: "한국어", english: "English" },
   intro: {
     scenes: [
-      { _key: "i", symbol: "i", title: { ko: "기억의 조각, i", en: "A memory fragment, i" }, body: { ko: "모든 삶은 수많은 순간으로 이루어져 있습니다.\n우리는 그 작은 기억의 조각들을 i라 부릅니다.", en: "Every life is made of countless moments.\nWe call each little piece of memory i." }, visual: "wake" },
-      { _key: "i-i-i", symbol: "i i i → I", title: { ko: "수많은 i가 모여 I가 됩니다.", en: "Many i become I." }, body: { ko: "조약돌이 모이고 모여 길이 되고,\n그 길은 누군가의 흔적이 되는 것처럼,", en: "As pebbles gather into a path,\nand that path becomes someone's trace," }, visual: "family" },
-      { _key: "log-i", symbol: "log + i = logi", title: { ko: "늘 일상 곁에 놓여있는 작은 조약돌, logi.", en: "A small pebble, logi, always beside everyday life." }, body: { ko: "당신의 곁에서 i를 조용히 간직합니다.", en: "Beside you, quietly keeping i." }, visual: "commute" },
-      { _key: "log-us", symbol: "logi → logUs", title: { ko: "i가 모여 I가 되듯,\n많은 logi가 모여서, logUs.", en: "As i becomes I,\nmany logi become logUs." }, body: { ko: "logUs는 삶의 순간을 기록하는 다양한 이야기와 경험을 만듭니다.", en: "logUs creates stories and experiences that record the moments of life." }, visual: "later" },
-      { _key: "studio", symbol: "logUs Studio", title: { ko: "당신의 작은 순간이 만들어가는 이야기.", en: "A story made by your little moments." }, body: { ko: "", en: "" }, visual: "night" },
+      { _key: "i", symbol: "i", title: { ko: "", en: "" }, body: { ko: "우리의 삶은 수많은 기억들(i)로 이루어져 있습니다.", en: "Our lives are made of countless memories (i)." }, visual: "wake" },
+      { _key: "log-i", symbol: "logi = log + i", title: { ko: "기억의 조각돌 logi는,", en: "The pebble of memory, logi," }, body: { ko: "늘 당신의 곁에서 i들을 간직합니다.", en: "always keeps the i's beside you." }, visual: "family" },
+      { _key: "log-us", symbol: "logUs", title: { ko: "logi들이 모여서, logUs.", en: "logi gather into logUs." }, body: { ko: "각양각색의 logi들이 모여 있습니다.", en: "A gathering of logi, each one different." }, visual: "commute" },
+      { _key: "studio", symbol: "logUs Studio", title: { ko: "", en: "" }, body: { ko: "삶의 순간을 기록하는 다양한 이야기를 만듭니다.", en: "We make diverse stories that record life's moments." }, visual: "later" },
     ],
   },
   daily: {

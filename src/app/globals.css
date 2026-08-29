@@ -714,12 +714,12 @@ button { color: inherit; }
 .studio-intro { height: 100svh; min-height: 100svh; grid-template-columns: 42% 58%; }
 .studio-intro-heading { top: 95px; left: 5vw; font-size: clamp(58px, 9vw, 128px); font-weight: 640; }
 .studio-intro-copy { padding: 10vw 5vw 4vw 5vw; }
-.studio-symbol { min-height: 120px; padding-bottom: 12px; font-size: clamp(36px, 5.8vw, 82px); font-weight: 400; letter-spacing: -.12em; line-height: .82; }
+.studio-symbol { min-height: 120px; padding-bottom: 12px; font-size: clamp(36px, 5.8vw, 82px); font-weight: 400; letter-spacing: -.04em; line-height: .82; }
 .studio-brand-symbol { font-size: clamp(43px, 6.4vw, 88px); font-weight: 680; letter-spacing: -.08em; }
 .studio-intro-copy h2 { max-width: none; min-height: 100px; margin: 42px 0 12px; font-size: clamp(24px, 3vw, 44px); font-weight: 500; letter-spacing: 0; line-height: 1.12; }
 .studio-point { color: inherit; font-family: inherit; }
 .studio-intro-copy p { position: absolute; top: auto; bottom: 110px; left: 5vw; min-height: 0; max-width: 490px; color: var(--studio-muted); font-size: 16px; line-height: 1.55; font-weight: 400; }
-.studio-progress { position: absolute; z-index: 6; top: auto; bottom: 88px; left: 5vw; display: flex; margin-top: 0; transform: none; }
+.studio-progress { position: static; z-index: 6; display: flex; margin-top: 8px; transform: none; }
 .studio-progress button { background: #ccc; }
 .studio-progress button { height: 6px; }
 .studio-intro-image { margin: 22px 78px 22px 0; background: #b29b87; cursor: pointer; }
@@ -773,7 +773,7 @@ button { color: inherit; }
   .studio-brand-symbol { font-size: 39px; }
   .studio-intro-copy h2 { min-height: 50px; margin: 12px 0 6px; font-size: 30px; }
   .studio-intro-copy p { position: static; min-height: 50px; font-size: 16px; }
-  .studio-progress { position: static; margin-top: 12px; transform: none; }
+  .studio-progress { position: static; margin-top: 8px; transform: none; }
   .studio-intro-image { position: absolute; inset: 64px 14px 325px; min-height: 0; margin: 0; }
   .studio-product { padding: 85px 17px 75px; }
   .studio-section-heading { display: block; }

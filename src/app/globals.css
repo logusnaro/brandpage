@@ -719,7 +719,7 @@ button { color: inherit; }
 .studio-intro-copy h2 { max-width: none; min-height: 100px; margin: 42px 0 12px; font-size: clamp(24px, 3vw, 44px); font-weight: 500; letter-spacing: 0; line-height: 1.12; }
 .studio-point { color: inherit; font-family: inherit; }
 .studio-intro-copy p { position: absolute; top: auto; bottom: 110px; left: 5vw; min-height: 0; max-width: 490px; color: var(--studio-muted); font-size: 16px; line-height: 1.55; font-weight: 400; }
-.studio-progress { position: absolute; z-index: 6; top: auto; bottom: 70px; left: 5vw; display: flex; margin-top: 0; transform: none; }
+.studio-progress { position: absolute; z-index: 6; top: auto; bottom: 88px; left: 5vw; display: flex; margin-top: 0; transform: none; }
 .studio-progress button { background: #ccc; }
 .studio-progress button { height: 6px; }
 .studio-intro-image { margin: 22px 78px 22px 0; background: #b29b87; cursor: pointer; }
@@ -773,7 +773,7 @@ button { color: inherit; }
   .studio-brand-symbol { font-size: 39px; }
   .studio-intro-copy h2 { min-height: 50px; margin: 12px 0 6px; font-size: 30px; }
   .studio-intro-copy p { position: static; min-height: 50px; font-size: 16px; }
-  .studio-progress { position: static; margin-top: auto; transform: none; }
+  .studio-progress { position: static; margin-top: 12px; transform: none; }
   .studio-intro-image { position: absolute; inset: 64px 14px 325px; min-height: 0; margin: 0; }
   .studio-product { padding: 85px 17px 75px; }
   .studio-section-heading { display: block; }

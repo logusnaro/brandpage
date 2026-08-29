@@ -766,15 +766,15 @@ button { color: inherit; }
   .studio-rail-row a b { grid-column: 1; font-size: 13px; }
   .studio-rail-row a span,
   .studio-rail-row a em { display: none; }
-  .studio-intro { display: block; }
+  .studio-intro { display: block; height: 100svh; min-height: 620px; }
   .studio-intro-heading { top: 78px; left: 18px; font-size: 52px; }
-  .studio-intro-copy { position: absolute; z-index: 5; inset: auto 14px 3%; padding: 18px; background: rgb(246 246 242 / 94%); }
+  .studio-intro-copy { position: absolute; z-index: 5; right: 14px; bottom: 68px; left: 14px; display: flex; min-height: 220px; justify-content: flex-start; padding: 16px 18px 14px; background: rgb(246 246 242 / 96%); }
   .studio-symbol { min-height: 42px; padding-bottom: 5px; font-size: 45px; }
   .studio-brand-symbol { font-size: 39px; }
-  .studio-intro-copy h2 { min-height: 50px; margin: 22px 0 6px; font-size: 22px; }
-  .studio-intro-copy p { position: absolute; top: auto; right: 18px; bottom: 60px; left: 18px; min-height: 0; font-size: 12px; }
-  .studio-progress { top: auto; right: 32px; bottom: 22px; left: 32px; margin-top: 0; transform: none; }
-  .studio-intro-image { position: absolute; inset: 65px 14px 30%; min-height: 0; margin: 0; }
+  .studio-intro-copy h2 { min-height: 50px; margin: 12px 0 6px; font-size: 22px; }
+  .studio-intro-copy p { position: static; min-height: 38px; font-size: 12px; }
+  .studio-progress { position: static; margin-top: auto; transform: none; }
+  .studio-intro-image { position: absolute; inset: 64px 14px 300px; min-height: 0; margin: 0; }
   .studio-product { padding: 85px 17px 75px; }
   .studio-section-heading { display: block; }
   .studio-section-heading h2 { font-size: 57px; }

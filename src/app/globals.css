@@ -722,7 +722,7 @@ button { color: inherit; }
 .studio-progress { position: static; z-index: 6; display: flex; margin-top: 8px; transform: none; }
 .studio-progress button { background: #ccc; }
 .studio-progress button { height: 6px; }
-.studio-intro-image { margin: 22px 78px 22px 0; background: #b29b87; cursor: pointer; }
+.studio-intro-image { margin: 76px 78px 22px 0; background: #b29b87; cursor: pointer; }
 .studio-intro-image .studio-cover { animation-duration: 800ms; }
 .studio-product { min-height: 100svh; padding: 105px max(7vw, 70px) 65px 5vw; }
 .studio-section-heading { display: flex; align-items: end; justify-content: space-between; margin-bottom: 34px; }
@@ -774,7 +774,7 @@ button { color: inherit; }
   .studio-intro-copy h2 { min-height: 50px; margin: 12px 0 6px; font-size: 30px; }
   .studio-intro-copy p { position: static; min-height: 50px; font-size: 16px; }
   .studio-progress { position: static; margin-top: 8px; transform: none; }
-  .studio-intro-image { position: absolute; inset: 64px 14px 325px; min-height: 0; margin: 0; }
+  .studio-intro-image { position: absolute; inset: 128px 14px 325px; min-height: 0; margin: 0; }
   .studio-product { padding: 85px 17px 75px; }
   .studio-section-heading { display: block; }
   .studio-section-heading h2 { font-size: 57px; }

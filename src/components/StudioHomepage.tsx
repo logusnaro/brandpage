@@ -155,7 +155,7 @@ export function StudioHomepage({ settings, products, socialLinks }: Props) {
 
       <main>
         <section id="intro" className="studio-intro">
-          <h1 className="studio-intro-heading visible">Intro</h1>
+          <h1 className={`studio-intro-heading ${sceneIndex === 0 ? "visible" : "hidden"}`}>Intro</h1>
           <div className="studio-intro-copy" onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}>
             <div className={`studio-symbol ${scene.symbol.replace("logUs : Studio", "logUs: Studio") === "logUs: Studio" ? "studio-brand-symbol" : ""}`}>{scene.symbol.replace("logUs : Studio", "logUs: Studio")}</div>
             <h2 key={`title-${sceneIndex}`}>{emphasizePoints(sceneMainText)}</h2>

@@ -715,8 +715,8 @@ button { color: inherit; }
 .studio-intro { height: 100svh; min-height: 100svh; grid-template-columns: 42% 58%; }
 .studio-intro-heading { top: 95px; left: 5vw; font-size: clamp(58px, 9vw, 128px); font-weight: 640; }
 .studio-intro-copy { padding: 10vw 5vw 4vw 5vw; }
-.studio-symbol { min-height: 120px; padding-bottom: 12px; font-size: clamp(36px, 5.8vw, 82px); font-weight: 400; letter-spacing: -.04em; line-height: .82; }
-.studio-brand-symbol { font-size: clamp(43px, 6.4vw, 88px); font-weight: 400; letter-spacing: -.04em; }
+.studio-symbol { min-height: 120px; padding-bottom: 12px; font-size: clamp(38px, 6vw, 86px); font-weight: 600; letter-spacing: -.05em; line-height: .82; }
+.studio-brand-symbol { font-size: clamp(45px, 6.7vw, 92px); font-weight: 600; letter-spacing: -.05em; }
 .studio-intro-copy h2 { width: 100%; max-width: none; height: 150px; min-height: 150px; margin: 21px 0 0; font-size: clamp(24px, 3vw, 44px); font-weight: 400; letter-spacing: 0; line-height: 1.12; }
 .studio-point { color: inherit; font-family: inherit; }
 .studio-intro-copy p { position: absolute; top: auto; bottom: 110px; left: 5vw; min-height: 0; max-width: 490px; color: var(--studio-muted); font-size: 16px; line-height: 1.55; font-weight: 400; }
@@ -772,8 +772,8 @@ button { color: inherit; }
   .studio-intro { display: block; height: 100svh; min-height: 620px; }
   .studio-intro-heading { top: 78px; left: 18px; font-size: 52px; }
   .studio-intro-copy { position: absolute; z-index: 5; right: 14px; bottom: 68px; left: 14px; display: flex; min-height: 245px; justify-content: flex-start; padding: 16px 18px 14px; background: rgb(246 246 242 / 96%); }
-  .studio-symbol { min-height: 36px; padding-bottom: 5px; font-size: 36px; }
-  .studio-brand-symbol { font-size: 39px; font-weight: 400; }
+  .studio-symbol { min-height: 36px; padding-bottom: 5px; font-size: 38px; }
+  .studio-brand-symbol { font-size: 41px; font-weight: 600; }
   .studio-intro-copy h2 { height: 120px; min-height: 120px; margin: 6px 0 0; font-size: 24px; line-height: 1.25; }
   .studio-intro-copy p { position: static; min-height: 50px; font-size: 16px; }
   .studio-progress { position: static; margin-top: 8px; transform: none; }

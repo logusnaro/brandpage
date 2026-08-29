@@ -14,7 +14,13 @@ const introArtwork = {
   later: "/story/life/life-07-family-v1.webp",
   night: "/story/daily/daily-08-night-v1.webp",
 } as const;
-const introArtworkCycle = Object.values(introArtwork);
+const introArtworkCycle = [
+  ...Object.values(introArtwork),
+  "/story/intro/intro-02-mother-work-v2.webp",
+  "/story/intro/intro-03-daughter-study-v2.webp",
+  "/story/intro/intro-04-son-study-v2.webp",
+  "/story/life/life-03-school-v1.webp",
+];
 
 const productFallbackImages = [
   "/story/life/life-01-baby-v1.webp",
@@ -71,6 +77,7 @@ export function StudioHomepage({ settings, products, socialLinks }: Props) {
   }));
   const sceneCount = introScenes.length;
   const scene = introScenes[sceneIndex];
+  const sceneMainText = [scene.titleText, scene.bodyText].filter(Boolean).join("\n");
 
   useEffect(() => { document.documentElement.lang = locale; }, [locale]);
 
@@ -151,13 +158,12 @@ export function StudioHomepage({ settings, products, socialLinks }: Props) {
           <h1 className="studio-intro-heading visible">Intro</h1>
           <div className="studio-intro-copy" onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}>
             <div className={`studio-symbol ${scene.symbol.replace("logUs : Studio", "logUs: Studio") === "logUs: Studio" ? "studio-brand-symbol" : ""}`}>{scene.symbol.replace("logUs : Studio", "logUs: Studio")}</div>
-            <h2 key={`title-${sceneIndex}`}>{emphasizePoints(scene.titleText)}</h2>
-            {scene.bodyText ? <p key={`body-${sceneIndex}`}>{emphasizePoints(scene.bodyText)}</p> : null}
+            <h2 key={`title-${sceneIndex}`}>{emphasizePoints(sceneMainText)}</h2>
             <div className="studio-progress" aria-label="Intro 진행">
               {introScenes.map((item, index) => <button key={item.symbol} type="button" aria-label={`${index + 1}번째 장면`} className={index === sceneIndex ? "active" : ""} onClick={() => setSceneIndex(index)} />)}
             </div>
           </div>
-          <button className="studio-intro-image" type="button" aria-label="다음 Intro 장면" onClick={() => setSceneIndex((current) => (current + 1) % introScenes.length)} onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}>
+          <button className="studio-intro-image" type="button" aria-label="다음 Intro 이미지" onClick={() => setImageIndex((current) => (current + 1) % introArtworkCycle.length)} onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}>
             <Image key={introArtworkCycle[imageIndex]} src={introArtworkCycle[imageIndex]} alt={scene.alt} fill priority={imageIndex === 0} sizes="(max-width: 800px) 92vw, 54vw" className="studio-cover" />
           </button>
         </section>

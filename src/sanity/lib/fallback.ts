@@ -14,7 +14,7 @@ export const fallbackSiteSettings: SiteSettings = {
   language: { korean: "한국어", english: "English" },
   intro: {
     scenes: [
-      { _key: "i", symbol: "i", title: { ko: "", en: "" }, body: { ko: "우리의 삶은 셀 수 없이 많은 기억의 조각, i로 이루어져 있습니다.", en: "Our lives are made of countless fragments of memory, i." }, visual: "wake" },
+      { _key: "i", symbol: "i + i + i + i +", title: { ko: "", en: "" }, body: { ko: "우리의 삶은 수많은 기억들로 이루어져 있습니다.\n우리는 그것들을 i라고 부릅니다.", en: "Our lives are made of countless memories.\nWe call them i." }, visual: "wake" },
       { _key: "log-i", symbol: "logi = log + i", title: { ko: "", en: "" }, body: { ko: "기억의 조각돌 logi는 늘 당신의 곁에서 흘러가는 i들을 조용히 간직합니다.", en: "The memory pebble logi quietly keeps the passing i beside you." }, visual: "family" },
       { _key: "log-us", symbol: "logUs", title: { ko: "", en: "" }, body: { ko: "저마다 다른 logi들이 모여, 당신과 우리의 이야기 logUs가 됩니다.", en: "Different logi gather and become logUs, a story shared by you and us." }, visual: "commute" },
       { _key: "studio", symbol: "logUs Studio", title: { ko: "", en: "" }, body: { ko: "흘러가는 삶의 순간들이 오래 남도록, 다양한 이야기를 만듭니다.", en: "We make diverse stories so life's passing moments can remain." }, visual: "later" },

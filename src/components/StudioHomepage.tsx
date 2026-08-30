@@ -157,7 +157,7 @@ export function StudioHomepage({ settings, products, socialLinks }: Props) {
         <section id="intro" className="studio-intro">
           <h1 className={`studio-intro-heading ${sceneIndex === 0 ? "visible" : "hidden"}`}>Intro</h1>
           <div className="studio-intro-copy" onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}>
-            <div className={`studio-symbol ${scene.symbol.replace("logUs : Studio", "logUs: Studio") === "logUs: Studio" ? "studio-brand-symbol" : ""}`}>{scene.symbol.replace("logUs : Studio", "logUs: Studio")}</div>
+            <div className={`studio-symbol ${scene.symbol.replace("logUs : Studio", "logUs: Studio") === "logUs: Studio" ? "studio-brand-symbol" : ""}`}>{emphasizePoints(scene.symbol.replace("logUs : Studio", "logUs: Studio"))}</div>
             <h2 key={`title-${sceneIndex}`}>{emphasizePoints(sceneMainText)}</h2>
             <div className="studio-progress" aria-label="Intro 진행">
               {introScenes.map((item, index) => <button key={item.symbol} type="button" aria-label={`${index + 1}번째 장면`} className={index === sceneIndex ? "active" : ""} onClick={() => setSceneIndex(index)} />)}

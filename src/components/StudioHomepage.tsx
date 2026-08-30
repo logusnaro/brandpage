@@ -38,6 +38,20 @@ function emphasizePoints(value: string) {
     : part);
 }
 
+function emphasizeSymbol(value: string) {
+  if (value === "i + i + i + i +") {
+    const firstIndex = value.indexOf("i");
+    return <>{value.slice(0, firstIndex)}<span className="studio-point">i</span>{value.slice(firstIndex + 1)}</>;
+  }
+  if (value === "logi = log + i") {
+    return <>log<span className="studio-point">i</span> = log + <span className="studio-point">i</span></>;
+  }
+  if (value === "logUs" || value === "logUs Studio") {
+    return <>log<span className="studio-point">Us</span>{value.slice(5)}</>;
+  }
+  return value;
+}
+
 function productName(product: Product) {
   const name = product.displayName.replace(/^\[:\]\s*/, "").trim();
   return `logUs: ${name}`;
@@ -157,7 +171,7 @@ export function StudioHomepage({ settings, products, socialLinks }: Props) {
         <section id="intro" className="studio-intro">
           <h1 className={`studio-intro-heading ${sceneIndex === 0 ? "visible" : "hidden"}`}>Intro</h1>
           <div className="studio-intro-copy" onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}>
-            <div className={`studio-symbol ${scene.symbol.replace("logUs : Studio", "logUs: Studio") === "logUs: Studio" ? "studio-brand-symbol" : ""}`}>{emphasizePoints(scene.symbol.replace("logUs : Studio", "logUs: Studio"))}</div>
+            <div className={`studio-symbol ${scene.symbol.replace("logUs : Studio", "logUs: Studio") === "logUs: Studio" ? "studio-brand-symbol" : ""}`}>{emphasizeSymbol(scene.symbol.replace("logUs : Studio", "logUs: Studio"))}</div>
             <h2 key={`title-${sceneIndex}`}>{emphasizePoints(sceneMainText)}</h2>
             <div className="studio-progress" aria-label="Intro 진행">
               {introScenes.map((item, index) => <button key={item.symbol} type="button" aria-label={`${index + 1}번째 장면`} className={index === sceneIndex ? "active" : ""} onClick={() => setSceneIndex(index)} />)}

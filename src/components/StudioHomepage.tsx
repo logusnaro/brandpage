@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { CSSProperties } from "react";
 import { urlFor } from "@/sanity/lib/image";
 import type { Locale, Product, SiteSettings, SocialLink } from "@/sanity/lib/types";
@@ -30,28 +30,6 @@ function localized(value: Partial<{ ko: string; en: string }> | undefined, local
   return value?.[locale]?.trim() || fallback;
 }
 
-const pointPattern = /(logUs|logi|(?<![A-Za-z])i(?![A-Za-z])|(?<![A-Za-z])I(?![A-Za-z]))/g;
-
-function emphasizePoints(value: string) {
-  return value.split(pointPattern).map((part, index) => index % 2 === 1
-    ? <span className="studio-point" key={`${part}-${index}`}>{part}</span>
-    : part);
-}
-
-function emphasizeSymbol(value: string) {
-  if (value === "i + i + i + i +") {
-    const firstIndex = value.indexOf("i");
-    return <>{value.slice(0, firstIndex)}<span className="studio-point">i</span>{value.slice(firstIndex + 1)}</>;
-  }
-  if (value === "logi = log + i") {
-    return <>log<span className="studio-point">i</span> = log + <span className="studio-point">i</span></>;
-  }
-  if (value === "logUs" || value === "logUs Studio") {
-    return <>log<span className="studio-point">Us</span>{value.slice(5)}</>;
-  }
-  return value;
-}
-
 function productName(product: Product) {
   const name = product.displayName.replace(/^\[:\]\s*/, "").trim();
   return `logUs: ${name}`;
@@ -75,12 +53,15 @@ export function StudioHomepage({ settings, products, socialLinks }: Props) {
   const [imageIndex, setImageIndex] = useState(0);
   const [previousImageIndex, setPreviousImageIndex] = useState<number | null>(null);
   const [paused, setPaused] = useState(false);
+  const [sceneTransitioning, setSceneTransitioning] = useState(false);
   const [activeProduct, setActiveProduct] = useState<number | null>(null);
   const [activeSection, setActiveSection] = useState("intro");
   const [formSent, setFormSent] = useState(false);
   const contactCopyRef = useRef<HTMLDivElement>(null);
   const questionLineRef = useRef<HTMLSpanElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
+  const sceneTransitionTimerRef = useRef<number | null>(null);
+  const sceneRevealTimerRef = useRef<number | null>(null);
   const introScenes = settings.intro.scenes.map((item) => ({
     ...item,
     titleText: localized(item.title, locale),
@@ -90,15 +71,34 @@ export function StudioHomepage({ settings, products, socialLinks }: Props) {
   const sceneCount = introScenes.length;
   const scene = introScenes[sceneIndex];
   const sceneMainText = [scene.titleText, scene.bodyText].filter(Boolean).join("\n");
+  const sceneSymbol = scene.symbol.replace("logUs : Studio", "logUs Studio");
+
+  const transitionToScene = useCallback((nextIndex: number) => {
+    if (nextIndex === sceneIndex || sceneTransitionTimerRef.current !== null) return;
+    setSceneTransitioning(true);
+    sceneTransitionTimerRef.current = window.setTimeout(() => {
+      sceneTransitionTimerRef.current = null;
+      setSceneIndex(nextIndex);
+      sceneRevealTimerRef.current = window.setTimeout(() => {
+        sceneRevealTimerRef.current = null;
+        setSceneTransitioning(false);
+      }, 80);
+    }, 520);
+  }, [sceneIndex]);
+
+  useEffect(() => () => {
+    if (sceneTransitionTimerRef.current !== null) window.clearTimeout(sceneTransitionTimerRef.current);
+    if (sceneRevealTimerRef.current !== null) window.clearTimeout(sceneRevealTimerRef.current);
+  }, []);
 
   useEffect(() => { document.documentElement.lang = locale; }, [locale]);
 
   useEffect(() => {
-    if (paused) return;
-    const duration = sceneIndex === sceneCount - 1 ? 7700 : 5700;
-    const timer = window.setTimeout(() => setSceneIndex((current) => (current + 1) % sceneCount), duration);
+    if (paused || sceneTransitioning) return;
+    const duration = sceneIndex === sceneCount - 1 ? 9600 : 7600;
+    const timer = window.setTimeout(() => transitionToScene((sceneIndex + 1) % sceneCount), duration);
     return () => window.clearTimeout(timer);
-  }, [paused, sceneIndex, sceneCount]);
+  }, [paused, sceneIndex, sceneCount, sceneTransitioning, transitionToScene]);
 
   useEffect(() => {
     const timer = window.setInterval(() => setImageIndex((current) => {
@@ -171,10 +171,10 @@ export function StudioHomepage({ settings, products, socialLinks }: Props) {
         <section id="intro" className="studio-intro">
           <h1 className={`studio-intro-heading ${sceneIndex === 0 ? "visible" : "hidden"}`}>Intro</h1>
           <div className="studio-intro-copy" onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}>
-            <div className={`studio-symbol ${scene.symbol.replace("logUs : Studio", "logUs: Studio") === "logUs: Studio" ? "studio-brand-symbol" : ""}`}>{emphasizeSymbol(scene.symbol.replace("logUs : Studio", "logUs: Studio"))}</div>
-            <h2 key={`title-${sceneIndex}`}>{emphasizePoints(sceneMainText)}</h2>
+            <div className={`studio-symbol ${sceneSymbol === "logUs Studio" ? "studio-brand-symbol" : ""} ${sceneSymbol.includes("+") ? "studio-formula-symbol" : ""}`}>{sceneSymbol}</div>
+            <h2 key={`title-${sceneIndex}`} className={sceneTransitioning ? "is-leaving" : ""}>{sceneMainText}</h2>
             <div className="studio-progress" aria-label="Intro 진행">
-              {introScenes.map((item, index) => <button key={item.symbol} type="button" aria-label={`${index + 1}번째 장면`} className={index === sceneIndex ? "active" : ""} onClick={() => setSceneIndex(index)} />)}
+              {introScenes.map((item, index) => <button key={item.symbol} type="button" aria-label={`${index + 1}번째 장면`} className={index === sceneIndex ? "active" : ""} onClick={() => transitionToScene(index)} />)}
             </div>
           </div>
           <div className="studio-intro-image" aria-label="Intro 이미지 모음">

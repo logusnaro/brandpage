@@ -14,10 +14,10 @@ export const fallbackSiteSettings: SiteSettings = {
   language: { korean: "한국어", english: "English" },
   intro: {
     scenes: [
-      { _key: "i", symbol: "i + i + i + i +", title: { ko: "", en: "" }, body: { ko: "우리의 삶은 수많은 기억들로 이루어져 있습니다.\n우리는 그것들을 i라고 부릅니다.", en: "Our lives are made of countless memories.\nWe call them i." }, visual: "wake" },
-      { _key: "log-i", symbol: "logi = log + i", title: { ko: "", en: "" }, body: { ko: "기억의 조각돌 logi는 늘 당신의 곁에서 흘러가는 i들을 조용히 간직합니다.", en: "The memory pebble logi quietly keeps the passing i beside you." }, visual: "family" },
-      { _key: "log-us", symbol: "logUs", title: { ko: "", en: "" }, body: { ko: "저마다 다른 logi들이 모여, 당신과 우리의 이야기 logUs가 됩니다.", en: "Different logi gather and become logUs, a story shared by you and us." }, visual: "commute" },
-      { _key: "studio", symbol: "logUs Studio", title: { ko: "", en: "" }, body: { ko: "흘러가는 삶의 순간들이 오래 남도록, 다양한 이야기를 만듭니다.", en: "We make diverse stories so life's passing moments can remain." }, visual: "later" },
+      { _key: "log-u", symbol: "logU = log + U", title: { ko: "", en: "" }, body: { ko: "logU, 당신의 곁에서\n흘러가는 순간을 담아두는\n기억의 조약돌.", en: "logU, by your side,\na memory pebble that holds\nthe moments as they pass." }, visual: "wake" },
+      { _key: "log-u-plus", symbol: "logU + logU = logUs", title: { ko: "", en: "" }, body: { ko: "서로 다른 순간만큼,\n서로 다른 logU들이\n우리 곁에 있습니다.", en: "As different as our moments,\ndifferent logUs\nare here beside us." }, visual: "family" },
+      { _key: "we-log-u", symbol: "We log U", title: { ko: "", en: "" }, body: { ko: "당신의 순간이\n흘러가 버리지 않도록,\nlogU가 함께합니다.", en: "So your moments\ndo not simply drift away,\nlogU stays with you." }, visual: "commute" },
+      { _key: "log-us-studio", symbol: "logUs Studio", title: { ko: "", en: "" }, body: { ko: "당신의 순간을 담고 간직하는\nlogU들의 이야기.", en: "Stories of logUs\nthat hold and keep your moments." }, visual: "later" },
     ],
   },
   daily: {

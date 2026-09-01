@@ -716,11 +716,13 @@ button { color: inherit; }
 .studio-intro { height: 100svh; min-height: 100svh; grid-template-columns: 42% 58%; }
 .studio-intro-heading { top: 95px; left: 5vw; font-size: clamp(58px, 9vw, 128px); font-weight: 640; }
 .studio-intro-copy { padding: 10vw 5vw 4vw 5vw; }
-.studio-symbol { min-height: 120px; padding-bottom: 12px; font-size: clamp(38px, 6vw, 86px); font-weight: 600; letter-spacing: -.05em; line-height: .82; }
-.studio-brand-symbol { font-size: clamp(45px, 6.7vw, 92px); font-weight: 600; letter-spacing: -.05em; }
-.studio-intro-copy h2 { width: 100%; max-width: none; height: 150px; min-height: 150px; margin: 21px 0 0; font-size: clamp(24px, 3vw, 44px); font-weight: 400; letter-spacing: 0; line-height: 1.12; }
+.studio-symbol { min-height: 132px; padding-bottom: 8px; font-size: clamp(56px, 7.8vw, 122px); font-weight: 400; letter-spacing: -.025em; line-height: .88; }
+.studio-formula-symbol { font-size: clamp(28px, 3.2vw, 44px); letter-spacing: -.035em; }
+.studio-brand-symbol { font-size: clamp(43px, 5.4vw, 76px); font-weight: 400; letter-spacing: -.015em; }
+.studio-intro-copy h2 { width: 100%; max-width: none; height: 150px; min-height: 150px; margin: 11px 0 0; font-size: clamp(24px, 3vw, 44px); font-weight: 400; letter-spacing: 0; line-height: 1.12; animation: none; transition: opacity 640ms var(--ease), transform 640ms var(--ease); }
+.studio-intro-copy h2.is-leaving { opacity: 0; transform: translateY(7px); }
 .studio-point { color: inherit; font-family: inherit; }
-.studio-symbol .studio-point { color: var(--studio-coral); animation: studio-point-tick 1.2s ease-in-out infinite; }
+.studio-symbol .studio-point { color: inherit; animation: none; }
 .studio-intro-copy p { position: absolute; top: auto; bottom: 110px; left: 5vw; min-height: 0; max-width: 490px; color: var(--studio-muted); font-size: 16px; line-height: 1.55; font-weight: 400; }
 .studio-progress { position: static; z-index: 6; display: flex; margin-top: 8px; transform: none; }
 .studio-progress button { background: #ccc; }
@@ -774,9 +776,10 @@ button { color: inherit; }
   .studio-intro { display: block; height: 100svh; min-height: 620px; }
   .studio-intro-heading { top: 78px; left: 18px; font-size: 52px; }
   .studio-intro-copy { position: absolute; z-index: 5; right: 14px; bottom: 68px; left: 14px; display: flex; min-height: 245px; justify-content: flex-start; padding: 16px 18px 14px; background: rgb(246 246 242 / 96%); }
-  .studio-symbol { min-height: 36px; padding-bottom: 5px; font-size: 38px; }
-  .studio-brand-symbol { font-size: 41px; font-weight: 600; }
-  .studio-intro-copy h2 { height: 120px; min-height: 120px; margin: 6px 0 0; font-size: 24px; line-height: 1.25; }
+  .studio-symbol { min-height: 52px; padding-bottom: 5px; font-size: 48px; font-weight: 400; letter-spacing: -.015em; line-height: .9; }
+  .studio-formula-symbol { font-size: 27px; letter-spacing: -.035em; }
+  .studio-brand-symbol { font-size: 42px; font-weight: 400; letter-spacing: 0; }
+  .studio-intro-copy h2 { height: 120px; min-height: 120px; margin: 10px 0 0; font-size: 24px; line-height: 1.25; }
   .studio-intro-copy p { position: static; min-height: 50px; font-size: 16px; }
   .studio-progress { position: static; margin-top: 8px; transform: none; }
   .studio-intro-image { position: absolute; inset: 128px 14px 325px; min-height: 0; margin: 0; }

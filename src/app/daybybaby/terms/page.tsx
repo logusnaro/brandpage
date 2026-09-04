@@ -44,11 +44,14 @@ export default function DayByBabyTermsPage() {
                 block.type === "paragraph" ? (
                   <p key={blockIndex}>{block.text}</p>
                 ) : block.ordered === false ? (
-                  <ul key={blockIndex} className={styles.list}>
+                  <ul
+                    key={blockIndex}
+                    className={`${styles.list} ${article.id === "article-16" ? styles.dashList : styles.parenthesizedList}`}
+                  >
                     {block.items.map((item) => <li key={item}>{item}</li>)}
                   </ul>
                 ) : (
-                  <ol key={blockIndex} start={block.start} className={styles.list}>
+                  <ol key={blockIndex} start={block.start} className={`${styles.list} ${styles.numberedList}`}>
                     {block.items.map((item) => <li key={item}>{item}</li>)}
                   </ol>
                 ),

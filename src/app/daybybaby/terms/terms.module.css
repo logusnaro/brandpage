@@ -118,6 +118,43 @@
   padding-left: 1.5em;
 }
 
+.numberedList {
+  list-style: decimal;
+}
+
+.parenthesizedList,
+.dashList {
+  padding-left: 1.8em;
+  list-style: none;
+}
+
+.parenthesizedList {
+  counter-reset: parenthesized-item;
+}
+
+.parenthesizedList li,
+.dashList li {
+  position: relative;
+}
+
+.parenthesizedList li {
+  counter-increment: parenthesized-item;
+}
+
+.parenthesizedList li::before,
+.dashList li::before {
+  position: absolute;
+  right: calc(100% + .45em);
+}
+
+.parenthesizedList li::before {
+  content: "(" counter(parenthesized-item) ")";
+}
+
+.dashList li::before {
+  content: "-";
+}
+
 .list li {
   padding-left: .25em;
 }

@@ -15,6 +15,7 @@ export const siteSettings = defineType({
   groups: [
     { name: "navigation", title: "메뉴" },
     { name: "intro", title: "01 Intro" },
+    { name: "daily", title: "이전 하루 데이터" },
     { name: "products", title: "02 Product" },
     { name: "life", title: "이전 삶 데이터" },
     { name: "contact", title: "엔딩/연락처" },
@@ -77,8 +78,8 @@ export const siteSettings = defineType({
     localized("productsEyebrow", "챕터 이름", "products"),
     localized("productsTitle", "제품 제목", "products", true),
     localized("productsBody", "제품 설명", "products", true),
-    localized("productsTransitionTitle", "logi 등장 제목", "products", true),
-    localized("productsTransitionBody", "logi 등장 설명", "products", true),
+    localized("productsTransitionTitle", "logu 등장 제목", "products", true),
+    localized("productsTransitionBody", "logu 등장 설명", "products", true),
     localized("productsComingSoon", "출시 예정 문구", "products"),
     localized("productsVisit", "제품 이동 문구", "products"),
     localized("productsGuide", "제품 안내 문구", "products", true),

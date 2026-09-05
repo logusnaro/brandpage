@@ -111,15 +111,15 @@ tx.patch("siteSettings", (patch) => patch.setIfMissing(siteFields));
 tx.createIfNotExists({
   _id: "product-bebe",
   _type: "product",
-  name: { _type: "slug", current: "bebe" },
-  displayName: "[:] bebe",
+  name: { _type: "slug", current: "daybybaby" },
+  displayName: "DayByBaby",
   description: "A little app for remembering your baby's everyday moments.",
   status: "published",
   sortOrder: 0,
 });
 tx.patch("product-bebe", (patch) =>
   patch.setIfMissing({
-    displayNameI18n: short({ ko: "[:] bebe", en: "[:] bebe" }),
+    displayNameI18n: short({ ko: "DayByBaby", en: "DayByBaby" }),
     categoryI18n: short({ ko: "육아 기록", en: "Parenting journal" }),
     descriptionI18n: long({
       ko: "아이와 함께한 평범한 하루가 사라지지 않도록 돕는 육아 기록 앱입니다.",

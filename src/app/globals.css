@@ -654,6 +654,7 @@ button { color: inherit; }
 .studio-contact-form { display: grid; gap: 14px; max-width: 100%; margin-top: 96px; }
 .studio-contact-form input, .studio-contact-form select, .studio-contact-form textarea { width: 100%; padding: 13px 2px; border: 0; border-bottom: 1px solid #999; border-radius: 0; background: transparent; color: var(--studio-ink); }
 .studio-contact-form textarea { min-height: 90px; resize: vertical; }
+.studio-contact-form .studio-honeypot { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
 .studio-contact-form label { color: #777; font-size: 11px; }
 .studio-contact-form label input { width: auto; margin-right: 4px; }
 .studio-submit { justify-self: end; padding: 7px 13px; border: 1px solid var(--studio-ink); border-radius: 999px; background: var(--studio-ink); color: #fff; font-size: 11px; cursor: pointer; }
@@ -716,11 +717,16 @@ button { color: inherit; }
 .studio-intro { height: 100svh; min-height: 100svh; grid-template-columns: 42% 58%; }
 .studio-intro-heading { top: 95px; left: 5vw; font-size: clamp(58px, 9vw, 128px); font-weight: 640; }
 .studio-intro-copy { padding: 10vw 5vw 4vw 5vw; }
-.studio-symbol { min-height: 132px; padding-bottom: 8px; font-size: clamp(56px, 7.8vw, 122px); font-weight: 400; letter-spacing: -.025em; line-height: .88; }
-.studio-formula-symbol { font-size: clamp(28px, 3.2vw, 44px); letter-spacing: -.035em; }
-.studio-brand-symbol { font-size: clamp(43px, 5.4vw, 76px); font-weight: 400; letter-spacing: -.015em; }
+.studio-symbol { min-height: 150px; padding-bottom: 8px; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; font-size: clamp(43px, 5.4vw, 76px); font-weight: 400; letter-spacing: -.015em; line-height: .88; }
+.studio-symbol-line { display: block; color: inherit; font: inherit; }
+.studio-symbol:has(> .studio-symbol-line) { font-size: clamp(43px, 5.4vw, 76px); font-weight: 400; }
+.studio-symbol > .studio-symbol-line { display: block; margin: 0; color: inherit; font: inherit; letter-spacing: inherit; }
+.studio-formula-symbol { letter-spacing: -.035em; }
+.studio-brand-symbol { letter-spacing: -.015em; }
 .studio-intro-copy h2 { width: 100%; max-width: none; height: 150px; min-height: 150px; margin: 11px 0 0; font-size: clamp(24px, 3vw, 44px); font-weight: 400; letter-spacing: 0; line-height: 1.12; animation: none; transition: opacity 640ms var(--ease), transform 640ms var(--ease); }
 .studio-intro-copy h2.is-leaving { opacity: 0; transform: translateY(7px); }
+.studio-symbol { transition: opacity 640ms var(--ease), transform 640ms var(--ease); }
+.studio-symbol.is-leaving { opacity: 0; transform: translateY(7px); }
 .studio-point { color: inherit; font-family: inherit; }
 .studio-symbol .studio-point { color: inherit; animation: none; }
 .studio-intro-copy p { position: absolute; top: auto; bottom: 110px; left: 5vw; min-height: 0; max-width: 490px; color: var(--studio-muted); font-size: 16px; line-height: 1.55; font-weight: 400; }
@@ -735,6 +741,8 @@ button { color: inherit; }
 .studio-section-heading { display: flex; align-items: end; justify-content: space-between; margin-bottom: 34px; }
 .studio-section-heading h2 { margin: 0; font-size: clamp(58px, 9vw, 128px); font-weight: 640; letter-spacing: -.08em; line-height: .82; }
 .studio-section-heading p { max-width: 390px; margin: 0 120px 0 25px; color: #aaa; font-size: 16px; line-height: 1.55; }
+.studio-product-copy { display: grid; gap: 4px; margin: -10px 0 28px; color: #aaa; }
+.studio-product-copy p { margin: 0; font-size: 16px; line-height: 1.55; }
 .studio-product-guide { margin: -10px 0 28px; color: #aaa; font-size: 13px; }
 .studio-product-track { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 44px 20px; }
 .studio-product-card { color: #fff; }
@@ -750,6 +758,7 @@ button { color: inherit; }
 .studio-contact-copy { max-width: none; }
 .studio-contact-label { margin: 0; color: var(--studio-muted); font-size: 11px; letter-spacing: .2em; text-transform: uppercase; }
 .studio-contact-copy h3 { margin: 12px 0 32px; font-size: clamp(44px, 7vw, 96px); font-weight: 700; letter-spacing: -.075em; line-height: .9; white-space: normal; }
+.studio-contact-copy > p.studio-contact-body-copy { max-width: 510px; margin: 0 0 32px; color: var(--studio-muted); font-size: 16px; line-height: 1.55; }
 .studio-question-line { display: inline-block; white-space: nowrap; }
 .studio-contact-form { display: grid; gap: 14px; max-width: 100%; margin-top: 96px; }
 .studio-contact-form input,
@@ -776,9 +785,11 @@ button { color: inherit; }
   .studio-intro { display: block; height: 100svh; min-height: 620px; }
   .studio-intro-heading { top: 78px; left: 18px; font-size: 52px; }
   .studio-intro-copy { position: absolute; z-index: 5; right: 14px; bottom: 68px; left: 14px; display: flex; min-height: 245px; justify-content: flex-start; padding: 16px 18px 14px; background: rgb(246 246 242 / 96%); }
-  .studio-symbol { min-height: 52px; padding-bottom: 5px; font-size: 48px; font-weight: 400; letter-spacing: -.015em; line-height: .9; }
-  .studio-formula-symbol { font-size: 27px; letter-spacing: -.035em; }
-  .studio-brand-symbol { font-size: 42px; font-weight: 400; letter-spacing: 0; }
+  .studio-symbol { min-height: 86px; padding-bottom: 5px; font-size: 42px; font-weight: 400; letter-spacing: 0; line-height: .9; }
+  .studio-symbol:has(> .studio-symbol-line) { font-size: 42px; font-weight: 400; }
+  .studio-symbol > .studio-symbol-line { margin: 0; color: inherit; font: inherit; letter-spacing: inherit; }
+  .studio-formula-symbol { letter-spacing: -.035em; }
+  .studio-brand-symbol { letter-spacing: 0; }
   .studio-intro-copy h2 { height: 120px; min-height: 120px; margin: 10px 0 0; font-size: 24px; line-height: 1.25; }
   .studio-intro-copy p { position: static; min-height: 50px; font-size: 16px; }
   .studio-progress { position: static; margin-top: 8px; transform: none; }
@@ -788,6 +799,8 @@ button { color: inherit; }
   .studio-section-heading { display: block; }
   .studio-section-heading h2 { font-size: 57px; }
   .studio-section-heading p { margin: 25px 0 0; }
+  .studio-product-copy { margin: 22px 0 15px; }
+  .studio-product-copy p { font-size: 16px; }
   .studio-product-guide { margin: 26px 0 15px; }
   .studio-product-track { display: flex; gap: 14px; overflow-x: auto; padding-right: 22vw; scroll-snap-type: x mandatory; scrollbar-width: none; }
   .studio-product-card { flex: 0 0 78vw; scroll-snap-align: start; }

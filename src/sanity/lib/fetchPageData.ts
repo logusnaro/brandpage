@@ -60,9 +60,9 @@ function mergeIntroScenes(value: RawSettings["introScenes"]): IntroScene[] {
     const fallback = fallbackSiteSettings.intro.scenes[index % fallbackSiteSettings.intro.scenes.length];
     return {
       _key: scene._key || fallback._key,
-      symbol: fallback.symbol,
-      title: fallback.title,
-      body: fallback.body,
+      symbol: scene.symbol?.trim() || fallback.symbol,
+      title: localized(scene.title, fallback.title),
+      body: localized(scene.body, fallback.body),
       visual: scene.visual || fallback.visual,
     };
   });

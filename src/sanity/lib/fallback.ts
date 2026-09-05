@@ -14,10 +14,10 @@ export const fallbackSiteSettings: SiteSettings = {
   language: { korean: "한국어", english: "English" },
   intro: {
     scenes: [
-      { _key: "log-u", symbol: "logU = log + U", title: { ko: "", en: "" }, body: { ko: "logU, 당신의 곁에서\n흘러가는 순간을 담아두는\n기억의 조약돌.", en: "logU, by your side,\na memory pebble that holds\nthe moments as they pass." }, visual: "wake" },
-      { _key: "log-u-plus", symbol: "logU + logU = logUs", title: { ko: "", en: "" }, body: { ko: "서로 다른 순간만큼,\n서로 다른 logU들이\n우리 곁에 있습니다.", en: "As different as our moments,\ndifferent logUs\nare here beside us." }, visual: "family" },
-      { _key: "we-log-u", symbol: "We log U", title: { ko: "", en: "" }, body: { ko: "당신의 순간이\n흘러가 버리지 않도록,\nlogU가 함께합니다.", en: "So your moments\ndo not simply drift away,\nlogU stays with you." }, visual: "commute" },
-      { _key: "log-us-studio", symbol: "logUs Studio", title: { ko: "", en: "" }, body: { ko: "당신의 순간을 담고 간직하는\nlogU들의 이야기.", en: "Stories of logUs\nthat hold and keep your moments." }, visual: "later" },
+      { _key: "log-u", symbol: "logu\n= log + U", title: { ko: "", en: "" }, body: { ko: "logu, 당신의 곁에서\n흘러가는 순간을 담아두는\n기억의 조약돌.", en: "logu, by your side,\na memory pebble that holds\nthe moments as they pass." }, visual: "wake" },
+      { _key: "log-u-plus", symbol: "logu + logu\n= logUs", title: { ko: "", en: "" }, body: { ko: "다양한 하루만큼, 다양한 logu들이 곁에 있어요.", en: "For every kind of day, different logu are here beside you." }, visual: "family" },
+      { _key: "we-log-u", symbol: "We log U", title: { ko: "", en: "" }, body: { ko: "logu가 당신의 순간을 담아두고 간직합니다.", en: "logu holds and keeps your moments." }, visual: "commute" },
+      { _key: "log-us-studio", symbol: "logUs Studio", title: { ko: "", en: "" }, body: { ko: "당신의 순간을 담고 간직하는\nlogu들의 이야기.", en: "Stories of logUs\nthat hold and keep your moments." }, visual: "later" },
     ],
   },
   daily: {
@@ -43,13 +43,13 @@ export const fallbackSiteSettings: SiteSettings = {
     eyebrow: { ko: "02 · 제품", en: "02 · Products" },
     title: { ko: "순간마다,\n기록을 돕는 방법도 다르니까.", en: "Different moments need\ndifferent ways to be kept." },
     body: { ko: "logUs의 제품은 더 많은 일을 시키지 않습니다. 삶의 곁에서, 필요한 순간을 조용히 남깁니다.", en: "logUs products do not ask you to do more. They stay close and help the right moments remain." },
-    transitionTitle: { ko: "하루 끝, logi의 주머니가 열립니다.", en: "At the end of the day, logi opens its pocket." },
-    transitionBody: { ko: "모아둔 조각 사이에서 서로 다른 순간을 돕는 작은 logi들이 나타납니다.", en: "From the pieces appear little logis, each made to care for a different kind of moment." },
+    transitionTitle: { ko: "하루 끝, logu의 주머니가 열립니다.", en: "At the end of the day, logu opens its pocket." },
+    transitionBody: { ko: "모아둔 조각 사이에서 서로 다른 순간을 돕는 작은 logu들이 나타납니다.", en: "From the pieces appear little logus, each made to care for a different kind of moment." },
     comingSoon: { ko: "곧 만나요", en: "Coming soon" },
     visitProduct: { ko: "제품 보기", en: "Visit product" },
-    guide: { ko: "이미지를 클릭해 서비스를 만나보세요.", en: "Click each image to meet the service." },
+    guide: { ko: "이미지 속 logu를 클릭하시면 앱 소개가 열립니다.", en: "Click logu in the image to open the app introduction." },
     lead: { ko: "삶 속에서", en: "In life" },
-    support: { ko: "우리의 곁에 있는 logi를 만나보세요.", en: "Meet logi by our side." },
+    support: { ko: "우리의 곁에 있는 logu를 만나보세요.", en: "Meet logu by our side." },
   },
   life: {
     eyebrow: { ko: "03 · 삶", en: "03 · Life" },
@@ -88,11 +88,11 @@ export const fallbackPageData: PageData = {
   settings: fallbackSiteSettings,
   products: [
     {
-      _id: "fallback-bebe",
-      name: "bebe",
-      displayName: "[:] bebe",
+      _id: "fallback-daybybaby",
+      name: "daybybaby",
+      displayName: "DayByBaby",
       description: "A little app for remembering your baby's everyday moments.",
-      displayNameI18n: { ko: "[:] bebe", en: "[:] bebe" },
+      displayNameI18n: { ko: "DayByBaby", en: "DayByBaby" },
       descriptionI18n: { ko: "아이와 함께한 평범한 하루가 사라지지 않도록 돕는 육아 기록 앱입니다.", en: "A gentle parenting journal for keeping the ordinary days with your child." },
       categoryI18n: { ko: "육아 기록", en: "Parenting journal" },
       status: "published",

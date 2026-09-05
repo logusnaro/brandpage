@@ -20,7 +20,7 @@ export function ReleaseUploader({ services }: { services: Service[] }) {
       const signed = await fetch("/api/manage/releases/upload-url", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ fileName: file.name, contentType: file.type }),
+        body: JSON.stringify({ fileName: file.name, contentType: file.type, fileSize: file.size }),
       });
       const signedBody = await signed.json();
       if (!signed.ok) throw new Error(signedBody.error);

@@ -1,5 +1,5 @@
 import "server-only";
-import { GetObjectCommand, PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
+import { GetObjectCommand, ListObjectsV2Command, PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
 function config() {
@@ -28,9 +28,23 @@ function client() {
   };
 }
 
-export async function createUploadUrl(key: string, contentType: string) {
+export const R2_STORAGE_LIMIT_BYTES = 9 * 1024 * 1024 * 1024;
+
+export async function getR2UsageBytes() {
   const { sdk, bucket } = client();
-  return getSignedUrl(sdk, new PutObjectCommand({ Bucket: bucket, Key: key, ContentType: contentType }), { expiresIn: 600 });
+  let continuationToken: string | undefined;
+  let total = 0;
+  do {
+    const page = await sdk.send(new ListObjectsV2Command({ Bucket: bucket, ContinuationToken: continuationToken }));
+    total += page.Contents?.reduce((sum, item) => sum + (item.Size ?? 0), 0) ?? 0;
+    continuationToken = page.IsTruncated ? page.NextContinuationToken : undefined;
+  } while (continuationToken);
+  return total;
+}
+
+export async function createUploadUrl(key: string, contentType: string, contentLength: number) {
+  const { sdk, bucket } = client();
+  return getSignedUrl(sdk, new PutObjectCommand({ Bucket: bucket, Key: key, ContentType: contentType, ContentLength: contentLength }), { expiresIn: 600 });
 }
 
 export async function createDownloadUrl(key: string, fileName: string) {

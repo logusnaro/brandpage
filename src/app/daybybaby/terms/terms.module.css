@@ -37,6 +37,22 @@
   font-size: 14px;
 }
 
+.introduction {
+  margin: 36px 0 0;
+}
+
+.introduction p {
+  margin: 0;
+  color: #403a35;
+  font-size: 16px;
+  line-height: 1.82;
+  word-break: keep-all;
+}
+
+.introduction p + p {
+  margin-top: 14px;
+}
+
 .contents {
   margin: 40px 0 64px;
   padding: 24px clamp(20px, 4vw, 30px);

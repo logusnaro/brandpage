@@ -183,7 +183,7 @@ export const dayByBabyTerms: LegalTerms = {
       title: "제16조 (회사 정보 및 문의)",
       blocks: [
         { type: "paragraph", text: "서비스 및 약관에 관한 문의는 다음 연락처를 통해 할 수 있습니다." },
-        { type: "list", ordered: false, items: ["상호: logUs Studio", "대표자: 홍중기", "서비스명: Day By Baby", "문의 이메일: logus.naro@gmail.com"] },
+        { type: "list", ordered: false, items: ["회사: logUs Studio", "문의: logus.naro@gmail.com"] },
       ],
     },
     {
@@ -196,5 +196,5 @@ export const dayByBabyTerms: LegalTerms = {
       ] }],
     },
   ],
-  addendum: "이 약관은 2026년 8월 31일부터 시행합니다.",
+  addendum: "이 약관은 2026년 9월 6일부터 시행합니다.",
 };

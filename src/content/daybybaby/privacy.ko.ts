@@ -31,7 +31,7 @@ export const dayByBabyPrivacy: PrivacyDocument = {
       title: "제1조 개인정보처리자 및 개인정보 보호책임자",
       blocks: [
         { type: "paragraph", text: "회사의 개인정보처리자 및 개인정보 보호책임자는 다음과 같습니다." },
-        { type: "list", marker: "dash", items: ["상호: logUs Studio", "대표자: 홍중기", "서비스명: Day By Baby", "개인정보 보호책임자: 홍중기", "문의 이메일: logus.naro@gmail.com"] },
+        { type: "list", marker: "dash", items: ["개인정보처리자: logUs Studio", "개인정보 보호책임자: 대표자", "문의 이메일: logUs.naro@gmail.com"] },
         { type: "paragraph", text: "개인정보의 열람, 정정, 삭제, 처리정지, 동의 철회, 불만처리 및 피해구제 등에 관한 문의는 위 이메일로 접수할 수 있습니다." },
       ],
     },
@@ -155,7 +155,7 @@ export const dayByBabyPrivacy: PrivacyDocument = {
         { type: "list", marker: "decimal", items: ["개인정보 열람", "개인정보 정정", "개인정보 삭제", "개인정보 처리정지", "동의 철회", "회원탈퇴"] },
         { type: "paragraph", text: "서비스에서 직접 수정하거나 삭제할 수 있는 정보는 앱에서 직접 관리할 수 있습니다." },
         { type: "paragraph", text: "그 밖의 개인정보 관련 권리행사는 다음 이메일로 요청할 수 있습니다." },
-        { type: "paragraph", text: "문의 이메일: logus.naro@gmail.com" },
+        { type: "paragraph", text: "문의 이메일: logUs.naro@gmail.com" },
         { type: "paragraph", text: "회사는 관계 법령에 따라 요청자의 본인 여부 또는 정당한 대리인 여부를 확인할 수 있습니다." },
         { type: "paragraph", text: "회원탈퇴 및 계정 삭제는 앱 설정에서 직접 진행할 수 있습니다." },
         { type: "paragraph", text: "앱을 이용할 수 없는 경우 다음 계정 삭제 페이지를 이용할 수 있습니다." },

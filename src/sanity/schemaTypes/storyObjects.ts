@@ -58,7 +58,7 @@ export const introScene = defineType({
   title: "Intro 장면",
   type: "object",
   fields: [
-    defineField({ name: "symbol", title: "심볼", type: "string" }),
+    defineField({ name: "symbol", title: "심볼", type: "text", rows: 2 }),
     defineField({ name: "title", title: "장면 제목", type: "localizedString" }),
     defineField({ name: "body", title: "장면 설명", type: "localizedText" }),
     defineField({

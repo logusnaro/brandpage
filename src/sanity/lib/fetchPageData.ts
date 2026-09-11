@@ -55,8 +55,11 @@ type RawSettings = Partial<{
 }>;
 
 function mergeIntroScenes(value: RawSettings["introScenes"]): IntroScene[] {
-  if (!value?.length) return fallbackSiteSettings.intro.scenes;
-  return value.slice(0, 4).map((scene, index) => {
+  const serialized = JSON.stringify(value ?? []).toLowerCase();
+  if (!value || value.length !== 4 || /\blogi\b|i i i|log \+ i/.test(serialized)) {
+    return fallbackSiteSettings.intro.scenes;
+  }
+  return value.map((scene, index) => {
     const fallback = fallbackSiteSettings.intro.scenes[index % fallbackSiteSettings.intro.scenes.length];
     return {
       _key: scene._key || fallback._key,

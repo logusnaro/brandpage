@@ -60,6 +60,7 @@ export const siteSettings = defineType({
       type: "array",
       group: "intro",
       of: [{ type: "introScene" }],
+      validation: (rule) => rule.required().length(4).error("Intro 장면은 현재 홈페이지 구성에 맞게 4개여야 합니다."),
     }),
     localized("dailyEyebrow", "챕터 이름", "daily"),
     localized("dailyTitle", "첫 화면 제목", "daily", true),

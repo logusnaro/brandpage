@@ -11,7 +11,7 @@ const commands = [
 const tabs = [["summary","요약"],["projects","프로젝트"],["servers","서버 운영"],["structure","폴더 조직"],["operations","운영·명령"],["missing","빠진항목"]] as const;
 const missing = ["전체 구조 시각화","완료한 것 / 해야 할 것","1~4단계 실행 흐름","구조 도입 효과 6개","사용 가이드","현재 승인된 운영 규칙","기존 4개 상태 카드"];
 
-export function OperationsDashboard({ data }: { data: OperationsDashboardData }) {
+export function OperationsDashboard({ data, generatedAtLabel }: { data: OperationsDashboardData; generatedAtLabel: string }) {
   const [tab,setTab] = useState<(typeof tabs)[number][0]>("summary");
   const [projectView,setProjectView] = useState<"recent"|"stale"|"connections">("recent");
   const [selectedCommand,setSelectedCommand] = useState("");
@@ -19,7 +19,7 @@ export function OperationsDashboard({ data }: { data: OperationsDashboardData })
   const visible = projects.filter(p => projectView === "connections" || (projectView === "recent" ? (p.idleDays ?? 999) <= 28 : (p.idleDays ?? 0) > 28));
   const summary = data.summary ?? {};
   return <section className="operations-dashboard">
-    <div className="operations-toolbar"><span>실제 데이터 {new Date(data.generatedAt).toLocaleString("ko-KR")}</span><button type="button" onClick={()=>location.reload()}>새로고침</button></div>
+    <div className="operations-toolbar"><span>실제 데이터 {generatedAtLabel}</span><button type="button" onClick={()=>location.reload()}>새로고침</button></div>
     <nav className="operations-tabs" role="tablist" aria-label="대시보드 분류">{tabs.map(([id,label])=><button key={id} role="tab" type="button" aria-selected={tab===id} onClick={()=>setTab(id)}>{label}</button>)}</nav>
     {tab==="summary" && <div className="operations-grid metrics">{[
       ["등록 프로젝트",summary.projects ?? projects.length],["Git 저장소",summary.gitRepositories ?? projects.filter(p=>p.git?.isRepository).length],["변경 있음",summary.changed ?? projects.filter(p=>(p.git?.changedFiles||0)>0).length],["주의 항목",summary.warnings ?? projects.reduce((n,p)=>n+(p.issues?.length||0),0)],["최근 4주 진행",projects.filter(p=>(p.idleDays??999)<=28).length],["1개월 초과",projects.filter(p=>(p.idleDays??0)>28).length]

@@ -29,7 +29,7 @@ export default async function ManagePage() {
       </header>
 
       <nav className="manage-nav" aria-label="관리 메뉴">
-        <a href="#dashboard">대시보드</a><a href="#release">릴리스</a><a href="#content">콘텐츠</a><a href="#brand">브랜드 운영</a>
+        <a href="#dashboard">대시보드</a><a href="#release">릴리스</a><a href="#content">콘텐츠</a><Link href="/manage/operations">운영 대시보드</Link><a href="#brand">브랜드 운영</a>
       </nav>
 
       {dataError ? <div className="manage-alert">{dataError}</div> : null}
@@ -65,7 +65,7 @@ export default async function ManagePage() {
 
       <section id="brand" className="manage-section">
         <div className="manage-section-title"><p>Brand</p><h2>중앙 운영 연결</h2></div>
-        <p className="manage-description">로컬 0.logUs 폴더의 내부 경로와 전체 파일 목록은 공개하지 않습니다. 허용된 프로젝트 요약만 이 화면에 연결할 예정입니다.</p>
+        <p className="manage-description">로컬 0.logUs의 실제 프로젝트·검증 상태를 관리자 전용 운영 대시보드에서 확인합니다.</p>
       </section>
     </main>
   );

@@ -5,6 +5,7 @@ import { mascot } from "./mascot";
 import { legalDocument } from "./legalDocument";
 import { appRelease } from "./appRelease";
 import { contactSubmission } from "./contactSubmission";
+import { operationsSnapshot } from "./operationsSnapshot";
 import { dailyScene, introScene, lifeStage, localizedString, localizedText } from "./storyObjects";
 
 export const schemaTypes = [
@@ -20,4 +21,5 @@ export const schemaTypes = [
   legalDocument,
   appRelease,
   contactSubmission,
+  operationsSnapshot,
 ];

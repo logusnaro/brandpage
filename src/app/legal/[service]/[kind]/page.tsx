@@ -13,6 +13,7 @@ type LegalDocument = {
 const KIND_LABEL: Record<string, string> = {
   terms: "이용약관",
   privacy: "개인정보처리방침",
+  ai: "AI 사용방침",
   refund: "환불정책",
   other: "기타 정책",
 };

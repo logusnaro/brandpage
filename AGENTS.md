@@ -1,7 +1,11 @@
 <!-- BEGIN:nextjs-agent-rules -->
+
 # This is NOT the Next.js you know
 
-This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` before writing any code. Heed deprecation notices.
+This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
+
+This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
+
 <!-- END:nextjs-agent-rules -->
 
 <!-- LOGUS-CENTRAL-RULES: v2026-09-02 -->
@@ -12,5 +16,6 @@ This version has breaking changes — APIs, conventions, and file structure may 
 - `../../AGENTS.md`
 - `../../harness/START.md`
 - `../../02_shared/development/DEV-WORKFLOW.md`
+- `../../02_shared/data-platform/CURRENT-POLICY.md`
 
 이 앱의 규칙은 중앙 규칙에 추가되는 프로젝트별 규칙이며, 중앙 안전·검증·승인 원칙을 낮추지 않는다. 기존 변경 파일은 덮어쓰거나 되돌리지 않고, 병합·배포·비용·제품 방향 변경은 파운더 승인 없이 실행하지 않는다.

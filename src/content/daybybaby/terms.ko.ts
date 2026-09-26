@@ -19,7 +19,7 @@ type LegalTerms = {
 export const dayByBabyTerms: LegalTerms = {
   product: "Day By Baby",
   documentTitle: "이용약관",
-  effectiveDate: "2026년 8월 31일",
+  effectiveDate: "2026년 9월 6일",
   articles: [
     {
       id: "article-1",

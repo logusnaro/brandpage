@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import type { FormEvent } from "react";
 import { ProductCollection, ProductCollectionHeader, localized, brandCase } from "@/components/AppProducts";
 import "./app-products.css";
+import { homepageImage, introVideoUrl } from "@/lib/homepageMedia";
 import type {
   Locale,
   LocalizedText,
@@ -15,6 +16,8 @@ import type {
 
 export type HomepageCopy = {
   cinema?: SiteSettings["cinema"];
+  homepageMedia?: SiteSettings["homepageMedia"];
+  contactForm?: SiteSettings["contactForm"];
   pageLabels: SiteSettings["pageLabels"];
   introSubtitle?: Partial<LocalizedText>;
   productLead?: Partial<LocalizedText>;
@@ -34,6 +37,7 @@ export function VideoHomepage({ copy, products, socialLinks }: Props) {
   const [heroComplete, setHeroComplete] = useState(false);
   const [heroPaused, setHeroPaused] = useState(false);
   const [heroProgress, setHeroProgress] = useState(0);
+  const [heroDuration, setHeroDuration] = useState(15);
   const [activeSection, setActiveSection] = useState("intro");
   const [formSent, setFormSent] = useState(false);
   const [formError, setFormError] = useState("");
@@ -96,7 +100,7 @@ export function VideoHomepage({ copy, products, socialLinks }: Props) {
   );
   const [contactTitleFirst, ...contactTitleRest] = contactTitle.split("\n");
   const contactTitleLast = contactTitleRest.join("\n");
-  const formCopy =
+  const defaultFormCopy =
     locale === "ko"
       ? {
           eyebrow: "Talk with us",
@@ -126,6 +130,15 @@ export function VideoHomepage({ copy, products, socialLinks }: Props) {
           sent: "Your message is in.",
           sentBody: "We will get back to you after reviewing it.",
         };
+  const formCopy = Object.fromEntries(
+    Object.entries(defaultFormCopy).map(([key, value]) => [key,
+      localized(copy.contactForm?.[key as keyof typeof defaultFormCopy], locale, value)]),
+  ) as typeof defaultFormCopy;
+  const media = copy.homepageMedia;
+  const heroPoster = homepageImage(media?.heroPoster, "/films/logus-village.webp");
+  const heroVideo = introVideoUrl(media?.heroVideoUrl, "/films/logus-intro-cinema-15s.mp4");
+  const heroMobileVideo = introVideoUrl(media?.heroMobileVideoUrl,
+    media?.heroVideoUrl ? heroVideo : "/films/logus-intro-cinema-mobile-15s.mp4");
   const defaultUi =
     locale === "ko"
       ? {
@@ -186,11 +199,6 @@ export function VideoHomepage({ copy, products, socialLinks }: Props) {
     storyBody: localized(copy.cinema?.storyBody, locale, defaultUi.storyBody),
     worlds: localized(copy.cinema?.worldsTitle, locale, defaultUi.worlds),
     worldBody: localized(copy.cinema?.worldsBody, locale, defaultUi.worldBody),
-    productIntro: localized(
-      copy.cinema?.productTitle,
-      locale,
-      defaultUi.productIntro,
-    ),
     moments: [
       localized(copy.cinema?.growingCaption, locale, defaultUi.moments[0]),
       localized(copy.cinema?.togetherCaption, locale, defaultUi.moments[1]),
@@ -331,7 +339,7 @@ export function VideoHomepage({ copy, products, socialLinks }: Props) {
         >
           <h1 className="sr-only">logUs Studio</h1>
           <Image
-            src="/films/logus-village.webp"
+            src={heroPoster}
             alt=""
             fill
             priority
@@ -345,11 +353,19 @@ export function VideoHomepage({ copy, products, socialLinks }: Props) {
             muted
             playsInline
             preload="metadata"
-            poster="/films/logus-village.webp"
+            poster={heroPoster}
+            onLoadedMetadata={(event) => {
+              const duration = event.currentTarget.duration;
+              if (Number.isFinite(duration) && duration > 0) setHeroDuration(duration);
+            }}
             onTimeUpdate={(event) => {
               const video = event.currentTarget;
-              setHeroProgress(video.currentTime / (video.duration || 15));
-              if (video.currentTime >= 11.8) setHeroComplete(true);
+              const duration = Number.isFinite(video.duration) && video.duration > 0 ? video.duration : 15;
+              setHeroProgress(Math.min(1, video.currentTime / duration));
+              const configured = media?.heroRevealAt;
+              const revealAt = typeof configured === "number" && Number.isFinite(configured)
+                ? Math.max(0, Math.min(configured, duration - 0.1)) : Math.max(0, duration - 3.2);
+              if (video.currentTime >= revealAt) setHeroComplete(true);
             }}
             onEnded={() => setHeroComplete(true)}
             onError={() => setHeroComplete(true)}
@@ -357,10 +373,10 @@ export function VideoHomepage({ copy, products, socialLinks }: Props) {
           >
             <source
               media="(max-width: 760px)"
-              src="/films/logus-intro-cinema-mobile-15s.mp4"
+              src={heroMobileVideo}
               type="video/mp4"
             />
-            <source src="/films/logus-intro-cinema-15s.mp4" type="video/mp4" />
+            <source src={heroVideo} type="video/mp4" />
           </video>
           <div className="film-hero-shade" />
           <p className="film-hero-label">
@@ -381,12 +397,7 @@ export function VideoHomepage({ copy, products, socialLinks }: Props) {
           </div>
           <div className="film-controls">
             <span className="film-time">
-              00:
-              {String(Math.min(15, Math.floor(heroProgress * 15))).padStart(
-                2,
-                "0",
-              )}{" "}
-              / 00:15
+              {formatFilmTime(heroProgress * heroDuration)} / {formatFilmTime(heroDuration)}
             </span>
             {heroComplete ? (
               <button type="button" onClick={replayFilm}>
@@ -448,13 +459,13 @@ export function VideoHomepage({ copy, products, socialLinks }: Props) {
           <div className="cinema-moments">
             {[
               {
-                image: "/story/life/life-02-kindergarten-v1.webp",
+                image: homepageImage(media?.growingImage, "/story/life/life-02-kindergarten-v1.webp"),
                 ratio: "wide",
               },
-              { image: "/story/life/life-07-family-v1.webp", ratio: "tall" },
-              { image: "/story/life/life-08-later-v1.webp", ratio: "wide" },
+              { image: homepageImage(media?.togetherImage, "/story/life/life-07-family-v1.webp"), ratio: "tall" },
+              { image: homepageImage(media?.lookingBackImage, "/story/life/life-08-later-v1.webp"), ratio: "wide" },
             ].map((moment, index) => (
-              <figure key={moment.image} className={moment.ratio}>
+              <figure key={index} className={moment.ratio}>
                 <div>
                   <Image
                     src={moment.image}
@@ -478,9 +489,9 @@ export function VideoHomepage({ copy, products, socialLinks }: Props) {
 
         <section id="product" className="film-products app-neighborhood-section">
           <div className="film-products-content">
-            <ProductCollectionHeader locale={locale} />
+            <ProductCollectionHeader locale={locale} copy={copy.cinema} />
             {products.length > 0 ? (
-              <ProductCollection products={products} locale={locale} limit={6} village />
+              <ProductCollection products={products} locale={locale} limit={6} village copy={copy.cinema} villageImage={media?.villageImage} />
             ) : (
               <p className="film-products-empty">{ui.empty}</p>
             )}
@@ -501,7 +512,7 @@ export function VideoHomepage({ copy, products, socialLinks }: Props) {
           <div className="studio-contact-body">
             <div className="studio-contact-image">
               <Image
-                src="/apps-art/contact-studio-v2.webp"
+                src={homepageImage(media?.contactImage, "/apps-art/contact-studio-v2.webp")}
                 alt={
                   locale === "ko"
                     ? "작은 스튜디오에서 함께 이야기를 나누는 서로 다른 logU들"
@@ -601,12 +612,12 @@ export function VideoHomepage({ copy, products, socialLinks }: Props) {
               )}
             </div>
             <div>
-              {locale === "ko"
+              {localized(copy.cinema?.footerLegal, locale, locale === "ko"
                 ? "이용약관 · 개인정보처리방침"
-                : "Terms · Privacy"}
+                : "Terms · Privacy")}
             </div>
             <div>
-              {locale === "ko" ? "사업자정보 확인" : "Business information"}
+              {localized(copy.cinema?.footerBusiness, locale, locale === "ko" ? "사업자정보 확인" : "Business information")}
             </div>
             <div className="studio-footer-social">
               {socialLinks.map((link) => (
@@ -625,4 +636,9 @@ export function VideoHomepage({ copy, products, socialLinks }: Props) {
       </main>
     </div>
   );
+}
+
+function formatFilmTime(seconds: number) {
+  const whole = Math.max(0, Math.floor(seconds));
+  return `${String(Math.floor(whole / 60)).padStart(2, "0")}:${String(whole % 60).padStart(2, "0")}`;
 }

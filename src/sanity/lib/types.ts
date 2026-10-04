@@ -63,10 +63,29 @@ export type CinemaCopy = Partial<
     | "lookingBackCaption",
     Partial<LocalizedText>
   >
+> & Partial<
+  Record<
+    | "appsHeading" | "appsDescription" | "appsMore"
+    | "comingSoonTitle" | "comingSoonBody" | "comingSoonCaption"
+    | "growingNote" | "platformRoadmap" | "footerLegal" | "footerBusiness",
+    Partial<LocalizedText>
+  >
 >;
+
+export type HomepageMedia = Partial<Record<
+  "heroPoster" | "growingImage" | "togetherImage" | "lookingBackImage" | "contactImage" | "villageImage",
+  SanityImage
+>> & { heroVideoUrl?: string; heroMobileVideoUrl?: string; heroRevealAt?: number };
+
+export type ContactFormCopy = Partial<Record<
+  "eyebrow" | "inquiry" | "product" | "collaboration" | "other" | "name" | "email" | "message" | "consent" | "submit" | "sent" | "sentBody",
+  Partial<LocalizedText>
+>>;
 
 export type SiteSettings = {
   cinema?: CinemaCopy;
+  homepageMedia?: HomepageMedia;
+  contactForm?: ContactFormCopy;
   pageLabels: {
     intro: LocalizedText;
     product: LocalizedText;
@@ -175,6 +194,10 @@ export type Product = {
     videoHeadingI18n?: Partial<LocalizedText>;
     videoBodyI18n?: Partial<LocalizedText>;
     featureHeadingI18n?: Partial<LocalizedText>;
+    featureIntroI18n?: Partial<LocalizedText>;
+    essentialTitleI18n?: Partial<LocalizedText>;
+    essentialBodyI18n?: Partial<LocalizedText>;
+    artNoteI18n?: Partial<LocalizedText>;
   };
   highlights?: Array<{ _key: string; label?: Partial<LocalizedText>; description?: Partial<LocalizedText>; image?: SanityImage }>;
   videos?: ProductVideo[];

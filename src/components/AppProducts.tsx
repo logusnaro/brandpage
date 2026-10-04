@@ -9,6 +9,8 @@ import type {
   LocalizedText,
   Product,
   ProductVideo,
+  CinemaCopy,
+  SanityImage,
 } from "@/sanity/lib/types";
 import {
   productPath,
@@ -16,6 +18,7 @@ import {
   platformName,
 } from "@/lib/productLinks";
 import { appRoom } from "@/lib/appDetailContent";
+import { homepageImage } from "@/lib/homepageMedia";
 
 type FilmClip = ProductVideo & { localPoster?: string };
 type ClipSource = {
@@ -89,6 +92,8 @@ function isDayByBaby(product: Product) {
 }
 
 function productName(product: Product, locale: Locale = "ko") {
+  const translated = localized(product.displayNameI18n, locale);
+  if (translated) return translated;
   if (isDayByBaby(product)) return "DayByBaby";
   return localized(product.displayNameI18n, locale, product.displayName)
     .replace(/^\[:\]\s*/, "")
@@ -239,16 +244,16 @@ export function ProductPlatforms({ product, locale }: { product: Product; locale
   );
 }
 
-export function ProductCollectionHeader({ locale, directory = false, description }: { locale: Locale; directory?: boolean; description?: string }) {
+export function ProductCollectionHeader({ locale, directory = false, description, copy }: { locale: Locale; directory?: boolean; description?: string; copy?: CinemaCopy }) {
   const Heading = directory ? "h1" : "h2";
   return (
     <div className="app-neighborhood-heading">
-      <Heading>Apps</Heading>
+      <Heading>{localized(copy?.appsHeading, locale, "Apps")}</Heading>
       <div className="app-neighborhood-intro">
-        <h3>{locale === "ko" ? "저마다의 하루, 저마다의 logU." : "Different days. Different logU."}</h3>
-        <p>{description || (locale === "ko" ? "작은 순간들이 모여, 더 따뜻한 하루가 됩니다." : "Little moments, together. A warmer everyday life.")}</p>
+        <h3>{localized(copy?.productTitle, locale, locale === "ko" ? "저마다의 하루, 저마다의 logU." : "Different days. Different logU.")}</h3>
+        <p>{description || localized(copy?.appsDescription, locale, locale === "ko" ? "작은 순간들이 모여, 더 따뜻한 하루가 됩니다." : "Little moments, together. A warmer everyday life.")}</p>
       </div>
-      <Link className="app-neighborhood-all" href={directory ? "#app-collection" : `/apps?lang=${locale}`}>{locale === "ko" ? "모든 앱 보기" : "Explore all apps"} <span aria-hidden="true">↗</span></Link>
+      <Link className="app-neighborhood-all" href={directory ? "#app-collection" : `/apps?lang=${locale}`}>{localized(copy?.appsMore, locale, locale === "ko" ? "모든 앱 보기" : "Explore all apps")} <span aria-hidden="true">↗</span></Link>
     </div>
   );
 }
@@ -261,14 +266,15 @@ function collectionArt(product: Product) {
   return { src: ["daybybaby", "memogrip", "goodgo", "bookbap"].includes(slug) ? `/apps-art/${slug}-v1.webp` : productImage(product), mascot: false };
 }
 
-export function ProductCollection({ products, locale, limit, village = false }: { products: Product[]; locale: Locale; limit?: number; village?: boolean }) {
+export function ProductCollection({ products, locale, limit, village = false, copy, villageImage }: { products: Product[]; locale: Locale; limit?: number; village?: boolean; copy?: CinemaCopy; villageImage?: SanityImage }) {
   const shown = limit ? products.slice(0, limit) : products;
+  const panorama = homepageImage(villageImage, "/apps-art/village-v1.webp");
   const upcomingCount = products.length >= 4 ? Math.max(0, 6 - products.length) : 0;
   return (
     <div className={`app-collection${village ? " app-neighborhood-collection" : ""}`}>
       {village ? (
         <div className="app-neighborhood-panorama">
-          <Image src="/apps-art/village-v1.webp" alt={locale === "ko" ? "저마다의 하루를 함께하는 다양한 logU들의 마을" : "A village of different logU, each sharing a different everyday life"} fill sizes="100vw" />
+          <Image src={panorama} alt={locale === "ko" ? "저마다의 하루를 함께하는 다양한 logU들의 마을" : "A village of different logU, each sharing a different everyday life"} fill sizes="100vw" />
         </div>
       ) : <div className="app-collection-bar">
         <span>{locale === "ko" ? "저마다의 하루, 저마다의 logU." : "Different days. Different logU."}</span>
@@ -302,16 +308,16 @@ export function ProductCollection({ products, locale, limit, village = false }: 
           <article className="app-card app-card-upcoming" key={`upcoming-${index}`} aria-label={locale === "ko" ? "새로운 앱 준비 중" : "A new app is coming"}>
             <div className="app-card-art">
               <span className="app-card-category">A NEW NEIGHBOR</span>
-              <Image src="/apps-art/village-v1.webp" alt="" fill sizes="(max-width: 600px) 92vw, (max-width: 1000px) 46vw, 32vw" className={`app-coming-scene app-coming-scene-${index}`} />
+              <Image src={panorama} alt="" fill sizes="(max-width: 600px) 92vw, (max-width: 1000px) 46vw, 32vw" className={`app-coming-scene app-coming-scene-${index}`} />
               <span className="app-upcoming-index">0{shown.length + index + 1}</span>
             </div>
             <div className="app-card-info">
               <div className="app-card-summary">
                 <span className="app-card-icon" aria-hidden="true">+</span>
-                <div className="app-card-name"><h3>Coming soon</h3><p>{locale === "ko" ? "또 다른 하루를 함께할 새로운 이웃." : "A new neighbor for another everyday life."}</p></div>
+                <div className="app-card-name"><h3>{localized(copy?.comingSoonTitle, locale, "Coming soon")}</h3><p>{localized(copy?.comingSoonBody, locale, locale === "ko" ? "또 다른 하루를 함께할 새로운 이웃." : "A new neighbor for another everyday life.")}</p></div>
                 <span className="app-card-await" aria-hidden="true">···</span>
               </div>
-              <p className="app-upcoming-caption">{locale === "ko" ? "새로운 logU를 준비하고 있어요" : "A new logU is on the way"}</p>
+              <p className="app-upcoming-caption">{localized(copy?.comingSoonCaption, locale, locale === "ko" ? "새로운 logU를 준비하고 있어요" : "A new logU is on the way")}</p>
             </div>
           </article>
         ))}
@@ -326,12 +332,12 @@ export function ProductCollection({ products, locale, limit, village = false }: 
           </aside>
         ) : null}
       </div>
-      {village ? <div className="app-neighborhood-growing"><span aria-hidden="true">✦</span><p>{locale === "ko" ? "작은 세계는 계속 자랍니다." : "Our little worlds keep growing."}</p><Link href={`/apps?lang=${locale}`}>{locale === "ko" ? "모든 앱 보기" : "All apps"} ↗</Link></div> : null}
+      {village ? <div className="app-neighborhood-growing"><span aria-hidden="true">✦</span><p>{localized(copy?.growingNote, locale, locale === "ko" ? "작은 세계는 계속 자랍니다." : "Our little worlds keep growing.")}</p><Link href={`/apps?lang=${locale}`}>{localized(copy?.appsMore, locale, locale === "ko" ? "모든 앱 보기" : "All apps")} ↗</Link></div> : null}
       {limit && products.length > limit ? <Link className="app-collection-more" href={`/apps?lang=${locale}`}>{locale === "ko" ? "나머지 앱 모두 보기" : "See the full collection"} ↗</Link> : null}
       {products.length >= 4 ? (
         <aside className="app-platform-roadmap">
           <span>APPS IN TOSS</span>
-          <p>{locale === "ko" ? "일부 기능은 앱인토스 미니앱으로도 찾아갈 예정이에요. 전체 앱과 제공 범위가 다르며, 앱별 기능과 일정은 확정 후 안내합니다." : "Selected features are planned as mini-apps in Toss. Their scope differs from the full apps; supported features and timing will be announced when confirmed."}</p>
+          <p>{localized(copy?.platformRoadmap, locale, locale === "ko" ? "일부 기능은 앱인토스 미니앱으로도 찾아갈 예정이에요. 전체 앱과 제공 범위가 다르며, 앱별 기능과 일정은 확정 후 안내합니다." : "Selected features are planned as mini-apps in Toss. Their scope differs from the full apps; supported features and timing will be announced when confirmed.")}</p>
         </aside>
       ) : null}
     </div>
@@ -402,8 +408,8 @@ export function ProductShowcase({
   const [playbackFailed, setPlaybackFailed] = useState(false);
   const ppuri = isDayByBaby(product);
   const name = productName(product, locale);
-  const designed = ppuri || ["memogrip", "goodgo", "bookbap"].includes(name.toLowerCase());
   const room = appRoom(product);
+  const designed = ppuri || /^\/apps-art\/(memogrip|goodgo|bookbap)-room-v2\.webp$/.test(room.hero);
   const detail = product.detail;
   const hero = detail?.heroImage?.asset
     ? urlFor(detail.heroImage).width(2000).url()
@@ -677,7 +683,7 @@ export function ProductShowcase({
                 room.featureHeading[locale],
               )}
             </h2>
-            {ppuri ? <p>{locale === "ko" ? "간단한 기록부터 한눈에 보는 하루,\n그리고 함께 남기는 소중한 기억까지." : "From easy entries to a day at a glance,\nand the little memories you keep together."}</p> : null}</div>
+            {ppuri || localized(detail?.featureIntroI18n, locale) ? <p>{localized(detail?.featureIntroI18n, locale, locale === "ko" ? "간단한 기록부터 한눈에 보는 하루,\n그리고 함께 남기는 소중한 기억까지." : "From easy entries to a day at a glance,\nand the little memories you keep together.")}</p> : null}</div>
             <div className="app-feature-grid">
               {features.map((feature, featureIndex) => (
                 <article key={featureIndex}>
@@ -703,27 +709,27 @@ export function ProductShowcase({
                 </article>
               ))}
             </div>
-            {ppuri ? (
+            {ppuri || (localized(detail?.essentialTitleI18n, locale) && localized(detail?.essentialBodyI18n, locale)) ? (
               <div className="app-room-emergency">
                 <span aria-hidden="true">↗</span>
                 <div>
                   <h3>
-                    {locale === "ko"
+                    {localized(detail?.essentialTitleI18n, locale, locale === "ko"
                       ? "급할 때도, 가족과 연결되도록."
-                      : "Stay connected when it matters."}
+                      : "Stay connected when it matters.")}
                   </h3>
                   <p>
-                    {locale === "ko"
+                    {localized(detail?.essentialBodyI18n, locale, locale === "ko"
                     ? "응급 연락처는 DayByBaby의 필수 기능입니다. 가족에게 전화하고 응급 알림을 보낼 수 있어요. 일상의 기록뿐 아니라, 필요한 순간의 연결까지 함께합니다."
-                    : "Emergency contacts are an essential DayByBaby feature. Call family and send an emergency alert, keeping important connections close alongside everyday records."}
+                    : "Emergency contacts are an essential DayByBaby feature. Call family and send an emergency alert, keeping important connections close alongside everyday records.")}
                   </p>
                 </div>
               </div>
             ) : null}
             <p className="app-room-art-note">
-              {locale === "ko"
+              {localized(detail?.artNoteI18n, locale, locale === "ko"
                 ? "이미지는 서비스 소개를 위한 설명용 그림입니다."
-                : "Images are illustrations introducing the service."}
+                : "Images are illustrations introducing the service.")}
             </p>
           </section>
         ) : null}

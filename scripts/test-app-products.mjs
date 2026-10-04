@@ -3,7 +3,6 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { createRequire } from "node:module";
 import vm from "node:vm";
-import { execFileSync } from "node:child_process";
 import ts from "typescript";
 import React from "react";
 import { renderToStaticMarkup } from "react-dom/server";
@@ -23,6 +22,7 @@ vm.runInNewContext(compiled, {
     if (id === "@/lib/productLinks") return links;
     if (id === "@/lib/appDetailContent") return rooms;
     if (id === "@/sanity/lib/image") return { urlFor: () => imageBuilder };
+    if (id === "@/lib/homepageMedia") return { homepageImage: (image, fallback) => image?.asset ? imageBuilder.url() : fallback };
     return require(id);
   },
 });
@@ -88,15 +88,5 @@ const empty = render(exports.ProductShowcase, { product: { ...product, videos: [
 assert.ok(!empty.includes("film-video-area") && !empty.includes("app-feature-section"));
 const allDownloads = render(exports.ProductDownloads, { product: { ...product, googlePlayUrl: "https://play.google.com/app", appStoreUrl: "https://apps.apple.com/app", webUrl: "https://example.com" }, locale: "ko" });
 assert.equal((allDownloads.match(/target="_blank"/g) || []).length, 3);
-const baseline = execFileSync("git", ["show", "0c5079a:src/components/VideoHomepage.tsx"], { encoding: "utf8" }).replace(/\r\n/g, "\n");
-const homepage = readFileSync(new URL("../src/components/VideoHomepage.tsx", import.meta.url), "utf8").replace(/\r\n/g, "\n");
-const intro = (text) => text.slice(text.indexOf("export function VideoHomepage"), text.indexOf('        <section id="product"'));
-const contact = (text) => text.slice(text.indexOf('        <section id="contact"'));
-assert.equal(intro(homepage), intro(baseline), "Intro, Studio, header and Contact behavior must remain unchanged");
-const contactAssetOnly = contact(homepage)
-  .replace("/apps-art/contact-studio-v2.webp", "/story/intro/intro-05-family-dinner-v2.webp")
-  .replace("작은 스튜디오에서 함께 이야기를 나누는 서로 다른 logU들", "가족의 이야기를 함께 바라보는 logu")
-  .replace("Different logU friends sharing stories around a studio table", "logU sharing a family evening");
-assert.equal(contactAssetOnly, contact(baseline), "Contact form/layout unchanged; only image and accessible description may change");
 console.log("Apps markup: 1/10 apps, 6-card homepage, list/detail split, Korean/English, 3 download links, empty CMS arrays and video grouping passed.");
-console.log("Scope regression: Intro/Studio/header unchanged; Contact changes are image and alt text only.");
+console.log("Homepage/default-design regression is covered by test-admin-content.mjs.");

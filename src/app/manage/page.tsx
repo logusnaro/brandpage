@@ -56,11 +56,13 @@ export default async function ManagePage() {
       <section id="content" className="manage-section">
         <div className="manage-section-title"><p>Content</p><h2>홈페이지와 운영 자료</h2></div>
         <div className="manage-links">
-          <Link href="/admin/structure/siteSettings;siteSettings" target="_blank"><strong>홈페이지 문구</strong><span>Intro, Product, Contact 한국어·영어</span></Link>
-          <Link href="/admin/structure/product" target="_blank"><strong>서비스</strong><span>제품 소개와 홈페이지 노출</span></Link>
+          <Link href="/admin/structure/siteSettings;siteSettings" target="_blank"><strong>홈페이지 문구·이미지·영상</strong><span>현재 영상형 홈페이지, Apps 안내, Contact 폼, 푸터 · 한국어·영어</span></Link>
+          <Link href="/admin/structure/product" target="_blank"><strong>서비스 소개·영상·스토어 링크</strong><span>소개 문구, 사진, 특징, 차별 기능, Android·iOS·앱인토스·웹</span></Link>
           <Link href="/admin/structure/legalDocument" target="_blank"><strong>약관·정책</strong><span>서비스별 버전과 시행일</span></Link>
           <Link href="/admin/structure/mascot" target="_blank"><strong>logU 캐릭터</strong><span>서비스별 이미지, 성격과 기억 테마</span></Link>
+          <Link href="/admin/structure/socialLink" target="_blank"><strong>SNS 링크</strong><span>푸터 채널, 주소와 표시 순서</span></Link>
         </div>
+        <p className="manage-description">Sanity에서 수정 후 Publish를 눌러야 공개 화면에 반영됩니다. 캐시 때문에 즉시 보이지 않을 수 있습니다. 빈 설정은 현재 디자인의 기본값을 유지합니다. 앱 소개 공개 상태와 플랫폼 출시 상태는 별도로 관리하세요.</p>
       </section>
 
       <section id="brand" className="manage-section">

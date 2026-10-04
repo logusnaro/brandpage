@@ -187,6 +187,10 @@ export const product = defineType({
         defineField({ name: "videoHeadingI18n", title: "영상 영역 제목 · 한국어/English", type: "localizedText" }),
         defineField({ name: "videoBodyI18n", title: "영상 영역 설명 · 한국어/English", type: "localizedText" }),
         defineField({ name: "featureHeadingI18n", title: "기능 영역 제목 · 한국어/English", type: "localizedString" }),
+        defineField({ name: "featureIntroI18n", title: "기능 영역 보조 설명 · 한국어/English", type: "localizedText" }),
+        defineField({ name: "essentialTitleI18n", title: "차별 기능 강조 제목 · 한국어/English", type: "localizedString" }),
+        defineField({ name: "essentialBodyI18n", title: "차별 기능 강조 설명 · 한국어/English", type: "localizedText", description: "DayByBaby는 비워두면 응급 연락처 필수 기능 설명을 유지합니다. 다른 앱은 제목과 설명을 넣으면 강조 영역이 나타납니다." }),
+        defineField({ name: "artNoteI18n", title: "설명용 이미지 안내 문구 · 한국어/English", type: "localizedString" }),
       ],
     }),
     defineField({

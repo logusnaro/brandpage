@@ -32,6 +32,8 @@ export default async function Home() {
   const { settings, products, socialLinks } = await fetchPageData();
   const copy = {
     cinema: settings.cinema,
+    homepageMedia: settings.homepageMedia,
+    contactForm: settings.contactForm,
     pageLabels: settings.pageLabels,
     introSubtitle: settings.intro.scenes.at(-1)?.body,
     productLead: settings.products.support,

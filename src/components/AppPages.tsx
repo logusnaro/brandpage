@@ -6,7 +6,7 @@ import {
   ProductShowcase,
 } from "./AppProducts";
 import { productPath } from "@/lib/productLinks";
-import type { Locale, Product } from "@/sanity/lib/types";
+import type { Locale, Product, SiteSettings } from "@/sanity/lib/types";
 import type { ReactNode } from "react";
 import { urlFor } from "@/sanity/lib/image";
 import { appRoom } from "@/lib/appDetailContent";
@@ -95,15 +95,17 @@ function AppShell({
 export function AppDirectory({
   products,
   locale,
+  settings,
 }: {
   products: Product[];
   locale: Locale;
+  settings?: Pick<SiteSettings, "cinema" | "homepageMedia">;
 }) {
   return (
     <AppShell locale={locale} path="/apps">
-      <ProductCollectionHeader locale={locale} directory />
+      <ProductCollectionHeader locale={locale} directory copy={settings?.cinema} />
       {products.length ? (
-        <ProductCollection products={products} locale={locale} village />
+        <ProductCollection products={products} locale={locale} village copy={settings?.cinema} villageImage={settings?.homepageMedia?.villageImage} />
       ) : (
         <p>
           {locale === "ko"

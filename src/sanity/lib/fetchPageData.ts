@@ -16,6 +16,8 @@ import type {
 
 type RawSettings = Partial<{
   cinema: SiteSettings["cinema"];
+  homepageMedia: SiteSettings["homepageMedia"];
+  contactForm: SiteSettings["contactForm"];
   pageLabels: Partial<SiteSettings["pageLabels"]>;
   introScenes: Array<Partial<IntroScene>>;
   navigation: Partial<SiteSettings["navigation"]>;
@@ -132,12 +134,14 @@ function mergeLifeStages(value: RawSettings["lifeStages"]): LifeStage[] {
   });
 }
 
-function mergeSettings(raw: RawSettings | null): SiteSettings {
+export function mergeSettings(raw: RawSettings | null): SiteSettings {
   const fallback = fallbackSiteSettings;
   if (!raw) return fallback;
 
   return {
     cinema: raw.cinema,
+    homepageMedia: raw.homepageMedia,
+    contactForm: raw.contactForm,
     pageLabels: {
       intro: localized(raw.pageLabels?.intro, fallback.pageLabels.intro),
       product: localized(raw.pageLabels?.product, fallback.pageLabels.product),

@@ -4,6 +4,7 @@ import { structureTool } from "sanity/structure";
 import { apiVersion, dataset, projectId } from "./src/sanity/env";
 import { schemaTypes } from "./src/sanity/schemaTypes";
 import { structure } from "./src/sanity/structure";
+import { productTemplates } from "./src/sanity/productTemplates";
 
 export default defineConfig({
   name: "logusstudio",
@@ -14,6 +15,7 @@ export default defineConfig({
   plugins: [structureTool({ structure }), visionTool({ defaultApiVersion: apiVersion })],
   schema: {
     types: schemaTypes,
+    templates: (prev) => [...prev, ...productTemplates],
   },
   document: {
     actions: (prev, context) => {

@@ -53,7 +53,7 @@ export const product = defineType({
     }),
     defineField({
       name: "status",
-      title: "Status",
+      title: "소개 공개 상태 (스토어 출시와 별도)",
       type: "string",
       options: {
         list: [
@@ -67,9 +67,52 @@ export const product = defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
+      name: "shortDescriptionI18n",
+      title: "목록용 한 줄 소개 · 한국어/English",
+      type: "localizedString",
+      description: "앱 목록에서 보일 짧은 설명. 비워두면 기존 설명이 사용됩니다.",
+    }),
+    defineField({
+      name: "appIcon",
+      title: "앱 아이콘",
+      type: "image",
+      options: { hotspot: true },
+    }),
+    defineField({
+      name: "googlePlayUrl",
+      title: "Google Play URL (Android)",
+      type: "url",
+      validation: (rule) => rule.uri({ scheme: ["https"] }),
+    }),
+    defineField({
+      name: "androidStatus",
+      title: "Android 출시 상태",
+      type: "string",
+      options: { list: [
+        { title: "준비 중", value: "planned" },
+        { title: "이용 가능 (링크 필수)", value: "available" },
+        { title: "표시하지 않음", value: "none" },
+      ] },
+      validation: (rule) => rule.custom((value, context) =>
+        value !== "available" || Boolean(context.document?.googlePlayUrl) || "Google Play 링크를 입력하세요."),
+    }),
+    defineField({
+      name: "iosStatus",
+      title: "iOS 출시 상태",
+      type: "string",
+      options: { list: [
+        { title: "준비 중", value: "planned" },
+        { title: "이용 가능 (링크 필수)", value: "available" },
+        { title: "표시하지 않음", value: "none" },
+      ] },
+      validation: (rule) => rule.custom((value, context) =>
+        value !== "available" || Boolean(context.document?.appStoreUrl) || "App Store 링크를 입력하세요."),
+    }),
+    defineField({
       name: "appStoreUrl",
       title: "App Store URL",
       type: "url",
+      validation: (rule) => rule.uri({ scheme: ["https"] }),
     }),
     defineField({
       name: "webUrl",
@@ -96,7 +139,10 @@ export const product = defineType({
       type: "array",
       of: [{
         type: "object",
-        fields: [defineField({ name: "label", title: "특징", type: "localizedString" })],
+        fields: [
+          defineField({ name: "label", title: "특징", type: "localizedString" }),
+          defineField({ name: "description", title: "특징 설명 · 한국어/English", type: "localizedText" }),
+        ],
         preview: { select: { title: "label.ko", subtitle: "label.en" } },
       }],
     }),

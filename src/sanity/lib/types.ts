@@ -152,10 +152,15 @@ export type Product = {
   sortOrder: number;
   status: PublishStatus;
   appStoreUrl?: string;
+  googlePlayUrl?: string;
+  androidStatus?: "planned" | "available" | "none";
+  iosStatus?: "planned" | "available" | "none";
+  shortDescriptionI18n?: Partial<LocalizedText>;
+  appIcon?: SanityImage;
   webUrl?: string;
   homeScreen?: SanityImage;
   mascotImage?: SanityImage;
-  highlights?: Array<{ _key: string; label?: Partial<LocalizedText> }>;
+  highlights?: Array<{ _key: string; label?: Partial<LocalizedText>; description?: Partial<LocalizedText> }>;
   videos?: ProductVideo[];
   screenshots?: SanityImage[];
   /** @deprecated legacy field */

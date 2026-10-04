@@ -1,0 +1,59 @@
+// Server-rendered markup checks only. No browser screenshots or production data writes.
+import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
+import { createRequire } from "node:module";
+import vm from "node:vm";
+import { execFileSync } from "node:child_process";
+import ts from "typescript";
+import React from "react";
+import { renderToStaticMarkup } from "react-dom/server";
+import * as links from "../src/lib/productLinks.ts";
+
+const require = createRequire(import.meta.url);
+const source = readFileSync(new URL("../src/components/AppProducts.tsx", import.meta.url), "utf8");
+const compiled = ts.transpileModule(source, { compilerOptions: { module: ts.ModuleKind.CommonJS, jsx: ts.JsxEmit.ReactJSX, esModuleInterop: true } }).outputText;
+const exports = {};
+const imageBuilder = { width() { return this; }, height() { return this; }, fit() { return this; }, url() { return "https://cdn.example.com/image.webp"; } };
+vm.runInNewContext(compiled, {
+  exports,
+  require: (id) => {
+    if (id === "next/image") return { __esModule: true, default: ({ src, alt, width, height }) => React.createElement("img", { src, alt, width, height }) };
+    if (id === "next/link") return { __esModule: true, default: ({ children, ...props }) => React.createElement("a", props, children) };
+    if (id === "@/lib/productLinks") return links;
+    if (id === "@/sanity/lib/image") return { urlFor: () => imageBuilder };
+    return require(id);
+  },
+});
+const render = (Component, props) => renderToStaticMarkup(React.createElement(Component, props));
+const product = { _id: "p", name: "bebe", displayName: "DayByBaby", description: "Baby journal", status: "published", sortOrder: 0 };
+const ten = Array.from({ length: 10 }, (_, index) => ({ ...product, _id: `p-${index}`, name: `app-${index}`, displayName: `App ${index}` }));
+const home = render(exports.ProductCollection, { products: ten, locale: "ko", limit: 6 });
+assert.equal((home.match(/class="app-card app-palette/g) || []).length, 6);
+assert.ok(home.includes("나머지 앱 모두 보기"));
+assert.ok(!home.includes("<video") && !home.includes("film-player"));
+const directory = render(exports.ProductCollection, { products: ten, locale: "en" });
+assert.equal((directory.match(/class="app-card app-palette/g) || []).length, 10);
+assert.ok(directory.includes("Explore all apps"));
+assert.ok(!directory.includes("app-village-note"));
+const one = render(exports.ProductCollection, { products: [product], locale: "ko" });
+assert.ok(one.includes("app-village-note") && one.includes("/apps/bebe?lang=ko"));
+const detail = render(exports.ProductShowcase, { product, index: 0, locale: "ko" });
+assert.equal((detail.match(/<h1 /g) || []).length, 1);
+assert.ok(detail.includes("Android · 준비 중") && detail.includes("iOS · 준비 중"));
+assert.ok(detail.includes("app-feature-grid") && detail.includes("응급 연락처는 시연 기능"));
+assert.equal((detail.match(/aria-pressed="/g) || []).length, 3);
+assert.ok(detail.includes("<details"));
+const english = render(exports.ProductShowcase, { product, index: 0, locale: "en" });
+assert.ok(english.includes("Less effort to log"));
+const empty = render(exports.ProductShowcase, { product: { ...product, videos: [], highlights: [] }, index: 0, locale: "ko" });
+assert.ok(!empty.includes("film-video-area") && !empty.includes("app-feature-section"));
+const allDownloads = render(exports.ProductDownloads, { product: { ...product, googlePlayUrl: "https://play.google.com/app", appStoreUrl: "https://apps.apple.com/app", webUrl: "https://example.com" }, locale: "ko" });
+assert.equal((allDownloads.match(/target="_blank"/g) || []).length, 3);
+const baseline = execFileSync("git", ["show", "0c5079a:src/components/VideoHomepage.tsx"], { encoding: "utf8" }).replace(/\r\n/g, "\n");
+const homepage = readFileSync(new URL("../src/components/VideoHomepage.tsx", import.meta.url), "utf8").replace(/\r\n/g, "\n");
+const intro = (text) => text.slice(text.indexOf("export function VideoHomepage"), text.indexOf('        <section id="product"'));
+const contact = (text) => text.slice(text.indexOf('        <section id="contact"'));
+assert.equal(intro(homepage), intro(baseline), "Intro, Studio, header and Contact behavior must remain unchanged");
+assert.equal(contact(homepage), contact(baseline), "Contact markup must remain unchanged");
+console.log("Apps markup: 1/10 apps, 6-card homepage, list/detail split, Korean/English, 3 download links, empty CMS arrays and video grouping passed.");
+console.log("Scope regression: Intro/Studio/header logic and Contact markup match the pre-change commit exactly.");

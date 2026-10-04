@@ -2,6 +2,9 @@ import { groq } from "next-sanity";
 
 export const siteSettingsQuery = groq`
   *[_type == "siteSettings"][0]{
+    cinema,
+    homepageMedia,
+    contactForm,
     pageLabels,
     navigation,
     language,
@@ -47,7 +50,7 @@ export const siteSettingsQuery = groq`
 `;
 
 export const productsQuery = groq`
-  *[_type == "product" && status == "published"] | order(sortOrder asc) {
+  *[_type == "product"] | order(sortOrder asc) {
     _id,
     "name": name.current,
     displayName,
@@ -58,8 +61,18 @@ export const productsQuery = groq`
     sortOrder,
     status,
     appStoreUrl,
+    googlePlayUrl,
+    androidStatus,
+    iosStatus,
+    shortDescriptionI18n,
+    appIcon,
+    platforms[]{ _key, platform, status, url, noteI18n },
     webUrl,
     homeScreen,
+    mascotImage,
+    detail,
+    highlights[]{ _key, label, description, image },
+    videos[]{ _key, titleI18n, url, aspect, duration, poster },
     screenshots[]{ ..., alt },
     screenshot,
     screenshotAlt

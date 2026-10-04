@@ -1,0 +1,20 @@
+import assert from "node:assert/strict";
+import { mergeLaunchCatalogue } from "../src/lib/launchCatalogue.ts";
+
+const initial = mergeLaunchCatalogue([]);
+assert.deepEqual(initial.map((item) => item.displayName), ["DayByBaby", "MemoGrip", "GOODgo", "BookBap"]);
+assert.ok(initial.every((item) => !item.googlePlayUrl && !item.appStoreUrl && !item.webUrl));
+assert.ok(initial.every((item) => item.platforms.length === 2 && item.platforms.every((platform) => platform.status === "planned")));
+const oldDraft = mergeLaunchCatalogue([{ _id: "private", name: "allinmemo", displayName: "Private old name", status: "draft", description: "Private draft content" }]);
+assert.equal(oldDraft[1].displayName, "MemoGrip");
+assert.ok(!JSON.stringify(oldDraft).includes("Private draft content"));
+const hidden = mergeLaunchCatalogue([{ _id: "hidden", name: "memogrip", status: "unpublished" }]);
+assert.equal(hidden.length, 3);
+assert.ok(!hidden.some((item) => item.name === "memogrip"));
+const edited = mergeLaunchCatalogue([{ _id: "existing", name: "bebe", displayName: "DayByBaby", status: "published", platforms: [] }]);
+assert.equal(edited[0]._id, "existing");
+assert.deepEqual(edited[0].platforms, []);
+const extra = mergeLaunchCatalogue([{ _id: "extra", name: "new-app", status: "published" }, { _id: "private", name: "private", status: "draft" }]);
+assert.equal(extra.length, 5);
+assert.ok(!extra.some((item) => item._id === "private"));
+console.log("Launch catalogue: 4 real names, no invented release links, CMS edits/unpublishing and future apps passed.");

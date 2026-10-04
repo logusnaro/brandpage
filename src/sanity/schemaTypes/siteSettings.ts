@@ -1,4 +1,5 @@
 import { defineField, defineType } from "sanity";
+import { introVideoUrl } from "../../lib/homepageMedia";
 
 const localized = (name: string, title: string, group: string, long = false) =>
   defineField({
@@ -10,18 +11,81 @@ const localized = (name: string, title: string, group: string, long = false) =>
 
 export const siteSettings = defineType({
   name: "siteSettings",
-  title: "홈페이지 문구",
+  title: "홈페이지 문구·이미지·영상",
   type: "document",
   groups: [
+    { name: "cinema", title: "현재 영상형 홈페이지", default: true },
+    { name: "media", title: "홈페이지 이미지·영상" },
     { name: "navigation", title: "메뉴" },
-    { name: "intro", title: "01 Intro" },
+    { name: "intro", title: "이전 Intro 데이터" },
     { name: "daily", title: "이전 하루 데이터" },
-    { name: "products", title: "02 Product" },
+    { name: "products", title: "이전 Product 문구" },
     { name: "life", title: "이전 삶 데이터" },
     { name: "contact", title: "엔딩/연락처" },
     { name: "metadata", title: "검색/공유" },
   ],
   fields: [
+    defineField({
+      name: "cinema",
+      title: "영상형 홈페이지 · 한국어/English",
+      description:
+        "비어 있는 항목은 현재 디자인의 기본 문구를 사용합니다. 이전 Intro 장면 데이터는 보존됩니다.",
+      type: "object",
+      group: "cinema",
+      fields: [
+        ["heroSubtitle", "영상 마지막 설명"],
+        ["filmLabel", "영상 하단 문구"],
+        ["studioNav", "Studio 메뉴"],
+        ["appsNav", "Apps 메뉴"],
+        ["storyTitle", "철학 제목"],
+        ["storyBody", "철학 본문"],
+        ["worldsTitle", "다양한 logU 제목"],
+        ["worldsBody", "다양한 logU 설명"],
+        ["productTitle", "앱 소개 영역 제목"],
+        ["appsHeading", "앱 영역 큰 제목 (Apps)"],
+        ["appsDescription", "앱 영역 설명"],
+        ["appsMore", "모든 앱 보기 버튼"],
+        ["comingSoonTitle", "출시 예정 카드 제목"],
+        ["comingSoonBody", "출시 예정 카드 설명"],
+        ["comingSoonCaption", "출시 예정 카드 하단"],
+        ["growingNote", "앱 마을 하단 문구"],
+        ["platformRoadmap", "앱인토스 제공 계획 안내"],
+        ["footerLegal", "푸터 약관·개인정보 안내 문구"],
+        ["footerBusiness", "푸터 사업자 정보 문구"],
+        ["growingCaption", "자라는 순간 사진 설명"],
+        ["togetherCaption", "함께하는 순간 사진 설명"],
+        ["lookingBackCaption", "돌아보는 순간 사진 설명"],
+      ].map(([name, title]) =>
+        defineField({ name, title, type: "localizedText" }),
+      ),
+    }),
+    defineField({
+      name: "homepageMedia", title: "사진·인트로 영상 교체", type: "object", group: "media",
+      description: "빈 항목은 현재 사진·영상을 유지합니다. 이미지의 비율과 레이아웃은 그대로 유지됩니다. 인트로는 MP4 주소를 입력하세요. 영상 파일 업로드는 별도 저장소에서 하고 URL을 붙여넣습니다.",
+      fields: [
+        ...[
+          ["heroPoster", "인트로 미리보기"], ["growingImage", "철학 · 자라는 순간"],
+          ["togetherImage", "철학 · 함께하는 순간"], ["lookingBackImage", "철학 · 돌아보는 순간"],
+          ["contactImage", "Contact 이미지"], ["villageImage", "Apps 마을 파노라마·출시 예정 카드"],
+        ].map(([name, title]) => defineField({ name, title, type: "image", options: { hotspot: true } })),
+        ...[["heroVideoUrl", "PC 인트로 MP4 주소"], ["heroMobileVideoUrl", "모바일 인트로 MP4 주소"]].map(([name, title]) => defineField({
+          name, title, type: "string",
+          validation: (rule) => rule.custom((value) => !value || Boolean(introVideoUrl(value, "")) || "HTTPS MP4 주소 또는 /films/영상.mp4 경로를 입력하세요."),
+        })),
+        defineField({ name: "heroRevealAt", title: "logUs Studio 등장 시점 (초)", type: "number",
+          description: "기본 영상은 11.8초. 새 영상은 종료 전에 등장하도록 조정하며, 비워두면 영상 종료 약 3.2초 전입니다.",
+          validation: (rule) => rule.min(0).max(3600) }),
+      ],
+    }),
+    defineField({
+      name: "contactForm", title: "문의 폼 문구 · 한국어/English", type: "object", group: "contact",
+      description: "라벨·안내 문구만 변경합니다. 입력 항목과 전송 동작은 유지됩니다. 개인정보 동의 문구는 실제 처리 내용에 맞게 작성하세요.",
+      fields: [["eyebrow", "폼 작은 제목"], ["inquiry", "문의 유형 안내"], ["product", "서비스 문의"],
+        ["collaboration", "협업 문의"], ["other", "기타 문의"], ["name", "이름 입력 안내"],
+        ["email", "이메일 입력 안내"], ["message", "문의 내용 입력 안내"], ["consent", "개인정보 동의 문구"],
+        ["submit", "보내기 버튼"], ["sent", "전송 완료 제목"], ["sentBody", "전송 완료 설명"]]
+        .map(([name, title]) => defineField({ name, title, type: "localizedText" })),
+    }),
     defineField({
       name: "pageLabels",
       title: "화면 이름",
@@ -29,8 +93,16 @@ export const siteSettings = defineType({
       group: "navigation",
       fields: [
         defineField({ name: "intro", title: "Intro", type: "localizedString" }),
-        defineField({ name: "product", title: "Product", type: "localizedString" }),
-        defineField({ name: "contact", title: "Contact", type: "localizedString" }),
+        defineField({
+          name: "product",
+          title: "Product",
+          type: "localizedString",
+        }),
+        defineField({
+          name: "contact",
+          title: "Contact",
+          type: "localizedString",
+        }),
       ],
     }),
     defineField({
@@ -40,7 +112,11 @@ export const siteSettings = defineType({
       group: "navigation",
       fields: [
         defineField({ name: "daily", title: "하루", type: "localizedString" }),
-        defineField({ name: "products", title: "제품", type: "localizedString" }),
+        defineField({
+          name: "products",
+          title: "제품",
+          type: "localizedString",
+        }),
         defineField({ name: "life", title: "삶", type: "localizedString" }),
       ],
     }),
@@ -57,10 +133,14 @@ export const siteSettings = defineType({
     defineField({
       name: "introScenes",
       title: "Intro 장면",
+      description: "이전 슬라이드형 Intro 데이터입니다. 현재 영상형 홈페이지를 편집할 때 입력할 필요가 없습니다.",
       type: "array",
       group: "intro",
       of: [{ type: "introScene" }],
-      validation: (rule) => rule.required().length(4).error("Intro 장면은 현재 홈페이지 구성에 맞게 4개여야 합니다."),
+      validation: (rule) =>
+        rule
+          .length(4)
+          .error("Intro 장면은 현재 홈페이지 구성에 맞게 4개여야 합니다."),
     }),
     localized("dailyEyebrow", "챕터 이름", "daily"),
     localized("dailyTitle", "첫 화면 제목", "daily", true),
@@ -102,7 +182,13 @@ export const siteSettings = defineType({
     localized("contactLabel", "Contact 표시 이름", "contact"),
     localized("contactTitle", "연락처 제목", "contact", true),
     localized("contactBody", "연락처 설명", "contact", true),
-    defineField({ name: "contactEmail", title: "이메일", type: "string", group: "contact", validation: (rule) => rule.email() }),
+    defineField({
+      name: "contactEmail",
+      title: "이메일",
+      type: "string",
+      group: "contact",
+      validation: (rule) => rule.email(),
+    }),
     localized("contactLocation", "위치 문구", "contact"),
     localized("copyright", "저작권 문구", "contact"),
     localized("metaTitle", "사이트 제목", "metadata"),
@@ -117,8 +203,18 @@ export const siteSettings = defineType({
         defineField({ name: "subline", title: "Subline", type: "string" }),
       ],
     }),
-    defineField({ name: "philosophy", title: "이전 Philosophy 데이터", type: "text", hidden: true }),
-    defineField({ name: "studio", title: "이전 Studio 데이터", type: "text", hidden: true }),
+    defineField({
+      name: "philosophy",
+      title: "이전 Philosophy 데이터",
+      type: "text",
+      hidden: true,
+    }),
+    defineField({
+      name: "studio",
+      title: "이전 Studio 데이터",
+      type: "text",
+      hidden: true,
+    }),
     defineField({
       name: "contact",
       title: "이전 Contact 데이터",
@@ -130,5 +226,7 @@ export const siteSettings = defineType({
       ],
     }),
   ],
-  preview: { prepare: () => ({ title: "홈페이지 전체 문구 · 한국어/English" }) },
+  preview: {
+    prepare: () => ({ title: "홈페이지 문구·이미지·영상 · 한국어/English" }),
+  },
 });

@@ -12,7 +12,15 @@ export type DailyScene = {
   time: string;
   title: LocalizedText;
   copy: LocalizedText;
-  visual: "wake" | "meal" | "commute" | "work" | "lunch" | "home" | "family" | "night";
+  visual:
+    | "wake"
+    | "meal"
+    | "commute"
+    | "work"
+    | "lunch"
+    | "home"
+    | "family"
+    | "night";
 };
 
 export type IntroScene = {
@@ -28,10 +36,56 @@ export type LifeStage = {
   age: LocalizedText;
   title: LocalizedText;
   copy: LocalizedText;
-  visual: "baby" | "kindergarten" | "school" | "teen" | "university" | "work" | "family" | "later";
+  visual:
+    | "baby"
+    | "kindergarten"
+    | "school"
+    | "teen"
+    | "university"
+    | "work"
+    | "family"
+    | "later";
 };
 
+export type CinemaCopy = Partial<
+  Record<
+    | "heroSubtitle"
+    | "filmLabel"
+    | "studioNav"
+    | "appsNav"
+    | "storyTitle"
+    | "storyBody"
+    | "worldsTitle"
+    | "worldsBody"
+    | "productTitle"
+    | "growingCaption"
+    | "togetherCaption"
+    | "lookingBackCaption",
+    Partial<LocalizedText>
+  >
+> & Partial<
+  Record<
+    | "appsHeading" | "appsDescription" | "appsMore"
+    | "comingSoonTitle" | "comingSoonBody" | "comingSoonCaption"
+    | "growingNote" | "platformRoadmap" | "footerLegal" | "footerBusiness",
+    Partial<LocalizedText>
+  >
+>;
+
+export type HomepageMedia = Partial<Record<
+  "heroPoster" | "growingImage" | "togetherImage" | "lookingBackImage" | "contactImage" | "villageImage",
+  SanityImage
+>> & { heroVideoUrl?: string; heroMobileVideoUrl?: string; heroRevealAt?: number };
+
+export type ContactFormCopy = Partial<Record<
+  "eyebrow" | "inquiry" | "product" | "collaboration" | "other" | "name" | "email" | "message" | "consent" | "submit" | "sent" | "sentBody",
+  Partial<LocalizedText>
+>>;
+
 export type SiteSettings = {
+  cinema?: CinemaCopy;
+  homepageMedia?: HomepageMedia;
+  contactForm?: ContactFormCopy;
   pageLabels: {
     intro: LocalizedText;
     product: LocalizedText;
@@ -97,6 +151,15 @@ export type SanityImage = {
   alt?: string;
 };
 
+export type ProductVideo = {
+  _key: string;
+  titleI18n?: Partial<LocalizedText>;
+  url: string;
+  aspect?: "landscape" | "portrait";
+  duration?: string;
+  poster?: SanityImage;
+};
+
 export type Product = {
   _id: string;
   name?: string;
@@ -108,8 +171,36 @@ export type Product = {
   sortOrder: number;
   status: PublishStatus;
   appStoreUrl?: string;
+  googlePlayUrl?: string;
+  androidStatus?: "planned" | "available" | "none";
+  iosStatus?: "planned" | "available" | "none";
+  shortDescriptionI18n?: Partial<LocalizedText>;
+  appIcon?: SanityImage;
+  platforms?: Array<{
+    _key: string;
+    platform: "android" | "ios" | "toss" | "web";
+    status: "planned" | "available" | "hidden";
+    url?: string;
+    noteI18n?: Partial<LocalizedText>;
+  }>;
+  localImage?: string;
   webUrl?: string;
   homeScreen?: SanityImage;
+  mascotImage?: SanityImage;
+  detail?: {
+    headlineI18n?: Partial<LocalizedText>;
+    introI18n?: Partial<LocalizedText>;
+    heroImage?: SanityImage;
+    videoHeadingI18n?: Partial<LocalizedText>;
+    videoBodyI18n?: Partial<LocalizedText>;
+    featureHeadingI18n?: Partial<LocalizedText>;
+    featureIntroI18n?: Partial<LocalizedText>;
+    essentialTitleI18n?: Partial<LocalizedText>;
+    essentialBodyI18n?: Partial<LocalizedText>;
+    artNoteI18n?: Partial<LocalizedText>;
+  };
+  highlights?: Array<{ _key: string; label?: Partial<LocalizedText>; description?: Partial<LocalizedText>; image?: SanityImage }>;
+  videos?: ProductVideo[];
   screenshots?: SanityImage[];
   /** @deprecated legacy field */
   screenshot?: SanityImage;

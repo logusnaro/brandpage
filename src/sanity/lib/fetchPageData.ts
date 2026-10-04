@@ -1,4 +1,5 @@
 import { cache } from "react";
+import { mergeLaunchCatalogue } from "@/lib/launchCatalogue";
 import { client } from "../client";
 import { fallbackPageData, fallbackSiteSettings } from "./fallback";
 import { productsQuery, siteSettingsQuery, socialLinksQuery } from "./queries";
@@ -239,11 +240,7 @@ async function loadPageData(): Promise<PageData> {
           ? "sanity"
           : "fallback",
       settings: mergeSettings(rawSettings),
-      products: rawSettings
-        ? (products ?? [])
-        : products?.length
-          ? products
-          : fallbackPageData.products,
+      products: mergeLaunchCatalogue(products ?? []),
       socialLinks: rawSettings
         ? (socialLinks ?? [])
         : socialLinks?.length
@@ -251,7 +248,7 @@ async function loadPageData(): Promise<PageData> {
           : fallbackPageData.socialLinks,
     };
   } catch {
-    return fallbackPageData;
+    return { ...fallbackPageData, products: mergeLaunchCatalogue(fallbackPageData.products) };
   }
 }
 

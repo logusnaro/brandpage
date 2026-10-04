@@ -157,6 +157,14 @@ export type Product = {
   iosStatus?: "planned" | "available" | "none";
   shortDescriptionI18n?: Partial<LocalizedText>;
   appIcon?: SanityImage;
+  platforms?: Array<{
+    _key: string;
+    platform: "android" | "ios" | "toss" | "web";
+    status: "planned" | "available" | "hidden";
+    url?: string;
+    noteI18n?: Partial<LocalizedText>;
+  }>;
+  localImage?: string;
   webUrl?: string;
   homeScreen?: SanityImage;
   mascotImage?: SanityImage;

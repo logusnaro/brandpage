@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { urlFor } from "@/sanity/lib/image";
 import type { Locale, LocalizedText, Product, ProductVideo } from "@/sanity/lib/types";
-import { productPath, productDownloads } from "@/lib/productLinks";
+import { productPath, productDownloads, platformName } from "@/lib/productLinks";
 
 type FilmClip = ProductVideo & { localPoster?: string };
 type ClipSource = {
@@ -97,12 +97,14 @@ export function ProductDownloads({ product, locale }: { product: Product; locale
       <div className="app-download-buttons">
         {downloads.map((item) => item.url ? (
           <a key={item.platform} href={item.url} target="_blank" rel="noreferrer">
-            <small>{item.platform === "web" ? "BROWSER" : item.platform === "android" ? "ANDROID" : "iOS"}</small>
-            <span>{item.label === "Web" ? (locale === "ko" ? "웹에서 시작하기" : "Open web app") : item.label} <span aria-hidden="true">↗</span></span>
+            <small>{platformName(item.platform, locale)}</small>
+            <span>{item.platform === "web" ? (locale === "ko" ? "웹에서 시작하기" : "Open web app") : item.platform === "toss" ? (locale === "ko" ? "토스에서 이용하기" : "Open in Toss") : item.label} <span aria-hidden="true">↗</span></span>
+            {localized(item.noteI18n, locale) ? <small>{localized(item.noteI18n, locale)}</small> : null}
           </a>
         ) : (
           <span className="app-platform-planned" key={item.platform}>
-            {item.platform === "android" ? "Android" : "iOS"} · {locale === "ko" ? "준비 중" : "Coming soon"}
+            {platformName(item.platform, locale)} · {locale === "ko" ? "준비 중" : "Coming soon"}
+            {localized(item.noteI18n, locale) ? <small>{localized(item.noteI18n, locale)}</small> : null}
           </span>
         ))}
         {downloads.length === 0 ? (
@@ -113,8 +115,24 @@ export function ProductDownloads({ product, locale }: { product: Product; locale
   );
 }
 
+export function ProductPlatforms({ product, locale }: { product: Product; locale: Locale }) {
+  const platforms = productDownloads(product);
+  return (
+    <div className="app-platform-badges" aria-label={locale === "ko" ? "이용 플랫폼" : "Available platforms"}>
+      {platforms.length ? platforms.map((item) => (
+        <span key={item.platform} className={item.url ? "is-available" : "is-planned"}>
+          <span className="app-platform-dot" aria-hidden="true" />
+          {platformName(item.platform, locale)} · {item.url ? locale === "ko" ? "이용 가능" : "Available" : locale === "ko" ? "준비 중" : "Coming soon"}
+          {localized(item.noteI18n, locale) ? <small>{localized(item.noteI18n, locale)}</small> : null}
+        </span>
+      )) : <span className="app-platform-unannounced">{locale === "ko" ? "플랫폼 안내 예정" : "Platforms to be announced"}</span>}
+    </div>
+  );
+}
+
 export function ProductCollection({ products, locale, limit }: { products: Product[]; locale: Locale; limit?: number }) {
   const shown = limit ? products.slice(0, limit) : products;
+  const upcomingCount = products.length >= 4 ? Math.max(0, 6 - products.length) : 0;
   return (
     <div className="app-collection">
       <div className="app-collection-bar">
@@ -126,7 +144,6 @@ export function ProductCollection({ products, locale, limit }: { products: Produ
           const ppuri = isDayByBaby(product);
           const name = productName(product, locale);
           const mascot = product.mascotImage?.asset ? urlFor(product.mascotImage).width(800).url() : ppuri ? "/films/ppuri.webp" : productImage(product);
-          const platforms = productDownloads(product).filter((item) => item.url);
           return (
             <Link className={`app-card app-palette-${index % 4}`} key={product._id} href={productPath(product, locale)}>
               <div className={`app-card-art ${ppuri || product.mascotImage?.asset ? "has-mascot" : ""}`}>
@@ -140,14 +157,29 @@ export function ProductCollection({ products, locale, limit }: { products: Produ
                   <h3>{name}</h3>
                 </div>
                 <p>{localized(product.shortDescriptionI18n, locale, localized(product.descriptionI18n, locale, product.description))}</p>
+                <ProductPlatforms product={product} locale={locale} />
                 <div className="app-card-bottom">
-                  <span>{platforms.length ? platforms.map((item) => item.platform === "android" ? "Android" : item.platform === "ios" ? "iOS" : "Web").join(" / ") : locale === "ko" ? "출시 준비 중" : "Coming soon"}</span>
+                  <span>{localized(product.categoryI18n, locale, "logUs Studio")}</span>
                   <span>{locale === "ko" ? "앱 소개" : "Discover"}</span>
                 </div>
               </div>
             </Link>
           );
         })}
+        {Array.from({ length: upcomingCount }, (_, index) => (
+          <article className="app-card app-card-upcoming" key={`upcoming-${index}`} aria-label={locale === "ko" ? "새로운 앱 준비 중" : "A new app is coming"}>
+            <div className="app-card-art">
+              <span className="app-card-category">A NEW NEIGHBOR</span>
+              <div className="app-pebble-preview" aria-hidden="true"><span>··</span></div>
+              <span className="app-upcoming-index">0{shown.length + index + 1}</span>
+            </div>
+            <div className="app-card-info">
+              <h3>Coming soon</h3>
+              <p>{locale === "ko" ? "또 다른 하루를 함께할 logU가 찾아옵니다." : "Another logU is finding its way to your everyday life."}</p>
+              <div className="app-card-bottom"><span>{locale === "ko" ? "새로운 이웃을 준비하고 있어요" : "A new neighbor is on the way"}</span></div>
+            </div>
+          </article>
+        ))}
         {shown.length < 3 ? (
           <aside className="app-village-note">
             <span>THE logU NEIGHBORHOOD</span>
@@ -160,6 +192,12 @@ export function ProductCollection({ products, locale, limit }: { products: Produ
         ) : null}
       </div>
       {limit && products.length > limit ? <Link className="app-collection-more" href={`/apps?lang=${locale}`}>{locale === "ko" ? "나머지 앱 모두 보기" : "See the full collection"} ↗</Link> : null}
+      {products.length >= 4 ? (
+        <aside className="app-platform-roadmap">
+          <span>APPS IN TOSS</span>
+          <p>{locale === "ko" ? "일부 기능은 앱인토스 미니앱으로도 찾아갈 예정이에요. 전체 앱과 제공 범위가 다르며, 앱별 기능과 일정은 확정 후 안내합니다." : "Selected features are planned as mini-apps in Toss. Their scope differs from the full apps; supported features and timing will be announced when confirmed."}</p>
+        </aside>
+      ) : null}
     </div>
   );
 }
@@ -170,7 +208,7 @@ function productImage(product: Product) {
     : product.screenshot;
   return image?.asset
     ? urlFor(image).width(1000).height(800).fit("crop").url()
-    : "/story/product/product-origin-v1.webp";
+    : product.localImage || "/story/product/product-origin-v1.webp";
 }
 
 function resolveClipSource(raw: string): ClipSource | null {

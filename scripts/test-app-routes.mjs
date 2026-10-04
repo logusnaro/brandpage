@@ -12,6 +12,12 @@ assert.ok(home.html.includes('id="intro"') && home.html.includes('id="contact"')
 assert.ok(!home.html.includes('class="film-player'));
 const all = await page("/apps");
 assert.ok(all.html.includes("THE logU NEIGHBORHOOD") && all.html.includes("/apps/bebe?lang=ko"));
+for (const name of ["DayByBaby", "MemoGrip", "GoodGo", "BookBap"]) assert.ok(all.html.includes(name));
+assert.equal((home.html.match(/class="app-card app-card-upcoming"/g) || []).length, 2);
+for (const slug of ["memogrip", "goodgo", "bookbap"]) {
+  const app = await page("/apps/" + slug);
+  assert.ok(app.html.includes("<h1"));
+}
 const detail = await page("/apps/bebe");
 assert.ok(detail.html.includes("<h1") && detail.html.includes("DayByBaby"));
 assert.ok(detail.html.includes("Android ·") && detail.html.includes("iOS ·"));

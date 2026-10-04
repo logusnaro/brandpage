@@ -37,6 +37,18 @@ assert.ok(directory.includes("Explore all apps"));
 assert.ok(!directory.includes("app-village-note"));
 const one = render(exports.ProductCollection, { products: [product], locale: "ko" });
 assert.ok(one.includes("app-village-note") && one.includes("/apps/bebe?lang=ko"));
+const four = render(exports.ProductCollection, { products: ten.slice(0, 4), locale: "ko", limit: 6 });
+assert.equal((four.match(/app-card-upcoming/g) || []).length, 2);
+assert.equal((four.match(/class="app-card app-palette/g) || []).length, 4);
+assert.equal((four.match(/Coming soon/g) || []).length, 2);
+const five = render(exports.ProductCollection, { products: ten.slice(0, 5), locale: "en" });
+assert.equal((five.match(/app-card-upcoming/g) || []).length, 1);
+const badges = render(exports.ProductPlatforms, { product: { ...product, platforms: [
+  { _key: "a", platform: "android", status: "available", url: "https://play.google.com/app" },
+  { _key: "b", platform: "ios", status: "planned" },
+  { _key: "c", platform: "toss", status: "planned" },
+] }, locale: "ko" });
+assert.ok(badges.includes("Android · 이용 가능") && badges.includes("iOS · 준비 중") && badges.includes("앱인토스 · 준비 중"));
 const detail = render(exports.ProductShowcase, { product, index: 0, locale: "ko" });
 assert.equal((detail.match(/<h1 /g) || []).length, 1);
 assert.ok(detail.includes("Android · 준비 중") && detail.includes("iOS · 준비 중"));

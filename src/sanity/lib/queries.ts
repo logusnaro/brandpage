@@ -48,7 +48,7 @@ export const siteSettingsQuery = groq`
 `;
 
 export const productsQuery = groq`
-  *[_type == "product" && status == "published"] | order(sortOrder asc) {
+  *[_type == "product"] | order(sortOrder asc) {
     _id,
     "name": name.current,
     displayName,
@@ -64,6 +64,7 @@ export const productsQuery = groq`
     iosStatus,
     shortDescriptionI18n,
     appIcon,
+    platforms[]{ _key, platform, status, url, noteI18n },
     webUrl,
     homeScreen,
     mascotImage,

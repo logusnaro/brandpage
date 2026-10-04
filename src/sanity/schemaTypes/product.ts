@@ -79,6 +79,50 @@ export const product = defineType({
       options: { hotspot: true },
     }),
     defineField({
+      name: "platforms",
+      title: "이용 플랫폼 · 출시 상태",
+      description: "앱별 Android/iOS/앱인토스/웹을 각각 추가하세요. 플랫폼마다 상태와 링크를 따로 관리합니다. 빈 목록은 기존 플랫폼 안내를 숨기며, 이 항목이 있으면 아래 이전 링크보다 우선합니다.",
+      type: "array",
+      of: [{
+        type: "object",
+        fields: [
+          defineField({
+            name: "platform", title: "플랫폼", type: "string",
+            options: { list: [
+              { title: "Android · Google Play", value: "android" },
+              { title: "iOS · App Store", value: "ios" },
+              { title: "앱인토스 · Apps in Toss", value: "toss" },
+              { title: "웹 · Web", value: "web" },
+            ] }, validation: (rule) => rule.required(),
+          }),
+          defineField({
+            name: "status", title: "상태", type: "string", initialValue: "planned",
+            options: { list: [
+              { title: "준비 중", value: "planned" },
+              { title: "이용 가능", value: "available" },
+              { title: "표시하지 않음", value: "hidden" },
+            ] }, validation: (rule) => rule.required(),
+          }),
+          defineField({
+            name: "noteI18n", title: "제공 범위 / 일정 · 한국어/English", type: "localizedString",
+            description: "예: 2026년 출시 예정 / 2027년 초 목표 / 일부 기능만 제공. 앱인토스 미니앱이면 제공 기능을 명시하세요.",
+          }),
+          defineField({
+            name: "url", title: "스토어 / 서비스 접속 링크", type: "url",
+            description: "이용 가능 상태에는 실제 HTTPS 링크가 필요합니다. 앱인토스는 공유용 HTTPS 링크를 넣으세요.",
+            validation: (rule) => rule.uri({ scheme: ["https"] }).custom((value, context) =>
+              (context.parent as { status?: string })?.status !== "available" || Boolean(value) || "이용 가능한 플랫폼의 링크를 입력하세요."),
+          }),
+        ],
+        preview: { select: { title: "platform", subtitle: "status" } },
+      }],
+      validation: (rule) => rule.custom((value) => {
+        const entries = value as Array<{ platform?: string }> | undefined;
+        const platforms = entries?.map((item) => item.platform).filter(Boolean) || [];
+        return new Set(platforms).size === platforms.length || "같은 플랫폼은 한 번만 추가하세요.";
+      }),
+    }),
+    defineField({
       name: "googlePlayUrl",
       title: "Google Play URL (Android)",
       type: "url",

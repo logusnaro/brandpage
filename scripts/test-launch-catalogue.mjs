@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { mergeLaunchCatalogue } from "../src/lib/launchCatalogue.ts";
 
 const initial = mergeLaunchCatalogue([]);
-assert.deepEqual(initial.map((item) => item.displayName), ["DayByBaby", "MemoGrip", "GoodGo", "BookBap"]);
+assert.deepEqual(initial.map((item) => item.displayName), ["DayByBaby", "MemoGrip", "GOODgo", "BookBap"]);
 assert.ok(initial.every((item) => !item.googlePlayUrl && !item.appStoreUrl && !item.webUrl));
 assert.ok(initial.every((item) => item.platforms.length === 2 && item.platforms.every((platform) => platform.status === "planned")));
 const oldDraft = mergeLaunchCatalogue([{ _id: "private", name: "allinmemo", displayName: "Private old name", status: "draft", description: "Private draft content" }]);

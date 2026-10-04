@@ -21,7 +21,7 @@ export const launchCatalogue: Product[] = [
     platforms: [],
   },
   {
-    _id: "catalogue-goodgo", name: "goodgo", displayName: "GoodGo",
+    _id: "catalogue-goodgo", name: "goodgo", displayName: "GOODgo",
     status: "published", sortOrder: 2,
     description: "Plan when to get ready and leave, with what you need.",
     descriptionI18n: { ko: "준비부터 출발까지, 시간과 준비물을 챙겨요.", en: "From getting ready to heading out, keep time and essentials together." },

@@ -13,7 +13,7 @@ assert.ok(!home.html.includes('class="film-player'));
 const all = await page("/apps");
 assert.ok(all.html.includes("app-neighborhood-panorama") && all.html.includes("/apps/bebe?lang=ko"));
 assert.ok(home.html.includes("app-neighborhood-heading") && all.html.includes("저마다의 하루"));
-for (const name of ["DayByBaby", "MemoGrip", "GoodGo", "BookBap"]) assert.ok(all.html.includes(name));
+for (const name of ["DayByBaby", "MemoGrip", "GOODgo", "BookBap"]) assert.ok(all.html.includes(name));
 assert.equal((home.html.match(/class="app-card app-card-upcoming"/g) || []).length, 2);
 for (const slug of ["memogrip", "goodgo", "bookbap"]) {
   const app = await page("/apps/" + slug);

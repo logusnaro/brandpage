@@ -168,7 +168,15 @@ export type Product = {
   webUrl?: string;
   homeScreen?: SanityImage;
   mascotImage?: SanityImage;
-  highlights?: Array<{ _key: string; label?: Partial<LocalizedText>; description?: Partial<LocalizedText> }>;
+  detail?: {
+    headlineI18n?: Partial<LocalizedText>;
+    introI18n?: Partial<LocalizedText>;
+    heroImage?: SanityImage;
+    videoHeadingI18n?: Partial<LocalizedText>;
+    videoBodyI18n?: Partial<LocalizedText>;
+    featureHeadingI18n?: Partial<LocalizedText>;
+  };
+  highlights?: Array<{ _key: string; label?: Partial<LocalizedText>; description?: Partial<LocalizedText>; image?: SanityImage }>;
   videos?: ProductVideo[];
   screenshots?: SanityImage[];
   /** @deprecated legacy field */

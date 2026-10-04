@@ -178,6 +178,18 @@ export const product = defineType({
       options: { hotspot: true },
     }),
     defineField({
+      name: "detail", title: "앱 소개 페이지 · 방과 이야기", type: "object",
+      description: "앱 상세 페이지만 변경합니다. 비워두면 기본 소개가 표시됩니다.",
+      fields: [
+        defineField({ name: "headlineI18n", title: "첫 화면 제목 · 한국어/English", type: "localizedText" }),
+        defineField({ name: "introI18n", title: "첫 화면 설명 · 한국어/English", type: "localizedText" }),
+        defineField({ name: "heroImage", title: "첫 화면 배경 · 글자 없는 가로 이미지", type: "image", options: { hotspot: true } }),
+        defineField({ name: "videoHeadingI18n", title: "영상 영역 제목 · 한국어/English", type: "localizedText" }),
+        defineField({ name: "videoBodyI18n", title: "영상 영역 설명 · 한국어/English", type: "localizedText" }),
+        defineField({ name: "featureHeadingI18n", title: "기능 영역 제목 · 한국어/English", type: "localizedString" }),
+      ],
+    }),
+    defineField({
       name: "highlights",
       title: "서비스 특징 · 한국어/English",
       type: "array",
@@ -186,6 +198,7 @@ export const product = defineType({
         fields: [
           defineField({ name: "label", title: "특징", type: "localizedString" }),
           defineField({ name: "description", title: "특징 설명 · 한국어/English", type: "localizedText" }),
+          defineField({ name: "image", title: "기능 이미지 (실제 화면 또는 설명용 그림)", type: "image", options: { hotspot: true } }),
         ],
         preview: { select: { title: "label.ko", subtitle: "label.en" } },
       }],

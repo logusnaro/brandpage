@@ -8,6 +8,7 @@ import ts from "typescript";
 import React from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import * as links from "../src/lib/productLinks.ts";
+import * as rooms from "../src/lib/appDetailContent.ts";
 
 const require = createRequire(import.meta.url);
 const source = readFileSync(new URL("../src/components/AppProducts.tsx", import.meta.url), "utf8");
@@ -20,6 +21,7 @@ vm.runInNewContext(compiled, {
     if (id === "next/image") return { __esModule: true, default: ({ src, alt, width, height }) => React.createElement("img", { src, alt, width, height }) };
     if (id === "next/link") return { __esModule: true, default: ({ children, ...props }) => React.createElement("a", props, children) };
     if (id === "@/lib/productLinks") return links;
+    if (id === "@/lib/appDetailContent") return rooms;
     if (id === "@/sanity/lib/image") return { urlFor: () => imageBuilder };
     return require(id);
   },
@@ -66,6 +68,16 @@ assert.equal((detail.match(/aria-pressed="/g) || []).length, 3);
 assert.ok(detail.includes("<details"));
 const english = render(exports.ProductShowcase, { product, index: 0, locale: "en" });
 assert.ok(english.includes("Less effort to log"));
+assert.ok(detail.includes("app-room-hero") && detail.includes("daybybaby-room-v1.webp"));
+assert.ok(detail.indexOf("app-room-videos") < detail.indexOf("app-room-features"), "Video precedes features as approved");
+assert.ok(!detail.includes("<video") && !detail.includes("<iframe"), "No media loads or plays before user interaction");
+for (const name of ["memogrip", "goodgo", "bookbap"]) {
+  const markup = render(exports.ProductShowcase, { product: { ...product, name, displayName: name }, index: 0, locale: "ko" });
+  assert.ok(markup.includes("app-room-neighbor") && markup.includes("app-feature-grid"));
+  assert.ok(!markup.includes("응급 연락처") && !markup.includes("film-video-area"));
+}
+const custom = render(exports.ProductShowcase, { product: { ...product, detail: { headlineI18n: { ko: "관리자가 바꾼 제목" }, introI18n: { ko: "관리자가 바꾼 설명" } }, highlights: [{ _key: "custom", label: { ko: "맞춤 기능" }, description: { ko: "맞춤 설명" }, image: { asset: { _ref: "test" } } }] }, index: 0, locale: "ko" });
+for (const value of ["관리자가 바꾼 제목", "관리자가 바꾼 설명", "맞춤 기능", "맞춤 설명"]) assert.ok(custom.includes(value));
 const empty = render(exports.ProductShowcase, { product: { ...product, videos: [], highlights: [] }, index: 0, locale: "ko" });
 assert.ok(!empty.includes("film-video-area") && !empty.includes("app-feature-section"));
 const allDownloads = render(exports.ProductDownloads, { product: { ...product, googlePlayUrl: "https://play.google.com/app", appStoreUrl: "https://apps.apple.com/app", webUrl: "https://example.com" }, locale: "ko" });

@@ -1,0 +1,610 @@
+/* Detail pages only. The homepage and Apps catalogue stay unchanged. */
+.app-room-site {
+  --room-paper: #fbf8f2;
+  --room-brown: #603529;
+  background: var(--room-paper);
+  color: #253b31;
+}
+.app-room-site .app-directory-main {
+  max-width: none;
+  padding: 0;
+}
+.app-room-site .app-directory-header {
+  min-height: 86px;
+  padding: 20px 5.5vw;
+  position: relative;
+  z-index: 3;
+  background: var(--room-paper);
+  border-bottom: 1px solid #6c524416;
+}
+.app-room-site .app-directory-header .cinema-wordmark {
+  font-size: 25px;
+}
+.app-room-site .app-directory-header nav {
+  gap: 38px;
+}
+.app-room-site .app-directory-header nav a {
+  font-size: 13px;
+}
+.app-room-service a {
+  color: inherit;
+  text-decoration: none;
+}
+.app-room-hero {
+  position: relative;
+  min-height: min(760px, 55vw);
+  display: flex;
+  align-items: center;
+  isolation: isolate;
+}
+.app-room-scene {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+}
+.app-room-scene img {
+  object-fit: cover;
+  object-position: center center;
+}
+.app-room-ppuri .app-room-scene::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      90deg,
+      #fbf8f2 0%,
+      #fbf8f2 35%,
+      #fbf8f2d9 42%,
+      transparent 60%
+    ),
+    linear-gradient(0deg, #fbf8f2 0%, transparent 15%);
+}
+.app-room-neighbor .app-room-scene {
+  left: 39%;
+}
+.app-room-neighbor .app-room-scene::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, #fbf8f2, #fbf8f200 35%),
+    linear-gradient(0deg, #fbf8f2, #fbf8f200 25%);
+}
+.app-room-copy {
+  width: 48%;
+  padding: 36px 0 70px 6.5vw;
+}
+.app-room-breadcrumb {
+  display: flex;
+  gap: 14px;
+  font-size: 12px;
+  color: #827469 !important;
+  margin-bottom: 47px;
+}
+.app-room-breadcrumb span {
+  opacity: 0.45;
+}
+.app-room-identity {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  font-size: 21px;
+  font-weight: 620;
+  color: var(--room-brown);
+}
+.app-room-identity img,
+.app-room-mark {
+  border-radius: 12px;
+}
+.app-room-mark {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  background: #cf7862;
+  color: #fff5e8;
+  font-size: 30px;
+}
+.app-room-copy h1 {
+  margin: 27px 0 22px;
+  font-size: clamp(35px, 3.55vw, 60px);
+  font-weight: 650;
+  line-height: 1.27;
+  letter-spacing: -0.045em;
+  color: var(--room-brown);
+  white-space: pre-line;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+.app-room-copy > p {
+  max-width: 365px;
+  font-size: 16px;
+  line-height: 1.9;
+  color: #77695d;
+  word-break: keep-all;
+  margin: 0 0 28px;
+}
+.app-room-site .app-downloads {
+  margin: 0;
+}
+.app-room-site .app-download-label {
+  font-size: 11px;
+  color: #8b7d70;
+  letter-spacing: 0;
+  margin-bottom: 12px;
+}
+.app-room-site .app-download-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.app-room-site .app-download-buttons > a,
+.app-room-site .app-platform-planned {
+  flex: 0 1 auto;
+  border: 1px solid #796b5938;
+  border-radius: 7px;
+  padding: 12px 18px;
+  min-width: 145px;
+  color: #74685c;
+  background: #fbf8f2a6;
+  font-size: 12px;
+  line-height: 1.5;
+}
+.app-room-site .app-download-buttons > a {
+  color: #fbf8f2;
+  background: #253b31;
+}
+.app-room-site .app-download-buttons small {
+  display: block;
+  font-size: 10px;
+  line-height: 1.7;
+  font-weight: 400;
+}
+.app-room-site .app-download-buttons a:hover {
+  background: #3d5546;
+}
+.app-room-content {
+  max-width: 1440px;
+  margin: auto;
+  padding: 30px 6.5vw 0;
+}
+.app-room-videos {
+  display: grid;
+  grid-template-columns: minmax(0, 0.37fr) minmax(0, 0.63fr);
+  gap: 55px;
+  margin: 0 0 95px;
+  padding-top: 25px;
+}
+.app-room-video-copy {
+  padding: 18px 0 0;
+}
+.app-room-site .app-eyebrow {
+  font-size: 10px;
+  color: #897567;
+  letter-spacing: 0.12em;
+}
+.app-room-video-copy h2 {
+  font-size: clamp(28px, 3.3vw, 45px);
+  color: var(--room-brown);
+  font-weight: 600;
+  white-space: pre-line;
+  letter-spacing: -0.045em;
+  line-height: 1.35;
+  margin: 25px 0 20px;
+}
+.app-room-video-copy p {
+  font-size: 14px;
+  line-height: 1.9;
+  max-width: 290px;
+  color: #87766a;
+  word-break: keep-all;
+}
+.app-room-video-mascot {
+  width: 190px;
+  height: 185px;
+  object-fit: contain;
+  margin-top: 12px;
+}
+.app-room-videos .film-player {
+  width: 100%;
+  aspect-ratio: 16/9;
+  position: relative;
+  background: #e9d9c7;
+  border-radius: 12px;
+  overflow: hidden;
+}
+.app-room-videos .film-player-image {
+  object-fit: contain;
+}
+.app-room-videos .film-player-poster {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  cursor: pointer;
+  background: transparent;
+}
+.app-room-videos .film-player-play {
+  display: grid;
+  place-items: center;
+  gap: 5px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 115px;
+  height: 65px;
+  border-radius: 60px;
+  background: #fbf8f2ed;
+  color: #63432c;
+  box-shadow: 0 8px 30px #563c2830;
+  font-size: 13px;
+}
+.app-room-videos .film-player video,
+.app-room-videos .film-player iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border: 0;
+}
+.app-room-videos .film-video-options {
+  display: flex;
+  gap: 8px;
+  margin: 16px 0 12px;
+  flex-wrap: wrap;
+}
+.app-room-videos .film-video-options button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 17px;
+  font-size: 12px;
+  border-radius: 30px;
+  border: 1px solid #8c76663d;
+  background: transparent;
+  color: #83766a;
+  cursor: pointer;
+  min-height: 44px;
+}
+.app-room-videos .film-video-options button.selected {
+  background: #634435;
+  color: #fff6e9;
+  border-color: #634435;
+}
+.app-room-videos .film-video-options button small {
+  font-size: 10px;
+  opacity: 0.8;
+}
+.app-room-videos .film-video-direct {
+  font-size: 11px;
+  color: #7a6a5d;
+}
+.app-room-site .app-video-note {
+  font-size: 10px;
+  color: #887e73;
+  line-height: 1.8;
+  margin-top: 15px;
+}
+.app-room-site .app-extra-films {
+  padding: 10px 0;
+  margin-top: 20px;
+  font-size: 11px;
+}
+.app-room-features {
+  margin: 0;
+  padding: 0 0 75px;
+  border: 0;
+}
+.app-room-features h2 {
+  font-size: clamp(25px, 2.5vw, 36px);
+  color: var(--room-brown);
+  font-weight: 570;
+  margin: 17px 0 35px;
+  letter-spacing: -0.035em;
+  line-height: 1.5;
+}
+.app-room-features .app-feature-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 26px;
+}
+.app-room-features .app-feature-grid article {
+  border: 0;
+  padding: 0;
+  background: none;
+}
+.app-room-feature-art {
+  position: relative;
+  aspect-ratio: 1.62;
+  overflow: hidden;
+  border-radius: 9px;
+  background: #efdfce;
+}
+.app-room-feature-art img {
+  object-fit: cover;
+}
+.app-room-features .app-feature-grid h3 {
+  margin: 22px 0 10px;
+  font-size: 19px;
+  font-weight: 580;
+  color: #634536;
+}
+.app-room-features .app-feature-grid p {
+  font-size: 13px;
+  line-height: 1.9;
+  color: #807266;
+  word-break: keep-all;
+  margin: 0;
+}
+.app-room-art-note {
+  font-size: 10px;
+  color: #8e8174;
+  margin: 25px 0 0;
+}
+.app-room-download {
+  padding: 35px 0 55px;
+  margin-top: 0;
+}
+.app-room-download h2 {
+  font-size: 28px;
+  font-weight: 560;
+  letter-spacing: -0.035em;
+  color: var(--room-brown);
+}
+.app-room-related {
+  padding: 42px 6.5vw;
+  background: #eef0e7;
+}
+.app-room-related h2 {
+  font-size: 23px;
+  font-weight: 550;
+  letter-spacing: -0.025em;
+  margin: 0 0 28px;
+}
+.app-room-neighbors {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 35px;
+}
+.app-room-neighbors a {
+  color: inherit;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 17px;
+  min-width: 0;
+}
+.app-room-neighbors img {
+  width: 67px;
+  height: 67px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+.app-room-neighbors a > span:nth-child(2) {
+  flex: 1;
+  min-width: 0;
+}
+.app-room-neighbors strong {
+  font-size: 17px;
+  font-weight: 570;
+  display: block;
+  margin-bottom: 8px;
+}
+.app-room-neighbors small {
+  font-size: 11px;
+  color: #718070;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  line-height: 1.6;
+}
+.app-room-all {
+  display: inline-block;
+  margin-top: 30px;
+  color: #65725f;
+  font-size: 12px;
+  text-decoration: none;
+}
+.app-room-site a:focus-visible,
+.app-room-site button:focus-visible,
+.app-room-site summary:focus-visible {
+  outline: 2px solid #634435;
+  outline-offset: 5px;
+}
+@media (min-width: 1700px) {
+  .app-room-hero {
+    min-height: 850px;
+  }
+  .app-room-copy {
+    padding-left: max(6.5vw, calc((100vw - 1440px) / 2));
+  }
+}
+@media (max-width: 1050px) {
+  .app-room-copy {
+    width: 53%;
+  }
+  .app-room-copy h1 {
+    font-size: 36px;
+  }
+  .app-room-breadcrumb {
+    margin-bottom: 30px;
+  }
+  .app-room-hero {
+    min-height: 670px;
+  }
+  .app-room-videos {
+    gap: 30px;
+  }
+}
+@media (max-width: 760px) {
+  .app-room-site .app-directory-header {
+    padding: 18px 22px;
+    gap: 15px;
+    min-height: auto;
+  }
+  .app-room-site .app-directory-header .cinema-wordmark {
+    font-size: 21px;
+  }
+  .app-room-site .app-directory-header nav {
+    gap: 16px;
+  }
+  .app-room-site .app-directory-header nav a {
+    font-size: 11px;
+  }
+  .app-room-site .app-language {
+    width: 100%;
+    gap: 15px;
+    font-size: 11px;
+  }
+  .app-room-hero {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    min-height: 0;
+  }
+  .app-room-copy {
+    width: 100%;
+    padding: 28px 24px 20px;
+    order: 0;
+  }
+  .app-room-breadcrumb {
+    margin-bottom: 28px;
+    font-size: 11px;
+  }
+  .app-room-identity {
+    font-size: 18px;
+  }
+  .app-room-copy h1 {
+    font-size: clamp(30px, 7.6vw, 43px);
+    margin: 23px 0 20px;
+    line-height: 1.33;
+  }
+  .app-room-copy > p {
+    font-size: 14px;
+    max-width: 340px;
+    margin-bottom: 23px;
+  }
+  .app-room-scene,
+  .app-room-neighbor .app-room-scene {
+    position: relative;
+    inset: auto;
+    order: 1;
+    width: 100%;
+    height: 330px;
+    z-index: 0;
+  }
+  .app-room-ppuri .app-room-scene img {
+    object-fit: cover;
+    object-position: 77% center;
+    width: 180% !important;
+    max-width: none;
+    left: -80% !important;
+  }
+  .app-room-ppuri .app-room-scene::after {
+    background: linear-gradient(
+      180deg,
+      #fbf8f2 0%,
+      transparent 22%,
+      transparent 80%,
+      #fbf8f2 100%
+    );
+  }
+  .app-room-neighbor .app-room-scene img {
+    object-position: center 65%;
+  }
+  .app-room-neighbor .app-room-scene::after {
+    background: linear-gradient(
+      180deg,
+      #fbf8f2,
+      transparent 15%,
+      transparent 82%,
+      #fbf8f2
+    );
+  }
+  .app-room-content {
+    padding: 35px 24px 0;
+  }
+  .app-room-videos {
+    grid-template-columns: 1fr;
+    gap: 22px;
+    margin-bottom: 55px;
+    padding: 0;
+  }
+  .app-room-video-copy {
+    position: relative;
+    padding: 0 105px 0 0;
+  }
+  .app-room-video-copy h2 {
+    font-size: 29px;
+    margin: 17px 0 13px;
+  }
+  .app-room-video-copy p {
+    font-size: 12px;
+    margin-bottom: 0;
+  }
+  .app-room-video-mascot {
+    position: absolute;
+    width: 105px;
+    height: 130px;
+    right: 0;
+    bottom: 0;
+    margin: 0;
+  }
+  .app-room-videos .film-player-play {
+    width: 98px;
+    height: 54px;
+    font-size: 11px;
+  }
+  .app-room-videos .film-video-options {
+    gap: 6px;
+  }
+  .app-room-videos .film-video-options button {
+    padding: 9px 12px;
+    font-size: 11px;
+    gap: 8px;
+    flex: 1 1 auto;
+  }
+  .app-room-features {
+    padding-bottom: 40px;
+  }
+  .app-room-features .app-feature-grid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+  .app-room-feature-art {
+    aspect-ratio: 1.65;
+  }
+  .app-room-features h2 {
+    font-size: 25px;
+    margin-bottom: 26px;
+  }
+  .app-room-features .app-feature-grid h3 {
+    margin-top: 17px;
+  }
+  .app-room-download h2 {
+    font-size: 24px;
+  }
+  .app-room-related {
+    padding: 35px 24px;
+  }
+  .app-room-neighbors {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  .app-room-neighbors img {
+    width: 60px;
+    height: 60px;
+  }
+  .app-room-site .app-download-buttons > a,
+  .app-room-site .app-platform-planned {
+    padding: 10px 13px;
+    min-width: 137px;
+  }
+}

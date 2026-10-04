@@ -6,6 +6,7 @@ import { useState } from "react";
 import { urlFor } from "@/sanity/lib/image";
 import type { Locale, LocalizedText, Product, ProductVideo } from "@/sanity/lib/types";
 import { productPath, productDownloads, platformName } from "@/lib/productLinks";
+import { appRoom } from "@/lib/appDetailContent";
 
 type FilmClip = ProductVideo & { localPoster?: string };
 type ClipSource = {
@@ -55,12 +56,6 @@ const dayByBabyClips: FilmClip[] = [
     duration: "0:35",
     localPoster: "/films/daybybaby-vertical-guide.webp",
   },
-];
-
-const dayByBabyHighlights: Array<Partial<LocalizedText>> = [
-  { ko: "간편 입력", en: "Quick logging" },
-  { ko: "하루를 한눈에", en: "Your day at a glance" },
-  { ko: "하루의 기록", en: "Daily memories" },
 ];
 
 export function localized(
@@ -290,257 +285,322 @@ export function ProductShowcase({
 }) {
   const [selectedClip, setSelectedClip] = useState(0);
   const [playing, setPlaying] = useState(false);
+  const [playbackFailed, setPlaybackFailed] = useState(false);
   const ppuri = isDayByBaby(product);
   const name = productName(product, locale);
+  const room = appRoom(product);
+  const detail = product.detail;
+  const hero = detail?.heroImage?.asset
+    ? urlFor(detail.heroImage).width(2000).url()
+    : room.hero;
   const mascot = product.mascotImage?.asset
-    ? urlFor(product.mascotImage).width(900).url()
+    ? urlFor(product.mascotImage).width(500).url()
     : ppuri
       ? "/films/ppuri.webp"
-      : productImage(product);
-  const highlights =
-    product.highlights == null && ppuri
-      ? dayByBabyHighlights
-      : (product.highlights || []).map((item) => item.label);
-  const features = product.highlights?.length
-    ? product.highlights.map((item) => ({ title: localized(item.label, locale), body: localized(item.description, locale) }))
-    : product.highlights == null && ppuri
-      ? locale === "ko" ? [
-          { title: "다시 쓰는 수고를 줄이고", body: "간편 입력으로 반복되는 기록을 빠르게 남겨요. 아이에게 집중할 시간을 더 많이." },
-          { title: "흩어진 하루를 모으고", body: "수유와 일상의 기록을 한곳에서 돌아봐요. 바쁜 하루의 흐름도 한눈에." },
-          { title: "작은 순간을 간직하고", body: "아이와 함께한 평범한 하루가 사라지지 않도록. 아기 logU 푸리가 함께해요." },
-        ] : [
-          { title: "Less repetitive typing", body: "Quick logging makes everyday entries easier, leaving more time to focus on your baby." },
-          { title: "A day, all together", body: "Look back on feeding and everyday records in one place, and see the shape of a busy day." },
-          { title: "Little moments, kept", body: "Ppuri, the baby logU, helps the ordinary days with your child stay with you." },
-        ]
-      : [];
+      : room.hero;
+  const features =
+    product.highlights == null
+      ? room.features.map((item) => ({
+          title: item.title[locale],
+          body: item.body[locale],
+          image: item.image,
+        }))
+      : product.highlights.map((item) => ({
+          title: localized(item.label, locale),
+          body: localized(item.description, locale),
+          image: item.image?.asset ? urlFor(item.image).width(800).url() : "",
+        }));
   const clips: FilmClip[] = (
     product.videos == null && ppuri ? dayByBabyClips : product.videos || []
   ).filter((clip) => Boolean(clip.url && resolveClipSource(clip.url)));
   const mainClips = clips.filter((item) => item.aspect !== "portrait");
   const extraClips = clips.filter((item) => item.aspect === "portrait");
-  const clip = mainClips[Math.min(selectedClip, mainClips.length - 1)];
+  const activeIndex = Math.min(selectedClip, mainClips.length - 1);
+  const clip = mainClips[activeIndex];
   const source = clip ? resolveClipSource(clip.url) : null;
   const poster = clip?.poster?.asset
     ? urlFor(clip.poster).width(1280).url()
-    : clip?.localPoster || productImage(product);
-  const copy =
-    locale === "ko"
-      ? {
-          play: "영상 재생",
-          open: "영상 새 창에서 보기",
-          watch: "영상으로 만나보기",
-        }
-      : {
-          play: "Play video",
-          open: "Open video in a new tab",
-          watch: "Watch the story",
-        };
-  const posterContents = clip ? (
+    : clip?.localPoster || room.hero;
+  const play = locale === "ko" ? "영상 재생" : "Play video";
+  const open =
+    locale === "ko" ? "영상 새 창에서 보기" : "Open video in a new tab";
+  const watch = locale === "ko" ? "영상으로 만나보기" : "Watch the story";
+  const posterContents = (
     <>
       <Image
         src={poster}
         alt=""
         fill
-        sizes={
-          clip.aspect === "portrait"
-            ? "(max-width: 760px) 80vw, 380px"
-            : "(max-width: 760px) 92vw, 980px"
-        }
+        sizes="(max-width:760px) 92vw, 850px"
         className="film-player-image"
       />
-      <span className="film-player-play">▶ {copy.play}</span>
+      <span className="film-player-play">▶ {play}</span>
     </>
-  ) : null;
+  );
 
   return (
-    <article className="film-service app-detail-service" aria-labelledby={`film-service-${index}`}>
-      <div className="film-service-intro">
-        <div
-          className={`film-service-art ${ppuri || product.mascotImage?.asset ? "has-mascot" : ""}`}
-        >
-          <span className="film-art-caption">
-            logU /{" "}
-            {localized(
-              product.categoryI18n,
-              locale,
-              ppuri
-                ? locale === "ko"
-                  ? "육아 기록"
-                  : "Parenting journal"
-                : "Service",
-            )}
-          </span>
+    <article
+      className={`app-room-service ${ppuri ? "app-room-ppuri" : "app-room-neighbor"}`}
+      aria-labelledby={`film-service-${index}`}
+    >
+      <section className="app-room-hero">
+        <div className="app-room-scene">
           <Image
-            src={mascot}
+            src={hero}
             alt={
               ppuri
                 ? locale === "ko"
-                  ? "아기 logU 푸리"
-                  : "Ppuri, the baby logU"
-                : name
+                  ? "아기 logU 푸리가 기다리는 따뜻한 방"
+                  : "Ppuri in a warm little nursery"
+                : name + " logU"
             }
             fill
-            sizes="(max-width: 760px) 90vw, 42vw"
-            className="film-service-image"
+            preload
+            sizes="100vw"
           />
-          {ppuri ? (
-            <span className="film-art-signature">
-              {locale === "ko" ? "푸리" : "Ppuri"}
-              <small>the DayByBaby logU</small>
-            </span>
-          ) : null}
         </div>
-        <div className="film-service-copy">
-          <span className="film-service-number">
-            {String(index + 1).padStart(2, "0")} / logUs Studio
-          </span>
-          {product.appIcon?.asset ? (
-            <Image className="app-detail-icon" src={urlFor(product.appIcon).width(144).height(144).url()} alt="" width={64} height={64} />
-          ) : null}
-          <h1 id={`film-service-${index}`}>{name}</h1>
-          <p>
-            {localized(product.descriptionI18n, locale, product.description)}
-          </p>
-          {highlights.length > 0 ? (
-            <ul className="film-highlights">
-              {highlights.map((item, highlightIndex) => (
-                <li
-                  key={
-                    product.highlights?.[highlightIndex]?._key || highlightIndex
-                  }
-                >
-                  {localized(item, locale)}
-                </li>
-              ))}
-            </ul>
-          ) : null}
+        <div className="app-room-copy">
+          <Link className="app-room-breadcrumb" href={`/apps?lang=${locale}`}>
+            Apps <span>/</span> {name}
+          </Link>
+          <div className="app-room-identity">
+            {product.appIcon?.asset ? (
+              <Image
+                src={urlFor(product.appIcon).width(96).height(96).url()}
+                alt=""
+                width={44}
+                height={44}
+              />
+            ) : (
+              <span className="app-room-mark" aria-hidden="true">
+                {ppuri ? "♡" : "•"}
+              </span>
+            )}
+            <span>{name}</span>
+          </div>
+          <h1 id={`film-service-${index}`}>
+            {localized(detail?.headlineI18n, locale, room.headline[locale])}
+          </h1>
+          <p>{localized(detail?.introI18n, locale, room.intro[locale])}</p>
           <ProductDownloads product={product} locale={locale} />
         </div>
-      </div>
-      {features.length > 0 ? (
-        <section className="app-feature-section">
-          <span className="app-eyebrow">LESS EFFORT. MORE LITTLE MOMENTS.</span>
-          <h2>{locale === "ko" ? "기록은 가볍게. 하루는 더 가까이." : "Less effort to log. More room to live."}</h2>
-          <div className="app-feature-grid">
-            {features.map((feature, featureIndex) => (
-              <article key={feature.title}>
-                <span>0{featureIndex + 1}</span><h3>{feature.title}</h3><p>{feature.body}</p>
-              </article>
-            ))}
-          </div>
-        </section>
-      ) : null}
-      {clip && source ? (
-        <div className="film-video-area">
-          <div className="film-video-topline">
-            <h4>{copy.watch}</h4>
-            <span>{locale === "ko" ? "앱을 먼저 만나보세요" : "See it in action"}</span>
-          </div>
-          <div className="film-video-options" aria-label={copy.watch}>
-            {mainClips.map((item, clipIndex) => (
-              <button
-                key={item._key}
-                type="button"
-                aria-pressed={clipIndex === selectedClip}
-                className={clipIndex === selectedClip ? "selected" : ""}
-                onClick={() => {
-                  setSelectedClip(clipIndex);
-                  setPlaying(false);
-                }}
-              >
-                <span>
-                  {localized(
-                    item.titleI18n,
-                    locale,
-                    locale === "ko" ? "영상" : "Video",
-                  )}
-                </span>
-                <small>
-                  {item.duration ||
-                    (item.aspect === "portrait" ? "9:16" : "16:9")}
-                </small>
-              </button>
-            ))}
-          </div>
-          <div
-            className={`film-player ${clip.aspect === "portrait" ? "is-portrait" : ""}`}
+      </section>
+      <div className="app-room-content">
+        {clip && source ? (
+          <section
+            className="film-video-area app-room-videos"
+            aria-label={watch}
           >
-            {source.kind === "external" ? (
+            <div className="app-room-video-copy">
+              <span className="app-eyebrow">{name.toUpperCase()} VIDEO</span>
+              <h2>
+                {localized(
+                  detail?.videoHeadingI18n,
+                  locale,
+                  room.videoHeading[locale],
+                )}
+              </h2>
+              <p>
+                {localized(
+                  detail?.videoBodyI18n,
+                  locale,
+                  room.videoBody[locale],
+                )}
+              </p>
+              <Image
+                src={mascot}
+                alt=""
+                width={240}
+                height={240}
+                sizes="(max-width:760px) 100px, 200px"
+                className="app-room-video-mascot"
+              />
+            </div>
+            <div className="app-room-video-screen">
+              <div className="film-player">
+                {source.kind === "external" ? (
+                  <a
+                    className="film-player-poster"
+                    href={source.directUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label={open}
+                  >
+                    {posterContents}
+                  </a>
+                ) : !playing ? (
+                  <button
+                    type="button"
+                    className="film-player-poster"
+                    onClick={() => {
+                      setPlaying(true);
+                      setPlaybackFailed(false);
+                    }}
+                    aria-label={
+                      localized(clip.titleI18n, locale, watch) + " · " + play
+                    }
+                  >
+                    {posterContents}
+                  </button>
+                ) : source.kind === "youtube" ? (
+                  <iframe
+                    key={clip._key}
+                    title={localized(clip.titleI18n, locale, name)}
+                    src={source.playbackUrl}
+                    allow="autoplay; encrypted-media; picture-in-picture"
+                    allowFullScreen
+                  />
+                ) : (
+                  <video
+                    key={clip._key}
+                    controls
+                    autoPlay
+                    playsInline
+                    poster={poster}
+                    preload="none"
+                    aria-label={localized(clip.titleI18n, locale, watch)}
+                    onError={() => setPlaybackFailed(true)}
+                  >
+                    <source src={source.playbackUrl} type="video/mp4" />
+                  </video>
+                )}
+              </div>
+              <div className="film-video-options" aria-label={watch}>
+                {mainClips.map((item, clipIndex) => (
+                  <button
+                    key={item._key}
+                    type="button"
+                    aria-pressed={clipIndex === activeIndex}
+                    className={clipIndex === activeIndex ? "selected" : ""}
+                    onClick={() => {
+                      setSelectedClip(clipIndex);
+                      setPlaying(false);
+                      setPlaybackFailed(false);
+                    }}
+                  >
+                    <span>{localized(item.titleI18n, locale, watch)}</span>
+                    <small>{item.duration || "16:9"}</small>
+                  </button>
+                ))}
+              </div>
+              {playbackFailed ? (
+                <p role="alert">
+                  {locale === "ko"
+                    ? "재생이 어려우면 아래 링크로 영상을 열어주세요."
+                    : "If playback fails, open the video using the link below."}
+                </p>
+              ) : null}
               <a
-                className="film-player-poster"
+                className="film-video-direct"
                 href={source.directUrl}
                 target="_blank"
                 rel="noreferrer"
-                aria-label={`${localized(clip.titleI18n, locale, copy.watch)} · ${copy.open}`}
               >
-                {posterContents}
+                {open} ↗
               </a>
-            ) : !playing ? (
-              <button
-                type="button"
-                className="film-player-poster"
-                onClick={() => setPlaying(true)}
-                aria-label={`${localized(clip.titleI18n, locale, copy.watch)} · ${copy.play}`}
-              >
-                {posterContents}
-              </button>
-            ) : source.kind === "youtube" ? (
-              <iframe
-                key={clip._key}
-                title={localized(clip.titleI18n, locale, name)}
-                src={source.playbackUrl}
-                allow="autoplay; encrypted-media; picture-in-picture"
-                allowFullScreen
-              />
-            ) : (
-              <video
-                key={clip._key}
-                controls
-                autoPlay
-                playsInline
-                poster={poster}
-                preload="none"
-                aria-label={localized(clip.titleI18n, locale, copy.watch)}
-              >
-                <source src={source.playbackUrl} type="video/mp4" />
-              </video>
-            )}
-          </div>
-          <a
-            className="film-video-direct"
-            href={source.directUrl}
-            target="_blank"
-            rel="noreferrer"
-          >
-            {copy.open} ↗
-          </a>
-          {ppuri ? <p className="app-video-note">{locale === "ko" ? "가이드 영상은 개발 중인 화면을 포함합니다. 응급 연락처는 시연 기능이며 출시 버전의 제공 여부는 별도로 안내합니다." : "The guides include work-in-progress screens. Emergency contacts are a demonstration feature; availability in the released app will be confirmed separately."}</p> : null}
+              {ppuri ? (
+                <p className="app-video-note">
+                  {locale === "ko"
+                    ? "가이드 영상은 개발 중인 화면을 포함합니다. 응급 연락처는 시연 기능이며 출시 버전의 제공 여부는 별도로 안내합니다."
+                    : "The guides include work-in-progress screens. Emergency contacts are a demonstration feature; availability in the released app will be confirmed separately."}
+                </p>
+              ) : null}
+              {extraClips.length ? (
+                <details className="app-extra-films">
+                  <summary>
+                    {locale === "ko"
+                      ? "짧은 세로 영상도 보기"
+                      : "More short videos"}
+                  </summary>
+                  {extraClips.map((item) => (
+                    <a
+                      key={item._key}
+                      href={resolveClipSource(item.url)!.directUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      {localized(item.titleI18n, locale, name)} ·{" "}
+                      {item.duration} ↗
+                    </a>
+                  ))}
+                </details>
+              ) : null}
+            </div>
+          </section>
+        ) : null}
+        {features.length ? (
+          <section className="app-feature-section app-room-features">
+            <span className="app-eyebrow">
+              {name.toUpperCase()} / LITTLE EXPERIENCES
+            </span>
+            <h2>
+              {localized(
+                detail?.featureHeadingI18n,
+                locale,
+                room.featureHeading[locale],
+              )}
+            </h2>
+            <div className="app-feature-grid">
+              {features.map((feature, featureIndex) => (
+                <article key={featureIndex}>
+                  {feature.image ? (
+                    <div className="app-room-feature-art">
+                      <Image
+                        src={feature.image}
+                        alt=""
+                        fill
+                        sizes="(max-width:760px) 90vw, 380px"
+                      />
+                    </div>
+                  ) : null}
+                  <h3>{feature.title}</h3>
+                  <p>{feature.body}</p>
+                </article>
+              ))}
+            </div>
+            <p className="app-room-art-note">
+              {locale === "ko"
+                ? "이미지는 서비스의 분위기를 보여주는 설명용 그림이며, 영상의 앱 화면은 개발 중인 예시입니다."
+                : "Illustrations show the service's world. App screens in the videos are work-in-progress examples."}
+            </p>
+          </section>
+        ) : null}
+        {product.screenshots?.some((image) => image.asset) ? (
+          <section className="app-screenshot-section">
+            <h2>{locale === "ko" ? "일상에서는 이렇게." : "A look inside."}</h2>
+            <div className="app-screenshots">
+              {product.screenshots
+                .filter((image) => image.asset)
+                .map((image, imageIndex) => (
+                  <figure key={image.asset!._ref + imageIndex}>
+                    <Image
+                      src={urlFor(image).width(600).url()}
+                      alt={
+                        image.alt ||
+                        name +
+                          " " +
+                          (locale === "ko" ? "앱 화면" : "app screen") +
+                          " " +
+                          (imageIndex + 1)
+                      }
+                      width={400}
+                      height={800}
+                      sizes="(max-width:760px) 60vw, 260px"
+                    />
+                  </figure>
+                ))}
+            </div>
+          </section>
+        ) : null}
+        <div className="app-detail-bottom app-room-download">
+          <h2>
+            {locale === "ko"
+              ? "당신의 하루에, " + name + "."
+              : name + ", for your everyday."}
+          </h2>
+          <ProductDownloads product={product} locale={locale} />
         </div>
-      ) : null}
-      {extraClips.length > 0 ? (
-        <details className="app-extra-films">
-          <summary>{locale === "ko" ? "짧은 세로 영상도 보기" : "More short videos"}</summary>
-          {extraClips.map((item) => (
-            <a key={item._key} href={resolveClipSource(item.url)!.directUrl} target="_blank" rel="noreferrer">
-              {localized(item.titleI18n, locale, name)} · {item.duration} ↗
-            </a>
-          ))}
-        </details>
-      ) : null}
-      {product.screenshots?.some((image) => image.asset) ? (
-        <section className="app-screenshot-section">
-          <h2>{locale === "ko" ? "일상에서는 이렇게." : "A look inside."}</h2>
-          <div className="app-screenshots">
-            {product.screenshots.filter((image) => image.asset).map((image, imageIndex) => (
-              <figure key={image.asset!._ref + imageIndex}>
-                <Image src={urlFor(image).width(600).url()} alt={image.alt || `${name} ${locale === "ko" ? "앱 화면" : "app screen"} ${imageIndex + 1}`} width={400} height={800} sizes="(max-width:760px) 60vw, 260px" />
-              </figure>
-            ))}
-          </div>
-        </section>
-      ) : null}
-      <div className="app-detail-bottom"><ProductDownloads product={product} locale={locale} /></div>
+      </div>
     </article>
   );
 }

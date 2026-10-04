@@ -62,12 +62,15 @@ const badges = render(exports.ProductPlatforms, { product: { ...product, platfor
 assert.ok(badges.includes("Android · 이용 가능") && badges.includes("iOS · 준비 중") && badges.includes("앱인토스 · 준비 중"));
 const detail = render(exports.ProductShowcase, { product, index: 0, locale: "ko" });
 assert.equal((detail.match(/<h1 /g) || []).length, 1);
-assert.ok(detail.includes("Android · 준비 중") && detail.includes("iOS · 준비 중"));
-assert.ok(detail.includes("app-feature-grid") && detail.includes("응급 연락처는 시연 기능"));
+assert.ok(detail.includes("Android · 출시 예정") && detail.includes("iOS · 준비 중"));
+assert.ok(detail.includes("app-feature-grid") && detail.includes("응급 연락처는 DayByBaby의 필수 기능"));
+assert.ok(detail.includes("app-room-emergency") && !detail.includes("시연 기능") && !detail.includes("demonstration feature"));
+assert.ok(!detail.includes("daybybaby-guide.webp") && !detail.includes("daybybaby-day.webp"), "Do not reuse mascot-heavy video frames as feature cards");
 assert.equal((detail.match(/aria-pressed="/g) || []).length, 3);
 assert.ok(detail.includes("<details"));
 const english = render(exports.ProductShowcase, { product, index: 0, locale: "en" });
 assert.ok(english.includes("Less effort to log"));
+assert.ok(english.includes("Emergency contacts are an essential") && !english.includes("demonstration feature"));
 assert.ok(detail.includes("app-room-hero") && detail.includes("daybybaby-room-v1.webp"));
 assert.ok(detail.indexOf("app-room-videos") < detail.indexOf("app-room-features"), "Video precedes features as approved");
 assert.ok(!detail.includes("<video") && !detail.includes("<iframe"), "No media loads or plays before user interaction");

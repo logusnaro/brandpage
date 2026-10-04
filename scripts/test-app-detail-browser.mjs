@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { mkdir } from "node:fs/promises";
 import path from "node:path";
 const base = process.env.TEST_BASE_URL || "http://localhost:3001";
-const output = path.resolve("docs/qa/app-detail-2026-10-05");
+const output = path.resolve("docs/qa/app-detail-parity-2026-10-05");
 await mkdir(output, { recursive: true });
 // Existing system Edge; no new dependency or browser download.
 const browser = await chromium.launch({ headless: true, channel: "msedge" });
@@ -61,6 +61,20 @@ try {
       assert.equal(metrics.media, 0, "Media must not autoplay on arrival");
       assert.equal(await page.locator("h1").count(), 1);
       assert.equal(await page.locator(".app-room-neighbors a").count(), 3);
+      if (slug === "bebe") {
+        assert.equal(await page.locator(".app-room-emergency").count(), 1);
+        assert.ok(!(await page.locator("article.app-room-service").textContent()).includes("시연 기능"));
+        assert.equal(await page.locator('.app-room-features img[src*="daybybaby-guide.webp"], .app-room-features img[src*="daybybaby-day.webp"]').count(), 0);
+        if (width > 1100) {
+          const sizes = await page.evaluate(() => ({
+            hero: document.querySelector(".app-room-hero").getBoundingClientRect().height,
+            mascot: document.querySelector(".app-room-video-mascot").getBoundingClientRect().width,
+            thumbnail: document.querySelector(".app-room-feature-art").getBoundingClientRect().width,
+            poster: document.querySelector(".film-player").getBoundingClientRect().width / document.querySelector(".film-player").getBoundingClientRect().height,
+          }));
+          assert.ok(sizes.hero < 650 && sizes.mascot <= 140 && sizes.thumbnail < 240 && sizes.poster > 2.7, "Approved reference proportions, not giant/repeated mascot panels");
+        }
+      }
       if (label === "pc" || label === "mobile") {
         await page.screenshot({
           path: path.join(output, `${slug}-${label}-hero.png`),
@@ -75,7 +89,7 @@ try {
             await target.evaluate((el) =>
               window.scrollTo(
                 0,
-                el.getBoundingClientRect().top + window.scrollY - 28,
+                el.getBoundingClientRect().top + window.scrollY - document.querySelector("header").getBoundingClientRect().height - 28,
               ),
             );
             await page.screenshot({
@@ -89,7 +103,10 @@ try {
       });
       console.log(`${slug}: ${label} ${width}×${height} layout/images passed`);
     }
-    await page.goto(`${base}/apps/bebe?lang=en`);
+    await page.goto(`${base}/apps/bebe?lang=ko`);
+    await page.locator(".app-room-language summary").click();
+    await page.locator('.app-room-language a[href$="lang=en"]').click();
+    await page.waitForURL(/lang=en/);
     assert.ok(
       (await page.locator("h1").textContent()).includes("Less effort to log"),
     );

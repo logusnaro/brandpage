@@ -31,27 +31,55 @@ function AppShell({
     >
       <header className="app-directory-header">
         <Link href="/" className="cinema-wordmark">
-          logUs<span>•</span> Studio
+          logUs{detail ? " " : <span>•</span>} Studio
         </Link>
         <nav aria-label={locale === "ko" ? "페이지 이동" : "Navigation"}>
           {detail ? <Link href="/#studio">Studio</Link> : null}
-          <Link href={`/apps?lang=${locale}`}>Apps</Link>
+          <Link
+            href={`/apps?lang=${locale}`}
+            className={detail ? "is-active" : undefined}
+          >
+            Apps
+          </Link>
           <Link href="/#contact">Contact</Link>
         </nav>
-        <div className="app-language">
-          <Link
-            href={`${path}?lang=ko`}
-            aria-current={locale === "ko" ? "page" : undefined}
-          >
-            한국어
-          </Link>
-          <Link
-            href={`${path}?lang=en`}
-            aria-current={locale === "en" ? "page" : undefined}
-          >
-            English
-          </Link>
-        </div>
+        {detail ? (
+          <details className="app-room-language">
+            <summary>
+              <span aria-hidden="true">◎</span> Language{" "}
+              <span aria-hidden="true">⌄</span>
+            </summary>
+            <div>
+              <Link
+                href={`${path}?lang=ko`}
+                aria-current={locale === "ko" ? "page" : undefined}
+              >
+                한국어
+              </Link>
+              <Link
+                href={`${path}?lang=en`}
+                aria-current={locale === "en" ? "page" : undefined}
+              >
+                English
+              </Link>
+            </div>
+          </details>
+        ) : (
+          <div className="app-language">
+            <Link
+              href={`${path}?lang=ko`}
+              aria-current={locale === "ko" ? "page" : undefined}
+            >
+              한국어
+            </Link>
+            <Link
+              href={`${path}?lang=en`}
+              aria-current={locale === "en" ? "page" : undefined}
+            >
+              English
+            </Link>
+          </div>
+        )}
       </header>
       <main className="app-directory-main">{children}</main>
       <footer className="app-directory-footer">

@@ -27,8 +27,8 @@ const rooms: Record<string, Room> = {
       "Meet Ppuri.\nSee a little day unfold.",
     ),
     videoBody: text(
-      "작은 기록이 모이는 모습을, 아기 logU 푸리가 안내해요.",
-      "Ppuri, the baby logU, shows how little entries become a day to remember.",
+      "짧은 영상을 통해 DayByBaby가 어떤 앱인지, 푸리와 함께 확인해 보세요.",
+      "Take a short look at DayByBaby and discover its everyday features with Ppuri.",
     ),
     featureHeading: text(
       "오늘도, 작지만 특별한 순간들.",
@@ -41,7 +41,7 @@ const rooms: Record<string, Room> = {
           "반복되는 기록은 간편하게. 아이에게 집중할 시간을 더 많이.",
           "Make repeated entries easier. Leave more time for your baby.",
         ),
-        image: "/films/daybybaby-guide.webp",
+        image: "/apps-art/daybybaby-quick-v2.webp",
       },
       {
         title: text("하루를 한눈에", "A day at a glance"),
@@ -49,7 +49,7 @@ const rooms: Record<string, Room> = {
           "수유와 일상의 기록을 한곳에서 돌아보세요.",
           "Look back on feeding and everyday records, all in one place.",
         ),
-        image: "/films/daybybaby-day.webp",
+        image: "/apps-art/daybybaby-daily-v2.webp",
       },
       {
         title: text("함께 남기는 기록", "Memories, together"),

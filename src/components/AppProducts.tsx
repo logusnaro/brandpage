@@ -4,8 +4,17 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { urlFor } from "@/sanity/lib/image";
-import type { Locale, LocalizedText, Product, ProductVideo } from "@/sanity/lib/types";
-import { productPath, productDownloads, platformName } from "@/lib/productLinks";
+import type {
+  Locale,
+  LocalizedText,
+  Product,
+  ProductVideo,
+} from "@/sanity/lib/types";
+import {
+  productPath,
+  productDownloads,
+  platformName,
+} from "@/lib/productLinks";
 import { appRoom } from "@/lib/appDetailContent";
 
 type FilmClip = ProductVideo & { localPoster?: string };
@@ -22,7 +31,7 @@ const dayByBabyClips: FilmClip[] = [
     url: "/films/daybybaby-ppuri-intro-20s.mp4",
     aspect: "landscape",
     duration: "0:20",
-    localPoster: "/films/daybybaby-intro.webp",
+    localPoster: "/apps-art/daybybaby-video-v2.webp",
   },
   {
     _key: "ppuri-guide",
@@ -30,7 +39,7 @@ const dayByBabyClips: FilmClip[] = [
     url: "/films/daybybaby-ppuri-guide-35s.mp4",
     aspect: "landscape",
     duration: "0:35",
-    localPoster: "/films/daybybaby-guide.webp",
+    localPoster: "/apps-art/daybybaby-video-v2.webp",
   },
   {
     _key: "ppuri-full",
@@ -38,7 +47,7 @@ const dayByBabyClips: FilmClip[] = [
     url: "/films/daybybaby-ppuri-intro-guide-90s.mp4",
     aspect: "landscape",
     duration: "1:30",
-    localPoster: "/films/daybybaby-full.webp",
+    localPoster: "/apps-art/daybybaby-video-v2.webp",
   },
   {
     _key: "ppuri-vertical-intro",
@@ -81,29 +90,128 @@ function isDayByBaby(product: Product) {
 
 function productName(product: Product, locale: Locale = "ko") {
   if (isDayByBaby(product)) return "DayByBaby";
-  return localized(product.displayNameI18n, locale, product.displayName).replace(/^\[:\]\s*/, "").trim();
+  return localized(product.displayNameI18n, locale, product.displayName)
+    .replace(/^\[:\]\s*/, "")
+    .trim();
 }
 
-export function ProductDownloads({ product, locale }: { product: Product; locale: Locale }) {
+function StoreGlyph({ platform }: { platform: string }) {
+  return (
+    <svg
+      className="app-room-store-glyph"
+      aria-hidden="true"
+      viewBox="0 0 24 24"
+      width="30"
+      height="30"
+      fill="currentColor"
+    >
+      {platform === "android" ? (
+        <>
+          <path d="m3 2 13 10L3 22Z" />
+          <path d="m5 1 17 10-5 1Zm12 12 5 1L5 23Z" opacity=".65" />
+        </>
+      ) : platform === "ios" ? (
+        <path d="M16 4c1-1 1.5-2.5 1.4-4-1.4.1-3 1-3.9 2.1-.8.9-1.5 2.4-1.3 3.8 1.5.1 2.9-.7 3.8-1.9ZM20.5 16.7c-.6 1.4-.9 2-1.7 3.2-1.1 1.6-2.7 3.6-4.6 3.6-1.6 0-2.1-1-4.2-1-2.1 0-2.7 1-4.2 1-1.8 0-3.3-1.8-4.5-3.5C-2 15.1.2 8.2 4.3 7.1c2-.5 3.8.7 5.2.7 1.4 0 3.4-1.3 5.7-.9 1 .2 2.2.7 3.1 1.6-3.6 2-3 7.1 2.2 8.2Z" />
+      ) : (
+        <path d="M4 4h16v16H4zm3 3v10h10V7Z" />
+      )}
+    </svg>
+  );
+}
+
+function FeatureGlyph({ index }: { index: number }) {
+  return (
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 24 24"
+      width="24"
+      height="24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+    >
+      {index % 3 === 0 ? (
+        <>
+          <path d="M10 2h4v4h-4zM8 6h8v3H8zm0 3h8v12H8zM12 12h4m-4 4h4" />
+        </>
+      ) : index % 3 === 1 ? (
+        <>
+          <rect x="3" y="5" width="18" height="16" rx="3" />
+          <path d="M7 2v6m10-6v6M3 10h18M7 14h3m4 0h3M7 17h3" />
+        </>
+      ) : (
+        <path
+          fill="currentColor"
+          stroke="none"
+          d="M12 21C3 15-1 8 4 4c3-2 6-1 8 2 2-3 5-4 8-2 5 4 1 11-8 17Z"
+        />
+      )}
+    </svg>
+  );
+}
+
+export function ProductDownloads({
+  product,
+  locale,
+}: {
+  product: Product;
+  locale: Locale;
+}) {
   const downloads = productDownloads(product);
   return (
     <div className="app-downloads">
-      <span className="app-download-label">{locale === "ko" ? "당신의 하루에 함께하세요" : "Make it part of your day"}</span>
+      <span className="app-download-label">
+        {locale === "ko"
+          ? "당신의 하루에 함께하세요"
+          : "Make it part of your day"}
+      </span>
       <div className="app-download-buttons">
-        {downloads.map((item) => item.url ? (
-          <a key={item.platform} href={item.url} target="_blank" rel="noreferrer">
-            <small>{platformName(item.platform, locale)}</small>
-            <span>{item.platform === "web" ? (locale === "ko" ? "웹에서 시작하기" : "Open web app") : item.platform === "toss" ? (locale === "ko" ? "토스에서 이용하기" : "Open in Toss") : item.label} <span aria-hidden="true">↗</span></span>
-            {localized(item.noteI18n, locale) ? <small>{localized(item.noteI18n, locale)}</small> : null}
-          </a>
-        ) : (
-          <span className="app-platform-planned" key={item.platform}>
-            {platformName(item.platform, locale)} · {locale === "ko" ? "준비 중" : "Coming soon"}
-            {localized(item.noteI18n, locale) ? <small>{localized(item.noteI18n, locale)}</small> : null}
-          </span>
-        ))}
+        {downloads.map((item) =>
+          item.url ? (
+            <a
+              key={item.platform}
+              href={item.url}
+              target="_blank"
+              rel="noreferrer"
+            >
+              <small>{platformName(item.platform, locale)}</small>
+              <span>
+                {item.platform === "web"
+                  ? locale === "ko"
+                    ? "웹에서 시작하기"
+                    : "Open web app"
+                  : item.platform === "toss"
+                    ? locale === "ko"
+                      ? "토스에서 이용하기"
+                      : "Open in Toss"
+                    : item.label}{" "}
+                <span aria-hidden="true">↗</span>
+              </span>
+              {localized(item.noteI18n, locale) ? (
+                <small>{localized(item.noteI18n, locale)}</small>
+              ) : null}
+            </a>
+          ) : (
+            <span
+              className="app-platform-planned"
+              key={item.platform}
+              data-platform={item.platform}
+            >
+              <StoreGlyph platform={item.platform} />
+              {platformName(item.platform, locale)} ·{" "}
+            {locale === "ko" ? (item.platform === "android" ? "출시 예정" : "준비 중") : "Coming soon"}
+              {localized(item.noteI18n, locale) ? (
+                <small>{localized(item.noteI18n, locale)}</small>
+              ) : null}
+            </span>
+          ),
+        )}
         {downloads.length === 0 ? (
-          <p className="app-download-pending">{locale === "ko" ? "다운로드는 출시 후 이곳에서 안내할게요." : "Download links will be available here at launch."}</p>
+          <p className="app-download-pending">
+            {locale === "ko"
+              ? "다운로드는 출시 후 이곳에서 안내할게요."
+              : "Download links will be available here at launch."}
+          </p>
         ) : null}
       </div>
     </div>
@@ -334,7 +442,11 @@ export function ProductShowcase({
         sizes="(max-width:760px) 92vw, 850px"
         className="film-player-image"
       />
-      <span className="film-player-play">▶ {play}</span>
+      {ppuri ? <span className="app-room-poster-name">DayByBaby</span> : null}
+      <span className="film-player-play">
+        <span aria-hidden="true">▶</span>
+        <span className="app-room-sr-only">{play}</span>
+      </span>
     </>
   );
 
@@ -373,7 +485,25 @@ export function ProductShowcase({
               />
             ) : (
               <span className="app-room-mark" aria-hidden="true">
-                {ppuri ? "♡" : "•"}
+                {ppuri ? (
+                  <svg viewBox="0 0 40 40" width="40" height="40">
+                    <path
+                      fill="#fff6ed"
+                      d="M9 30C5 22 10 7 20 7s15 15 11 23c-2 4-20 4-22 0Z"
+                    />
+                    <circle cx="15" cy="20" r="2" fill="#263b35" />
+                    <circle cx="25" cy="20" r="2" fill="#263b35" />
+                    <path
+                      d="M18 24q2 2 4 0"
+                      fill="none"
+                      stroke="#263b35"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                    />
+                  </svg>
+                ) : (
+                  "•"
+                )}
               </span>
             )}
             <span>{name}</span>
@@ -383,6 +513,14 @@ export function ProductShowcase({
           </h1>
           <p>{localized(detail?.introI18n, locale, room.intro[locale])}</p>
           <ProductDownloads product={product} locale={locale} />
+          {productDownloads(product).length > 0 &&
+          productDownloads(product).every((item) => !item.url) ? (
+            <p className="app-room-launch-note">
+              {locale === "ko"
+                ? "출시 후 다운로드 링크가 열립니다."
+                : "Download links will open at launch."}
+            </p>
+          ) : null}
         </div>
       </section>
       <div className="app-room-content">
@@ -417,7 +555,7 @@ export function ProductShowcase({
               />
             </div>
             <div className="app-room-video-screen">
-              <div className="film-player">
+              <div className={`film-player${playing ? " is-playing" : ""}`}>
                 {source.kind === "external" ? (
                   <a
                     className="film-player-poster"
@@ -490,7 +628,7 @@ export function ProductShowcase({
                     : "If playback fails, open the video using the link below."}
                 </p>
               ) : null}
-              <a
+              <div className="app-room-video-tools"><a
                 className="film-video-direct"
                 href={source.directUrl}
                 target="_blank"
@@ -498,13 +636,6 @@ export function ProductShowcase({
               >
                 {open} ↗
               </a>
-              {ppuri ? (
-                <p className="app-video-note">
-                  {locale === "ko"
-                    ? "가이드 영상은 개발 중인 화면을 포함합니다. 응급 연락처는 시연 기능이며 출시 버전의 제공 여부는 별도로 안내합니다."
-                    : "The guides include work-in-progress screens. Emergency contacts are a demonstration feature; availability in the released app will be confirmed separately."}
-                </p>
-              ) : null}
               {extraClips.length ? (
                 <details className="app-extra-films">
                   <summary>
@@ -525,21 +656,21 @@ export function ProductShowcase({
                   ))}
                 </details>
               ) : null}
+              </div>
             </div>
           </section>
         ) : null}
         {features.length ? (
           <section className="app-feature-section app-room-features">
-            <span className="app-eyebrow">
-              {name.toUpperCase()} / LITTLE EXPERIENCES
-            </span>
-            <h2>
+            <span className="app-eyebrow">KEY FEATURES</span>
+            <div className="app-room-feature-heading"><h2>
               {localized(
                 detail?.featureHeadingI18n,
                 locale,
                 room.featureHeading[locale],
               )}
             </h2>
+            {ppuri ? <p>{locale === "ko" ? "간단한 기록부터 한눈에 보는 하루,\n그리고 함께 남기는 소중한 기억까지." : "From easy entries to a day at a glance,\nand the little memories you keep together."}</p> : null}</div>
             <div className="app-feature-grid">
               {features.map((feature, featureIndex) => (
                 <article key={featureIndex}>
@@ -553,15 +684,39 @@ export function ProductShowcase({
                       />
                     </div>
                   ) : null}
-                  <h3>{feature.title}</h3>
-                  <p>{feature.body}</p>
+                  <div className="app-room-feature-text">
+                    {ppuri ? (
+                      <span className="app-room-feature-badge">
+                        <FeatureGlyph index={featureIndex} />
+                      </span>
+                    ) : null}
+                    <h3>{feature.title}</h3>
+                    <p>{feature.body}</p>
+                  </div>
                 </article>
               ))}
             </div>
+            {ppuri ? (
+              <div className="app-room-emergency">
+                <span aria-hidden="true">↗</span>
+                <div>
+                  <h3>
+                    {locale === "ko"
+                      ? "급할 때도, 가족과 연결되도록."
+                      : "Stay connected when it matters."}
+                  </h3>
+                  <p>
+                    {locale === "ko"
+                    ? "응급 연락처는 DayByBaby의 필수 기능입니다. 가족에게 전화하고 응급 알림을 보낼 수 있어요. 일상의 기록뿐 아니라, 필요한 순간의 연결까지 함께합니다."
+                    : "Emergency contacts are an essential DayByBaby feature. Call family and send an emergency alert, keeping important connections close alongside everyday records."}
+                  </p>
+                </div>
+              </div>
+            ) : null}
             <p className="app-room-art-note">
               {locale === "ko"
-                ? "이미지는 서비스의 분위기를 보여주는 설명용 그림이며, 영상의 앱 화면은 개발 중인 예시입니다."
-                : "Illustrations show the service's world. App screens in the videos are work-in-progress examples."}
+                ? "이미지는 서비스 소개를 위한 설명용 그림입니다."
+                : "Images are illustrations introducing the service."}
             </p>
           </section>
         ) : null}
@@ -592,14 +747,16 @@ export function ProductShowcase({
             </div>
           </section>
         ) : null}
-        <div className="app-detail-bottom app-room-download">
-          <h2>
-            {locale === "ko"
-              ? "당신의 하루에, " + name + "."
-              : name + ", for your everyday."}
-          </h2>
-          <ProductDownloads product={product} locale={locale} />
-        </div>
+        {!ppuri ? (
+          <div className="app-detail-bottom app-room-download">
+            <h2>
+              {locale === "ko"
+                ? "당신의 하루에, " + name + "."
+                : name + ", for your everyday."}
+            </h2>
+            <ProductDownloads product={product} locale={locale} />
+          </div>
+        ) : null}
       </div>
     </article>
   );

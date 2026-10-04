@@ -57,7 +57,7 @@ const rooms: Record<string, Room> = {
           "함께 자라는 평범한 하루를, 오래 간직할 이야기로.",
           "Keep the ordinary days of growing together as stories to return to.",
         ),
-        image: "/apps-art/daybybaby-memories-v1.webp",
+        image: "/apps-art/daybybaby-family-v2.webp",
       },
     ],
   },

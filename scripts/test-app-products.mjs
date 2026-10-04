@@ -43,6 +43,15 @@ assert.equal((four.match(/class="app-card app-palette/g) || []).length, 4);
 assert.equal((four.match(/Coming soon/g) || []).length, 2);
 const five = render(exports.ProductCollection, { products: ten.slice(0, 5), locale: "en" });
 assert.equal((five.match(/app-card-upcoming/g) || []).length, 1);
+const neighborhood = render(exports.ProductCollection, { products: [product, ...["memogrip", "goodgo", "bookbap"].map(name => ({ ...product, name, _id: name, displayName: name }))], locale: "ko", village: true });
+assert.ok(neighborhood.includes("app-neighborhood-panorama"));
+for (const name of ["daybybaby", "memogrip", "goodgo", "bookbap"]) assert.ok(neighborhood.includes(`/apps-art/${name}-v1.webp`));
+assert.equal((neighborhood.match(/<a class="app-card /g) || []).length, 4);
+assert.equal((neighborhood.match(/<article class="app-card app-card-upcoming"/g) || []).length, 2);
+assert.ok(!neighborhood.includes("app-pebble-preview") && !neighborhood.includes("app-village-note"));
+const header = render(exports.ProductCollectionHeader, { locale: "ko" });
+assert.ok(header.includes("<h2>Apps</h2>") && header.includes("저마다의 하루"));
+assert.ok(render(exports.ProductCollectionHeader, { locale: "en", directory: true }).includes("<h1>Apps</h1>"));
 const badges = render(exports.ProductPlatforms, { product: { ...product, platforms: [
   { _key: "a", platform: "android", status: "available", url: "https://play.google.com/app" },
   { _key: "b", platform: "ios", status: "planned" },

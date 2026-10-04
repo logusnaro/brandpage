@@ -130,38 +130,61 @@ export function ProductPlatforms({ product, locale }: { product: Product; locale
   );
 }
 
-export function ProductCollection({ products, locale, limit }: { products: Product[]; locale: Locale; limit?: number }) {
+export function ProductCollectionHeader({ locale, directory = false, description }: { locale: Locale; directory?: boolean; description?: string }) {
+  const Heading = directory ? "h1" : "h2";
+  return (
+    <div className="app-neighborhood-heading">
+      <Heading>Apps</Heading>
+      <div className="app-neighborhood-intro">
+        <h3>{locale === "ko" ? "저마다의 하루, 저마다의 logU." : "Different days. Different logU."}</h3>
+        <p>{description || (locale === "ko" ? "작은 순간들이 모여, 더 따뜻한 하루가 됩니다." : "Little moments, together. A warmer everyday life.")}</p>
+      </div>
+      <Link className="app-neighborhood-all" href={directory ? "#app-collection" : `/apps?lang=${locale}`}>{locale === "ko" ? "모든 앱 보기" : "Explore all apps"} <span aria-hidden="true">↗</span></Link>
+    </div>
+  );
+}
+
+function collectionArt(product: Product) {
+  if (product.mascotImage?.asset) return { src: urlFor(product.mascotImage).width(1000).url(), mascot: true };
+  if (product.homeScreen?.asset || product.screenshot?.asset) return { src: productImage(product), mascot: false };
+  const name = (product.name || "").toLowerCase();
+  const slug = isDayByBaby(product) ? "daybybaby" : ({ memo: "memogrip", allinmemo: "memogrip", readygo: "goodgo", innerbrary: "bookbap" } as Record<string, string>)[name] || name;
+  return { src: ["daybybaby", "memogrip", "goodgo", "bookbap"].includes(slug) ? `/apps-art/${slug}-v1.webp` : productImage(product), mascot: false };
+}
+
+export function ProductCollection({ products, locale, limit, village = false }: { products: Product[]; locale: Locale; limit?: number; village?: boolean }) {
   const shown = limit ? products.slice(0, limit) : products;
   const upcomingCount = products.length >= 4 ? Math.max(0, 6 - products.length) : 0;
   return (
-    <div className="app-collection">
-      <div className="app-collection-bar">
+    <div className={`app-collection${village ? " app-neighborhood-collection" : ""}`}>
+      {village ? (
+        <div className="app-neighborhood-panorama">
+          <Image src="/apps-art/village-v1.webp" alt={locale === "ko" ? "저마다의 하루를 함께하는 다양한 logU들의 마을" : "A village of different logU, each sharing a different everyday life"} fill sizes="100vw" />
+        </div>
+      ) : <div className="app-collection-bar">
         <span>{locale === "ko" ? "저마다의 하루, 저마다의 logU." : "Different days. Different logU."}</span>
         <Link href={`/apps?lang=${locale}`}>{locale === "ko" ? "모든 앱 보기" : "Explore all apps"} <span aria-hidden="true">↗</span></Link>
-      </div>
-      <div className="app-card-grid">
+      </div>}
+      <div className="app-card-grid" id={village ? "app-collection" : undefined}>
         {shown.map((product, index) => {
           const ppuri = isDayByBaby(product);
           const name = productName(product, locale);
-          const mascot = product.mascotImage?.asset ? urlFor(product.mascotImage).width(800).url() : ppuri ? "/films/ppuri.webp" : productImage(product);
+          const art = collectionArt(product);
           return (
             <Link className={`app-card app-palette-${index % 4}`} key={product._id} href={productPath(product, locale)}>
-              <div className={`app-card-art ${ppuri || product.mascotImage?.asset ? "has-mascot" : ""}`}>
-                <span className="app-card-category">{localized(product.categoryI18n, locale, ppuri ? locale === "ko" ? "육아 기록" : "Parenting" : "Everyday life")}</span>
-                <Image src={mascot} alt={ppuri ? locale === "ko" ? "아기 logU 푸리" : "Ppuri, the baby logU" : name} fill sizes="(max-width: 520px) 48vw, (max-width: 1000px) 46vw, 30vw" />
-                <span className="app-card-arrow" aria-hidden="true">↗</span>
+              <div className={`app-card-art ${art.mascot ? "has-mascot" : ""}`}>
+                <Image src={art.src} alt={ppuri ? locale === "ko" ? "아기 logU 푸리의 따뜻한 육아 공간" : "Ppuri's warm nursery" : `${name} logU`} fill sizes="(max-width: 600px) 92vw, (max-width: 1000px) 46vw, 32vw" />
               </div>
               <div className="app-card-info">
-                <div className="app-card-name">
-                  {product.appIcon?.asset ? <Image src={urlFor(product.appIcon).width(96).height(96).url()} alt="" width={36} height={36} /> : null}
-                  <h3>{name}</h3>
+                <div className="app-card-summary">
+                  <span className="app-card-icon" aria-hidden="true">{product.appIcon?.asset ? <Image src={urlFor(product.appIcon).width(96).height(96).url()} alt="" width={48} height={48} /> : ppuri ? <Image src="/films/ppuri.webp" alt="" width={48} height={48} /> : <span>{name.charAt(0)}</span>}</span>
+                  <div className="app-card-name">
+                    <h3>{name}</h3>
+                    <p>{localized(product.shortDescriptionI18n, locale, localized(product.descriptionI18n, locale, product.description))}</p>
+                  </div>
+                  <span className="app-card-arrow" aria-hidden="true">→</span>
                 </div>
-                <p>{localized(product.shortDescriptionI18n, locale, localized(product.descriptionI18n, locale, product.description))}</p>
                 <ProductPlatforms product={product} locale={locale} />
-                <div className="app-card-bottom">
-                  <span>{localized(product.categoryI18n, locale, "logUs Studio")}</span>
-                  <span>{locale === "ko" ? "앱 소개" : "Discover"}</span>
-                </div>
               </div>
             </Link>
           );
@@ -170,17 +193,20 @@ export function ProductCollection({ products, locale, limit }: { products: Produ
           <article className="app-card app-card-upcoming" key={`upcoming-${index}`} aria-label={locale === "ko" ? "새로운 앱 준비 중" : "A new app is coming"}>
             <div className="app-card-art">
               <span className="app-card-category">A NEW NEIGHBOR</span>
-              <div className="app-pebble-preview" aria-hidden="true"><span>··</span></div>
+              <Image src="/apps-art/village-v1.webp" alt="" fill sizes="(max-width: 600px) 92vw, (max-width: 1000px) 46vw, 32vw" className={`app-coming-scene app-coming-scene-${index}`} />
               <span className="app-upcoming-index">0{shown.length + index + 1}</span>
             </div>
             <div className="app-card-info">
-              <h3>Coming soon</h3>
-              <p>{locale === "ko" ? "또 다른 하루를 함께할 logU가 찾아옵니다." : "Another logU is finding its way to your everyday life."}</p>
-              <div className="app-card-bottom"><span>{locale === "ko" ? "새로운 이웃을 준비하고 있어요" : "A new neighbor is on the way"}</span></div>
+              <div className="app-card-summary">
+                <span className="app-card-icon" aria-hidden="true">+</span>
+                <div className="app-card-name"><h3>Coming soon</h3><p>{locale === "ko" ? "또 다른 하루를 함께할 새로운 이웃." : "A new neighbor for another everyday life."}</p></div>
+                <span className="app-card-await" aria-hidden="true">···</span>
+              </div>
+              <p className="app-upcoming-caption">{locale === "ko" ? "새로운 logU를 준비하고 있어요" : "A new logU is on the way"}</p>
             </div>
           </article>
         ))}
-        {shown.length < 3 ? (
+        {!village && shown.length < 3 ? (
           <aside className="app-village-note">
             <span>THE logU NEIGHBORHOOD</span>
             <div className="app-village-image">
@@ -191,6 +217,7 @@ export function ProductCollection({ products, locale, limit }: { products: Produ
           </aside>
         ) : null}
       </div>
+      {village ? <div className="app-neighborhood-growing"><span aria-hidden="true">✦</span><p>{locale === "ko" ? "작은 세계는 계속 자랍니다." : "Our little worlds keep growing."}</p><Link href={`/apps?lang=${locale}`}>{locale === "ko" ? "모든 앱 보기" : "All apps"} ↗</Link></div> : null}
       {limit && products.length > limit ? <Link className="app-collection-more" href={`/apps?lang=${locale}`}>{locale === "ko" ? "나머지 앱 모두 보기" : "See the full collection"} ↗</Link> : null}
       {products.length >= 4 ? (
         <aside className="app-platform-roadmap">

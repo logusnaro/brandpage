@@ -11,7 +11,8 @@ assert.ok(home.html.includes('class="app-card app-palette-0"'));
 assert.ok(home.html.includes('id="intro"') && home.html.includes('id="contact"'));
 assert.ok(!home.html.includes('class="film-player'));
 const all = await page("/apps");
-assert.ok(all.html.includes("THE logU NEIGHBORHOOD") && all.html.includes("/apps/bebe?lang=ko"));
+assert.ok(all.html.includes("app-neighborhood-panorama") && all.html.includes("/apps/bebe?lang=ko"));
+assert.ok(home.html.includes("app-neighborhood-heading") && all.html.includes("저마다의 하루"));
 for (const name of ["DayByBaby", "MemoGrip", "GoodGo", "BookBap"]) assert.ok(all.html.includes(name));
 assert.equal((home.html.match(/class="app-card app-card-upcoming"/g) || []).length, 2);
 for (const slug of ["memogrip", "goodgo", "bookbap"]) {
@@ -28,7 +29,7 @@ const missing = await page("/apps/not-a-real-app", 404);
 assert.ok(missing.html.includes("App not found"));
 const manage = await page("/manage", 307);
 assert.ok(manage.headers.get("location")?.includes("/manage/login"));
-for (const path of ["/films/ppuri.webp", "/films/logus-village.webp", "/films/daybybaby-ppuri-intro-20s.mp4"]) {
+for (const path of ["/films/ppuri.webp", "/films/logus-village.webp", "/films/daybybaby-ppuri-intro-20s.mp4", ...["village", "daybybaby", "memogrip", "goodgo", "bookbap"].map(name => `/apps-art/${name}-v1.webp`)]) {
   await page(path);
 }
 console.log("HTTP QA: home/apps/detail/English 200, missing app 404, administrator 307, unchanged media 200 passed.");

@@ -147,3 +147,77 @@
 @media (max-width: 360px) {
   .app-card-grid { grid-template-columns: 1fr; }
 }
+
+/* Approved neighborhood concept: panorama, horizontal scenes, attached information. */
+.app-neighborhood-section, .app-directory-main:has(> .app-neighborhood-heading) { --app-gutter: clamp(20px, 2.4vw, 42px); }
+.app-neighborhood-section { scroll-margin-top: 82px; }
+.app-neighborhood-section .film-products-content { max-width: 1760px; margin: auto; padding: 48px var(--app-gutter) 42px; }
+.app-directory-main:has(> .app-neighborhood-heading) { max-width: 1760px; padding: 24px var(--app-gutter) 60px; }
+.app-neighborhood-heading { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 34px; padding: 0 0 28px; }
+.app-neighborhood-heading > :is(h1,h2) { margin: 0; font-size: clamp(72px, 9.7vw, 140px); line-height: 1; font-weight: 760; letter-spacing: -.055em; }
+.app-neighborhood-intro { border-left: 1px solid #253b3130; padding-left: 34px; }
+.app-neighborhood-intro h3 { margin: 0; font-size: clamp(20px, 2vw, 28px); line-height: 1.4; font-weight: 650; letter-spacing: -.035em; word-break: keep-all; }
+.app-neighborhood-intro p { margin: 8px 0 0; color: var(--film-muted); font-size: 15px; line-height: 1.6; word-break: keep-all; }
+.app-neighborhood-all { display: inline-flex; align-items: center; gap: 14px; padding: 13px 22px; min-height: 44px; background: var(--film-coral); color: #fff; border-radius: 40px; text-decoration: none; font-size: 13px; white-space: nowrap; }
+.app-neighborhood-collection { margin-top: 0; }
+.app-neighborhood-panorama { position: relative; height: clamp(190px, 19vw, 310px); width: calc(100% + 2 * var(--app-gutter)); margin-left: calc(-1 * var(--app-gutter)); overflow: hidden; }
+.app-neighborhood-panorama img { object-fit: cover; object-position: center 58%; }
+.app-neighborhood-collection .app-card-grid { margin-top: 18px; }
+.app-card-grid { gap: 16px 20px; align-items: stretch; }
+.app-card { display: flex; flex-direction: column; overflow: hidden; border-radius: 12px; background: #f7e8df; }
+.app-palette-1 { background: #eeebf4; }
+.app-palette-2 { background: #f5efd9; }
+.app-palette-3 { background: #e6edf2; }
+.app-card-art { aspect-ratio: 2.2; border-radius: 0; flex-shrink: 0; }
+.app-card:is(:hover,:focus-visible) .app-card-art img { transform: scale(1.025); }
+.app-card-info { padding: 0; flex: 1; display: flex; flex-direction: column; }
+.app-card-summary { display: grid; grid-template-columns: 46px minmax(0,1fr) 40px; align-items: center; gap: 12px; padding: 14px; }
+.app-card-icon { width: 46px; height: 46px; display: grid; place-items: center; overflow: hidden; border-radius: 12px; background: #ffffff85; font-size: 24px; font-weight: 650; }
+.app-card-icon img { width: 100%; height: 100%; object-fit: cover; }
+.app-card-name { display: block; min-width: 0; }
+.app-card h3 { font-size: clamp(20px, 1.6vw, 24px); font-weight: 700; letter-spacing: -.035em; line-height: 1.2; }
+.app-card-name p { margin: 5px 0 0; color: var(--film-muted); font-size: 13px; line-height: 1.5; word-break: keep-all; }
+.app-card-arrow { position: static; width: 40px; height: 40px; background: #ffffff80; font-size: 23px; }
+.app-card .app-platform-badges { padding: 0 14px 14px; margin: auto 0 0; gap: 6px; }
+.app-card .app-platform-badges > span { font-size: 10px; padding: 4px 6px; }
+.app-card-upcoming { background: #e8ece2; }
+.app-card-upcoming:nth-child(even) { background: #f4e6df; }
+.app-card-upcoming .app-card-art { border: 0; }
+.app-coming-scene { object-position: 15% center; filter: saturate(.7); }
+.app-coming-scene-1 { object-position: 85% center; }
+.app-card-upcoming .app-card-category { background: #f3f0e8e6; padding: 6px 9px; border-radius: 20px; font-size: 9px; top: 12px; left: 12px; }
+.app-card-upcoming h3 { color: var(--film-ink); font-weight: 650; }
+.app-card-await { text-align: center; font-size: 24px; color: var(--film-muted); }
+.app-upcoming-caption { padding: 0 14px 14px; margin: auto 0 0; color: var(--film-muted); font-size: 11px; line-height: 2; }
+.app-neighborhood-growing { display: flex; align-items: center; gap: 18px; margin-top: 24px; font-size: 12px; color: var(--film-muted); }
+.app-neighborhood-growing::before { content: ''; flex: 1; border-top: 1px solid #253b3120; }
+.app-neighborhood-growing p { margin: 0; }
+.app-neighborhood-growing > a { margin-left: auto; padding: 12px 0 12px 20px; color: var(--film-ink); }
+.app-neighborhood-collection .app-platform-roadmap { margin-top: 12px; padding-top: 16px; }
+.app-neighborhood-collection .app-platform-roadmap p { font-size: 12px; }
+.app-card:focus-visible, .app-neighborhood-all:focus-visible { outline: 3px solid var(--film-coral); outline-offset: 4px; }
+@media (max-width: 1000px) {
+  .app-neighborhood-heading { gap: 22px; }
+  .app-neighborhood-intro { padding-left: 22px; }
+  .app-neighborhood-all { padding: 12px 16px; }
+}
+@media (max-width: 600px) {
+  .app-neighborhood-section .film-products-content { padding-top: 36px; }
+  .app-neighborhood-heading { grid-template-columns: minmax(0,1fr) auto; gap: 18px; padding-bottom: 24px; }
+  .app-neighborhood-heading > :is(h1,h2) { font-size: 78px; }
+  .app-neighborhood-intro { grid-column: 1 / -1; grid-row: 2; border: 0; padding: 0; }
+  .app-neighborhood-intro h3 { font-size: 21px; }
+  .app-neighborhood-intro p { font-size: 13px; }
+  .app-neighborhood-all { padding: 12px 15px; font-size: 12px; }
+  .app-card-grid { grid-template-columns: 1fr; gap: 18px; }
+  .app-card-summary { gap: 12px; }
+  .app-card h3 { font-size: 23px; }
+  .app-card-name p { font-size: 13px; }
+  .app-neighborhood-panorama { height: 190px; }
+  .app-neighborhood-growing { gap: 10px; flex-wrap: wrap; }
+  .app-neighborhood-growing > a { padding-left: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .app-card-art img { transition: none; }
+  .app-card:is(:hover,:focus-visible) .app-card-art img { transform: none; }
+}

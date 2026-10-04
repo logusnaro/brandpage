@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ProductCollection, ProductShowcase } from "./AppProducts";
+import { ProductCollection, ProductCollectionHeader, ProductShowcase } from "./AppProducts";
 import { productPath } from "@/lib/productLinks";
 import type { Locale, Product } from "@/sanity/lib/types";
 import type { ReactNode } from "react";
@@ -31,12 +31,8 @@ function AppShell({ locale, path, children }: { locale: Locale; path: string; ch
 export function AppDirectory({ products, locale }: { products: Product[]; locale: Locale }) {
   return (
     <AppShell locale={locale} path="/apps">
-      <div className="app-directory-heading">
-        <span className="app-eyebrow">THE logU NEIGHBORHOOD</span>
-        <h1>Apps<span>.</span></h1>
-        <p>{locale === "ko" ? "저마다의 하루에 어울리는, 서로 다른 logU와 앱들." : "Different logU and apps, for different everyday lives."}</p>
-      </div>
-      {products.length ? <ProductCollection products={products} locale={locale} /> : <p>{locale === "ko" ? "새로운 앱을 준비하고 있습니다." : "New apps are on their way."}</p>}
+      <ProductCollectionHeader locale={locale} directory />
+      {products.length ? <ProductCollection products={products} locale={locale} village /> : <p>{locale === "ko" ? "새로운 앱을 준비하고 있습니다." : "New apps are on their way."}</p>}
     </AppShell>
   );
 }

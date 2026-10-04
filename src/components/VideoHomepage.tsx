@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import type { FormEvent } from "react";
-import { ProductCollection, localized, brandCase } from "@/components/AppProducts";
+import { ProductCollection, ProductCollectionHeader, localized, brandCase } from "@/components/AppProducts";
 import "./app-products.css";
 import type {
   Locale,
@@ -476,26 +476,11 @@ export function VideoHomepage({ copy, products, socialLinks }: Props) {
           </div>
         </section>
 
-        <section id="product" className="film-products">
+        <section id="product" className="film-products app-neighborhood-section">
           <div className="film-products-content">
-            <div className="cinema-section-label">
-              <span>03 / {ui.selected}</span>
-              <span>logU → logUs</span>
-            </div>
-            <div className="cinema-product-heading">
-              <h2>{ui.productIntro}</h2>
-              <p className="film-products-lead">
-                {brandCase(
-                  localized(
-                    copy.productLead,
-                    locale,
-                    "우리의 곁에 있는 logU를 만나보세요.",
-                  ),
-                )}
-              </p>
-            </div>
+            <ProductCollectionHeader locale={locale} />
             {products.length > 0 ? (
-              <ProductCollection products={products} locale={locale} limit={6} />
+              <ProductCollection products={products} locale={locale} limit={6} village />
             ) : (
               <p className="film-products-empty">{ui.empty}</p>
             )}

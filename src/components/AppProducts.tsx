@@ -119,7 +119,13 @@ function StoreGlyph({ platform }: { platform: string }) {
   );
 }
 
-function FeatureGlyph({ index }: { index: number }) {
+function FeatureGlyph({ index, app }: { index: number; app: string }) {
+  const appPaths: Record<string, string[]> = {
+    memogrip: ["M4 20h4L20 8l-4-4L4 16v4ZM13 7l4 4", "M3 6h7l2 3h9v11H3V6Z", "M3 4h14v11H3V4Zm2 15h10m-5-4v4M19 9h3v12h-6V9h3"],
+    goodgo: ["M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18Zm0 4v5l4 2", "M3 5l6-2 6 2 6-2v16l-6 2-6-2-6 2V5Zm6-2v16m6-14v16", "M4 6h3m3 0h10M4 12h3m3 0h10M4 18h3m3 0h10"],
+    bookbap: ["M12 5C8 3 5 3 2 4v15c3-1 6-1 10 1 4-2 7-2 10-1V4c-3-1-6-1-10 1Zm0 0v15", "M4 6h6v6H4V6Zm10 0h6v6h-6V6ZM10 12c0 4-2 6-6 6m16-6c0 4-2 6-6 6", "M10 3a7 7 0 1 0 0 14 7 7 0 0 0 0-14Zm5 12 6 6"],
+  };
+  const path = appPaths[app]?.[index % 3];
   return (
     <svg
       aria-hidden="true"
@@ -130,7 +136,7 @@ function FeatureGlyph({ index }: { index: number }) {
       stroke="currentColor"
       strokeWidth="1.8"
     >
-      {index % 3 === 0 ? (
+      {path ? <path d={path} /> : index % 3 === 0 ? (
         <>
           <path d="M10 2h4v4h-4zM8 6h8v3H8zm0 3h8v12H8zM12 12h4m-4 4h4" />
         </>
@@ -396,6 +402,7 @@ export function ProductShowcase({
   const [playbackFailed, setPlaybackFailed] = useState(false);
   const ppuri = isDayByBaby(product);
   const name = productName(product, locale);
+  const designed = ppuri || ["memogrip", "goodgo", "bookbap"].includes(name.toLowerCase());
   const room = appRoom(product);
   const detail = product.detail;
   const hero = detail?.heroImage?.asset
@@ -452,7 +459,7 @@ export function ProductShowcase({
 
   return (
     <article
-      className={`app-room-service ${ppuri ? "app-room-ppuri" : "app-room-neighbor"}`}
+      className={`app-room-service ${designed ? "app-room-designed" : ""} ${ppuri ? "app-room-ppuri" : "app-room-neighbor"}`}
       aria-labelledby={`film-service-${index}`}
     >
       <section className="app-room-hero">
@@ -485,7 +492,7 @@ export function ProductShowcase({
               />
             ) : (
               <span className="app-room-mark" aria-hidden="true">
-                {ppuri ? (
+                {designed ? (
                   <svg viewBox="0 0 40 40" width="40" height="40">
                     <path
                       fill="#fff6ed"
@@ -685,9 +692,9 @@ export function ProductShowcase({
                     </div>
                   ) : null}
                   <div className="app-room-feature-text">
-                    {ppuri ? (
+                    {designed ? (
                       <span className="app-room-feature-badge">
-                        <FeatureGlyph index={featureIndex} />
+                        <FeatureGlyph index={featureIndex} app={name.toLowerCase()} />
                       </span>
                     ) : null}
                     <h3>{feature.title}</h3>
@@ -747,7 +754,7 @@ export function ProductShowcase({
             </div>
           </section>
         ) : null}
-        {!ppuri ? (
+        {!designed ? (
           <div className="app-detail-bottom app-room-download">
             <h2>
               {locale === "ko"

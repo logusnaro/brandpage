@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { mkdir } from "node:fs/promises";
 import path from "node:path";
 const base = process.env.TEST_BASE_URL || "http://localhost:3001";
-const output = path.resolve("docs/qa/app-detail-parity-2026-10-05");
+const output = path.resolve("docs/qa/service-rooms-contact-2026-10-05");
 await mkdir(output, { recursive: true });
 // Existing system Edge; no new dependency or browser download.
 const browser = await chromium.launch({ headless: true, channel: "msedge" });
@@ -61,6 +61,12 @@ try {
       assert.equal(metrics.media, 0, "Media must not autoplay on arrival");
       assert.equal(await page.locator("h1").count(), 1);
       assert.equal(await page.locator(".app-room-neighbors a").count(), 3);
+      assert.equal(await page.locator(".app-room-designed").count(), 1);
+      if (slug !== "bebe") {
+        assert.equal(await page.locator(".film-player, .film-video-options, .app-detail-bottom").count(), 0);
+        const sources = await page.locator(".app-room-features img").evaluateAll(imgs => imgs.map(img => img.getAttribute("src")));
+        assert.equal(new Set(sources).size, 3, "Different feature scenes, not a repeated mascot");
+      }
       if (slug === "bebe") {
         assert.equal(await page.locator(".app-room-emergency").count(), 1);
         assert.ok(!(await page.locator("article.app-room-service").textContent()).includes("시연 기능"));
@@ -79,8 +85,7 @@ try {
         await page.screenshot({
           path: path.join(output, `${slug}-${label}-hero.png`),
         });
-        if (slug === "bebe")
-          for (const section of ["videos", "features"]) {
+          for (const section of slug === "bebe" ? ["videos", "features"] : ["features"]) {
             const target = page.locator(`.app-room-${section}`);
             await target.scrollIntoViewIfNeeded();
             await target.locator("img").evaluateAll(async (imgs) => {
@@ -143,6 +148,22 @@ try {
     assert.equal(await page.locator("a.app-card").count(), 4);
   }
   await page.close();
+  for (const [label, width, height] of [["pc",1440,1000],["mobile",393,852],["small",320,740],["tablet",820,1180]]) {
+    const contactPage = await browser.newPage({viewport:{width,height},reducedMotion:"reduce"});
+    contactPage.on("pageerror",error=>errors.push(error.message));
+    await contactPage.goto(base + "/#contact");
+    const contact = contactPage.locator("#contact");
+    await contact.scrollIntoViewIfNeeded();
+    await contact.locator(".studio-contact-image img").evaluate(img=>img.decode());
+    assert.ok((await contact.locator("img").getAttribute("src")).includes("contact-studio-v2"));
+    assert.equal(await contact.locator("form").count(),1);
+    assert.ok(await contactPage.evaluate(()=>document.documentElement.scrollWidth <= window.innerWidth+1),"Contact no horizontal overflow");
+    if (label==="pc" || label==="mobile") {
+      await contact.evaluate(el=>window.scrollTo(0,el.getBoundingClientRect().top+window.scrollY));
+      await contactPage.screenshot({path:path.join(output,`contact-${label}.png`),fullPage:false});
+    }
+    await contactPage.close();
+  }
   assert.deepEqual(errors, [], "Browser errors");
   console.log(
     "English, 3 video playbacks, vertical links, neighbors, unchanged homepage/catalogue passed. No browser errors.",

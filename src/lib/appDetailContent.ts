@@ -62,7 +62,7 @@ const rooms: Record<string, Room> = {
     ],
   },
   memogrip: {
-    hero: "/apps-art/memogrip-v1.webp",
+    hero: "/apps-art/memogrip-room-v2.webp",
     headline: text(
       "떠오른 생각은 가볍게.\n다시 찾을 때는 선명하게.",
       "Catch a thought.\nFind it when you need it.",
@@ -90,7 +90,7 @@ const rooms: Record<string, Room> = {
           "형식에 얽매이지 않고 떠오른 생각부터 남겨요.",
           "Capture what comes to mind without a rigid format.",
         ),
-        image: "/apps-art/memogrip-v1.webp",
+        image: "/apps-art/memogrip-feature-1.webp",
       },
       {
         title: text("분류를 도와주는 AI", "A hand with classification"),
@@ -98,7 +98,7 @@ const rooms: Record<string, Room> = {
           "규칙과 AI로 큰 분류를 돕고, 세부 분류는 내 방식대로.",
           "Rules and AI help with main categories. Keep subcategories your own.",
         ),
-        image: "/apps-art/memogrip-v1.webp",
+        image: "/apps-art/memogrip-feature-2.webp",
       },
       {
         title: text("PC와 Android에서", "Across PC and Android"),
@@ -106,12 +106,12 @@ const rooms: Record<string, Room> = {
           "같은 계정으로 메모를 이어가세요.",
           "Continue your notes with the same account.",
         ),
-        image: "/apps-art/memogrip-v1.webp",
+        image: "/apps-art/memogrip-feature-3.webp",
       },
     ],
   },
   goodgo: {
-    hero: "/apps-art/goodgo-v1.webp",
+    hero: "/apps-art/goodgo-room-v2.webp",
     headline: text(
       "나서기 전의 하루를,\n조금 더 여유롭게.",
       "A little more calm.\nBefore you head out.",
@@ -139,7 +139,7 @@ const rooms: Record<string, Room> = {
           "도착 시간과 이동 시간을 기준으로 준비와 출발 시간을 계산해요.",
           "Calculate preparation and departure from arrival and travel time.",
         ),
-        image: "/apps-art/goodgo-v1.webp",
+        image: "/apps-art/goodgo-feature-1.webp",
       },
       {
         title: text("내 이동 방식으로", "Your way of getting there"),
@@ -147,7 +147,7 @@ const rooms: Record<string, Room> = {
           "목적지와 이동 방법을 정하고 필요한 이동 시간을 반영해요.",
           "Choose a destination and travel method, then factor in travel time.",
         ),
-        image: "/apps-art/goodgo-v1.webp",
+        image: "/apps-art/goodgo-feature-2.webp",
       },
       {
         title: text("빠뜨리지 않도록", "Don't leave it behind"),
@@ -155,12 +155,12 @@ const rooms: Record<string, Room> = {
           "날씨와 준비물 체크리스트를 함께 살펴봐요.",
           "Check the weather and your essentials together.",
         ),
-        image: "/apps-art/goodgo-v1.webp",
+        image: "/apps-art/goodgo-feature-3.webp",
       },
     ],
   },
   bookbap: {
-    hero: "/apps-art/bookbap-v1.webp",
+    hero: "/apps-art/bookbap-room-v2.webp",
     headline: text(
       "읽은 만큼,\n내 안에 남는 이야기.",
       "Stories you read.\nStories that stay.",
@@ -188,7 +188,7 @@ const rooms: Record<string, Room> = {
           "읽는 책과 독서의 흐름을 기록해요.",
           "Record your books and your reading journey.",
         ),
-        image: "/apps-art/bookbap-v1.webp",
+        image: "/apps-art/bookbap-feature-1.webp",
       },
       {
         title: text("간직하고 싶은 문장", "Words worth keeping"),
@@ -196,7 +196,7 @@ const rooms: Record<string, Room> = {
           "마음에 남은 문장과 생각을 모아두세요.",
           "Collect the words and thoughts that stay with you.",
         ),
-        image: "/apps-art/bookbap-v1.webp",
+        image: "/apps-art/bookbap-feature-2.webp",
       },
       {
         title: text("책을 찾고 더하기", "Find a book"),
@@ -204,7 +204,7 @@ const rooms: Record<string, Room> = {
           "ISBN 검색으로 책을 찾아 내 기록에 더해요.",
           "Find books by ISBN and add them to your records.",
         ),
-        image: "/apps-art/bookbap-v1.webp",
+        image: "/apps-art/bookbap-feature-3.webp",
       },
     ],
   },

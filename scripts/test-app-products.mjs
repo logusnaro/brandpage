@@ -77,6 +77,9 @@ assert.ok(!detail.includes("<video") && !detail.includes("<iframe"), "No media l
 for (const name of ["memogrip", "goodgo", "bookbap"]) {
   const markup = render(exports.ProductShowcase, { product: { ...product, name, displayName: name }, index: 0, locale: "ko" });
   assert.ok(markup.includes("app-room-neighbor") && markup.includes("app-feature-grid"));
+  assert.ok(markup.includes("app-room-designed") && markup.includes(`/apps-art/${name}-room-v2.webp`));
+  for (const index of [1, 2, 3]) assert.ok(markup.includes(`/apps-art/${name}-feature-${index}.webp`));
+  assert.ok(!markup.includes("app-detail-bottom"), "No duplicate downloads");
   assert.ok(!markup.includes("응급 연락처") && !markup.includes("film-video-area"));
 }
 const custom = render(exports.ProductShowcase, { product: { ...product, detail: { headlineI18n: { ko: "관리자가 바꾼 제목" }, introI18n: { ko: "관리자가 바꾼 설명" } }, highlights: [{ _key: "custom", label: { ko: "맞춤 기능" }, description: { ko: "맞춤 설명" }, image: { asset: { _ref: "test" } } }] }, index: 0, locale: "ko" });
@@ -90,6 +93,10 @@ const homepage = readFileSync(new URL("../src/components/VideoHomepage.tsx", imp
 const intro = (text) => text.slice(text.indexOf("export function VideoHomepage"), text.indexOf('        <section id="product"'));
 const contact = (text) => text.slice(text.indexOf('        <section id="contact"'));
 assert.equal(intro(homepage), intro(baseline), "Intro, Studio, header and Contact behavior must remain unchanged");
-assert.equal(contact(homepage), contact(baseline), "Contact markup must remain unchanged");
+const contactAssetOnly = contact(homepage)
+  .replace("/apps-art/contact-studio-v2.webp", "/story/intro/intro-05-family-dinner-v2.webp")
+  .replace("작은 스튜디오에서 함께 이야기를 나누는 서로 다른 logU들", "가족의 이야기를 함께 바라보는 logu")
+  .replace("Different logU friends sharing stories around a studio table", "logU sharing a family evening");
+assert.equal(contactAssetOnly, contact(baseline), "Contact form/layout unchanged; only image and accessible description may change");
 console.log("Apps markup: 1/10 apps, 6-card homepage, list/detail split, Korean/English, 3 download links, empty CMS arrays and video grouping passed.");
-console.log("Scope regression: Intro/Studio/header logic and Contact markup match the pre-change commit exactly.");
+console.log("Scope regression: Intro/Studio/header unchanged; Contact changes are image and alt text only.");

@@ -501,11 +501,11 @@ export function VideoHomepage({ copy, products, socialLinks }: Props) {
           <div className="studio-contact-body">
             <div className="studio-contact-image">
               <Image
-                src="/story/intro/intro-05-family-dinner-v2.webp"
+                src="/apps-art/contact-studio-v2.webp"
                 alt={
                   locale === "ko"
-                    ? "가족의 이야기를 함께 바라보는 logu"
-                    : "logU sharing a family evening"
+                    ? "작은 스튜디오에서 함께 이야기를 나누는 서로 다른 logU들"
+                    : "Different logU friends sharing stories around a studio table"
                 }
                 fill
                 sizes="(max-width: 800px) 92vw, 43vw"

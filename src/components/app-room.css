@@ -1,4 +1,5 @@
 /* Detail pages only. The homepage and Apps catalogue stay unchanged. */
+/* Approved DayByBaby proportions are shared by the four service rooms. */
 .app-room-site {
   --room-paper: #fbf8f2;
   --room-brown: #603529;
@@ -48,7 +49,7 @@
   object-fit: cover;
   object-position: center center;
 }
-.app-room-ppuri .app-room-scene::after {
+.app-room-designed .app-room-scene::after {
   content: "";
   position: absolute;
   inset: 0;
@@ -63,7 +64,7 @@
     linear-gradient(0deg, #fbf8f2 0%, transparent 15%);
 }
 .app-room-neighbor .app-room-scene {
-  left: 39%;
+  left: 0;
 }
 .app-room-neighbor .app-room-scene::after {
   content: "";
@@ -382,6 +383,7 @@
   min-width: 0;
 }
 .app-room-neighbors img {
+  object-position: 78% center;
   width: 67px;
   height: 67px;
   object-fit: cover;
@@ -501,14 +503,14 @@
     height: 330px;
     z-index: 0;
   }
-  .app-room-ppuri .app-room-scene img {
+  .app-room-designed .app-room-scene img {
     object-fit: cover;
     object-position: 77% center;
     width: 180% !important;
     max-width: none;
     left: -80% !important;
   }
-  .app-room-ppuri .app-room-scene::after {
+  .app-room-designed .app-room-scene::after {
     background: linear-gradient(
       180deg,
       #fbf8f2 0%,
@@ -518,7 +520,7 @@
     );
   }
   .app-room-neighbor .app-room-scene img {
-    object-position: center 65%;
+    object-position: 77% center;
   }
   .app-room-neighbor .app-room-scene::after {
     background: linear-gradient(
@@ -672,51 +674,51 @@
 .app-room-language a[aria-current] {
   font-weight: 700;
 }
-.app-room-ppuri .app-room-hero {
+.app-room-designed .app-room-hero {
   min-height: clamp(580px, 40.8vw, 720px);
 }
-.app-room-ppuri .app-room-copy {
+.app-room-designed .app-room-copy {
   width: 57%;
   padding: 30px 0 42px 5.1vw;
 }
-.app-room-ppuri .app-room-breadcrumb {
+.app-room-designed .app-room-breadcrumb {
   font-size: 15px;
   margin-bottom: 22px;
 }
-.app-room-ppuri .app-room-breadcrumb {
+.app-room-designed .app-room-breadcrumb {
   color: #766f6a !important;
 }
-.app-room-ppuri .app-room-identity {
+.app-room-designed .app-room-identity {
   gap: 20px;
   font-size: 28px;
   font-weight: 750;
 }
-.app-room-ppuri .app-room-mark,
-.app-room-ppuri .app-room-identity img {
+.app-room-designed .app-room-mark,
+.app-room-designed .app-room-identity img {
   width: 74px;
   height: 74px;
   border-radius: 20px;
   background: #e86c52;
 }
-.app-room-ppuri .app-room-mark svg {
+.app-room-designed .app-room-mark svg {
   width: 62px;
   height: 62px;
 }
-.app-room-ppuri .app-room-copy h1 {
+.app-room-designed .app-room-copy h1 {
   font-size: clamp(44px, 4.35vw, 73px);
   margin: 23px 0 22px;
   line-height: 1.24;
   font-weight: 760;
   letter-spacing: -0.045em;
 }
-.app-room-site .app-room-ppuri .app-room-copy > p {
+.app-room-site .app-room-designed .app-room-copy > p {
   max-width: 650px;
   color: #686e70;
   font-size: clamp(16px, 1.4vw, 23px);
   line-height: 1.6;
   margin: 0 0 26px;
 }
-.app-room-ppuri .app-room-scene::after {
+.app-room-designed .app-room-scene::after {
   background:
     linear-gradient(
       90deg,
@@ -727,71 +729,71 @@
     ),
     linear-gradient(0deg, #fbf8f2 0%, transparent 10%);
 }
-.app-room-ppuri .app-download-label {
+.app-room-designed .app-download-label {
   display: none;
 }
-.app-room-ppuri .app-platform-planned {
+.app-room-designed .app-platform-planned {
   font-size: 17px;
   min-width: 205px;
   padding: 14px 22px;
   border-radius: 10px;
 }
-.app-room-ppuri .app-platform-planned small {
+.app-room-designed .app-platform-planned small {
   display: none;
 }
-.app-room-site .app-room-ppuri .app-room-copy > .app-room-launch-note {
+.app-room-site .app-room-designed .app-room-copy > .app-room-launch-note {
   font-size: 14px;
   margin: 14px 0 0;
 }
-.app-room-ppuri .app-room-content {
+.app-room-designed .app-room-content {
   max-width: 1760px;
   padding: 40px 5.1vw 0;
   border-radius: 24px 24px 0 0;
 }
-.app-room-ppuri .app-room-videos {
+.app-room-designed .app-room-videos {
   grid-template-columns: minmax(0, 0.26fr) minmax(0, 0.74fr);
   gap: 36px;
   padding: 0;
   margin-bottom: 42px;
 }
-.app-room-site .app-room-ppuri .app-eyebrow {
+.app-room-site .app-room-designed .app-eyebrow {
   color: #ed6c55;
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.12em;
 }
-.app-room-ppuri .app-room-video-copy {
+.app-room-designed .app-room-video-copy {
   padding-top: 18px;
 }
-.app-room-ppuri .app-room-video-copy h2 {
+.app-room-designed .app-room-video-copy h2 {
   color: #07383b;
   font-size: clamp(34px, 3.2vw, 50px);
   line-height: 1.2;
   font-weight: 750;
   margin: 21px 0 18px;
 }
-.app-room-ppuri .app-room-video-copy p {
+.app-room-designed .app-room-video-copy p {
   font-size: 16px;
   color: #667379;
   line-height: 1.65;
   max-width: 280px;
 }
-.app-room-ppuri .app-room-video-mascot {
+.app-room-designed .app-room-video-mascot {
   width: 135px;
   height: 145px;
   margin-top: 2px;
 }
-.app-room-ppuri .film-player {
+.app-room-designed .film-player {
   aspect-ratio: 2.85;
   border-radius: 14px;
 }
-.app-room-ppuri .film-player.is-playing {
+.app-room-designed .film-player.is-playing {
   aspect-ratio: 16/9;
 }
-.app-room-ppuri .film-player-image {
+.app-room-designed .film-player-image {
   object-fit: cover;
 }
-.app-room-ppuri .film-player-play {
+.app-room-designed .film-player-play {
   width: 80px;
   height: 80px;
   border-radius: 50%;
@@ -802,11 +804,11 @@
   font-size: 30px;
   padding-left: 5px;
 }
-.app-room-ppuri .film-video-options {
+.app-room-designed .film-video-options {
   margin: 12px 0 0;
   border: 0;
 }
-.app-room-ppuri .film-video-options button {
+.app-room-designed .film-video-options button {
   flex: 1;
   min-width: 0;
   font-size: 15px;
@@ -814,56 +816,56 @@
   border-color: #89939245;
   color: #52646a;
 }
-.app-room-ppuri .film-video-options button.selected {
+.app-room-designed .film-video-options button.selected {
   background: #ee7159;
   border-color: #ee7159;
   color: white;
 }
-.app-room-ppuri .film-video-options button small {
+.app-room-designed .film-video-options button small {
   font-size: 13px;
 }
-.app-room-ppuri .film-video-direct {
+.app-room-designed .film-video-direct {
   display: inline-block;
   margin-top: 10px;
   font-size: 11px;
 }
-.app-room-ppuri .app-video-note {
+.app-room-designed .app-video-note {
   font-size: 12px;
   line-height: 1.6;
 }
-.app-room-ppuri .app-extra-films {
+.app-room-designed .app-extra-films {
   padding: 6px 0;
   margin-top: 10px;
   border: 0;
 }
-.app-room-ppuri .app-room-features {
+.app-room-designed .app-room-features {
   padding-bottom: 25px;
 }
-.app-room-ppuri .app-room-features h2 {
+.app-room-designed .app-room-features h2 {
   color: #07383b;
   font-weight: 730;
   font-size: clamp(28px, 3.1vw, 44px);
   margin: 12px 0 24px;
 }
-.app-room-ppuri .app-feature-grid {
+.app-room-designed .app-feature-grid {
   gap: 26px;
 }
-.app-room-ppuri .app-feature-grid article {
+.app-room-designed .app-feature-grid article {
   display: grid;
   grid-template-columns: 1.15fr 1fr;
   align-items: center;
   gap: 17px;
 }
-.app-room-ppuri .app-room-feature-art {
+.app-room-designed .app-room-feature-art {
   aspect-ratio: 1.35;
 }
-.app-room-ppuri .app-feature-grid h3 {
+.app-room-designed .app-feature-grid h3 {
   color: #07383b;
   font-size: 18px;
   font-weight: 720;
   margin: 10px 0 8px;
 }
-.app-room-ppuri .app-feature-grid p {
+.app-room-designed .app-feature-grid p {
   font-size: 14px;
   color: #687b80;
   line-height: 1.6;
@@ -914,12 +916,12 @@
 .app-room-store-glyph {
   display: none;
 }
-.app-room-ppuri .app-platform-planned {
+.app-room-designed .app-platform-planned {
   display: inline-flex;
   align-items: center;
   gap: 12px;
 }
-.app-room-ppuri .app-room-store-glyph {
+.app-room-designed .app-room-store-glyph {
   display: inline-block;
   flex: none;
   width: 27px;
@@ -941,17 +943,17 @@
 .app-room-feature-heading { display: flex; align-items: center; justify-content: space-between; gap: 30px; }
 .app-room-feature-heading > p { white-space: pre-line; color: #687b80; font-size: 15px; line-height: 1.6; margin: 0 0 20px; }
 @media (max-width: 1100px) and (min-width: 761px) {
-  .app-room-ppuri .app-room-copy {
+  .app-room-designed .app-room-copy {
     width: 60%;
   }
-  .app-room-ppuri .app-room-copy h1 {
+  .app-room-designed .app-room-copy h1 {
     font-size: 42px;
   }
-  .app-room-ppuri .app-platform-planned {
+  .app-room-designed .app-platform-planned {
     font-size: 14px;
     min-width: 170px;
   }
-  .app-room-ppuri .app-feature-grid article {
+  .app-room-designed .app-feature-grid article {
     display: block;
   }
   .app-room-feature-badge {
@@ -961,7 +963,7 @@
 @media (max-width: 760px) {
   .app-room-feature-heading { display: block; }
   .app-room-feature-heading > p { font-size: 12px; margin-bottom: 22px; }
-  .app-room-ppuri .film-player-image { object-fit: contain; }
+  .app-room-designed .film-player-image { object-fit: contain; }
   .app-room-video-tools { flex-wrap: wrap; gap: 5px 15px; }
   .app-room-site .app-directory-header {
     padding: 16px 20px;
@@ -978,47 +980,47 @@
     margin-left: auto;
     font-size: 12px;
   }
-  .app-room-ppuri .app-room-hero {
+  .app-room-designed .app-room-hero {
     min-height: 0;
   }
-  .app-room-ppuri .app-room-copy {
+  .app-room-designed .app-room-copy {
     width: 100%;
     padding: 24px 24px 15px;
   }
-  .app-room-ppuri .app-room-breadcrumb {
+  .app-room-designed .app-room-breadcrumb {
     font-size: 12px;
     margin-bottom: 22px;
   }
-  .app-room-ppuri .app-room-identity {
+  .app-room-designed .app-room-identity {
     font-size: 22px;
     gap: 14px;
   }
-  .app-room-ppuri .app-room-mark,
-  .app-room-ppuri .app-room-identity img {
+  .app-room-designed .app-room-mark,
+  .app-room-designed .app-room-identity img {
     width: 54px;
     height: 54px;
     border-radius: 14px;
   }
-  .app-room-ppuri .app-room-mark svg {
+  .app-room-designed .app-room-mark svg {
     width: 44px;
     height: 44px;
   }
-  .app-room-ppuri .app-room-copy h1 {
+  .app-room-designed .app-room-copy h1 {
     font-size: clamp(29px, 8vw, 43px);
   }
-  .app-room-site .app-room-ppuri .app-room-copy > p {
+  .app-room-site .app-room-designed .app-room-copy > p {
     font-size: 15px;
     line-height: 1.7;
   }
-  .app-room-ppuri .app-platform-planned {
+  .app-room-designed .app-platform-planned {
     font-size: 13px;
     min-width: 130px;
     padding: 12px;
   }
-  .app-room-ppuri .app-room-scene {
+  .app-room-designed .app-room-scene {
     height: 260px;
   }
-  .app-room-ppuri .app-room-scene::after {
+  .app-room-designed .app-room-scene::after {
     background: linear-gradient(
       180deg,
       #fbf8f2 0%,
@@ -1027,62 +1029,62 @@
       #fbf8f2
     );
   }
-  .app-room-ppuri .app-room-content {
+  .app-room-designed .app-room-content {
     padding: 28px 24px 0;
   }
-  .app-room-ppuri .app-room-videos {
+  .app-room-designed .app-room-videos {
     grid-template-columns: 1fr;
     gap: 24px;
     margin-bottom: 38px;
   }
-  .app-room-ppuri .app-room-video-copy {
+  .app-room-designed .app-room-video-copy {
     padding: 0 105px 0 0;
   }
-  .app-room-ppuri .app-room-video-copy h2 {
+  .app-room-designed .app-room-video-copy h2 {
     font-size: 30px;
   }
-  .app-room-ppuri .app-room-video-copy p {
+  .app-room-designed .app-room-video-copy p {
     font-size: 13px;
   }
-  .app-room-ppuri .app-room-video-mascot {
+  .app-room-designed .app-room-video-mascot {
     width: 92px;
     height: 115px;
   }
-  .app-room-ppuri .film-player {
+  .app-room-designed .film-player {
     aspect-ratio: 2.2;
   }
-  .app-room-ppuri .film-player-play {
+  .app-room-designed .film-player-play {
     width: 53px;
     height: 53px;
     font-size: 22px;
   }
-  .app-room-ppuri .film-video-options button {
+  .app-room-designed .film-video-options button {
     font-size: 11px;
     padding: 10px 8px;
     gap: 5px;
     flex: 1 1 30%;
   }
-  .app-room-ppuri .film-video-options button small {
+  .app-room-designed .film-video-options button small {
     font-size: 10px;
   }
-  .app-room-ppuri .app-room-features h2 {
+  .app-room-designed .app-room-features h2 {
     font-size: 27px;
   }
-  .app-room-ppuri .app-feature-grid {
+  .app-room-designed .app-feature-grid {
     grid-template-columns: 1fr;
     gap: 25px;
   }
-  .app-room-ppuri .app-feature-grid article {
+  .app-room-designed .app-feature-grid article {
     grid-template-columns: 1.15fr 1fr;
     gap: 17px;
   }
-  .app-room-ppuri .app-room-feature-art {
+  .app-room-designed .app-room-feature-art {
     aspect-ratio: 1.25;
   }
-  .app-room-ppuri .app-feature-grid h3 {
+  .app-room-designed .app-feature-grid h3 {
     font-size: 16px;
   }
-  .app-room-ppuri .app-feature-grid p {
+  .app-room-designed .app-feature-grid p {
     font-size: 11px;
   }
   .app-room-feature-badge {

@@ -12,7 +12,15 @@ export type DailyScene = {
   time: string;
   title: LocalizedText;
   copy: LocalizedText;
-  visual: "wake" | "meal" | "commute" | "work" | "lunch" | "home" | "family" | "night";
+  visual:
+    | "wake"
+    | "meal"
+    | "commute"
+    | "work"
+    | "lunch"
+    | "home"
+    | "family"
+    | "night";
 };
 
 export type IntroScene = {
@@ -28,10 +36,37 @@ export type LifeStage = {
   age: LocalizedText;
   title: LocalizedText;
   copy: LocalizedText;
-  visual: "baby" | "kindergarten" | "school" | "teen" | "university" | "work" | "family" | "later";
+  visual:
+    | "baby"
+    | "kindergarten"
+    | "school"
+    | "teen"
+    | "university"
+    | "work"
+    | "family"
+    | "later";
 };
 
+export type CinemaCopy = Partial<
+  Record<
+    | "heroSubtitle"
+    | "filmLabel"
+    | "studioNav"
+    | "appsNav"
+    | "storyTitle"
+    | "storyBody"
+    | "worldsTitle"
+    | "worldsBody"
+    | "productTitle"
+    | "growingCaption"
+    | "togetherCaption"
+    | "lookingBackCaption",
+    Partial<LocalizedText>
+  >
+>;
+
 export type SiteSettings = {
+  cinema?: CinemaCopy;
   pageLabels: {
     intro: LocalizedText;
     product: LocalizedText;

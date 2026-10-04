@@ -14,6 +14,7 @@ import type {
 } from "./types";
 
 type RawSettings = Partial<{
+  cinema: SiteSettings["cinema"];
   pageLabels: Partial<SiteSettings["pageLabels"]>;
   introScenes: Array<Partial<IntroScene>>;
   navigation: Partial<SiteSettings["navigation"]>;
@@ -56,11 +57,18 @@ type RawSettings = Partial<{
 
 function mergeIntroScenes(value: RawSettings["introScenes"]): IntroScene[] {
   const serialized = JSON.stringify(value ?? []).toLowerCase();
-  if (!value || value.length !== 4 || /\blogi\b|i i i|log \+ i/.test(serialized)) {
+  if (
+    !value ||
+    value.length !== 4 ||
+    /\blogi\b|i i i|log \+ i/.test(serialized)
+  ) {
     return fallbackSiteSettings.intro.scenes;
   }
   return value.map((scene, index) => {
-    const fallback = fallbackSiteSettings.intro.scenes[index % fallbackSiteSettings.intro.scenes.length];
+    const fallback =
+      fallbackSiteSettings.intro.scenes[
+        index % fallbackSiteSettings.intro.scenes.length
+      ];
     return {
       _key: scene._key || fallback._key,
       symbol: scene.symbol?.trim() || fallback.symbol,
@@ -71,7 +79,10 @@ function mergeIntroScenes(value: RawSettings["introScenes"]): IntroScene[] {
   });
 }
 
-function localized(value: Partial<LocalizedText> | undefined, fallback: LocalizedText): LocalizedText {
+function localized(
+  value: Partial<LocalizedText> | undefined,
+  fallback: LocalizedText,
+): LocalizedText {
   return {
     ko: value?.ko?.trim() || fallback.ko,
     en: value?.en?.trim() || fallback.en,
@@ -83,8 +94,12 @@ function mergeDailyScenes(value: RawSettings["dailyScenes"]): DailyScene[] {
 
   return value.map((scene, index) => {
     const fallback =
-      fallbackSiteSettings.daily.scenes.find((item) => item.visual === scene.visual) ??
-      fallbackSiteSettings.daily.scenes[index % fallbackSiteSettings.daily.scenes.length];
+      fallbackSiteSettings.daily.scenes.find(
+        (item) => item.visual === scene.visual,
+      ) ??
+      fallbackSiteSettings.daily.scenes[
+        index % fallbackSiteSettings.daily.scenes.length
+      ];
     return {
       _key: scene._key || `${scene.visual || "scene"}-${index}`,
       time: scene.time?.trim() || fallback.time,
@@ -100,8 +115,12 @@ function mergeLifeStages(value: RawSettings["lifeStages"]): LifeStage[] {
 
   return value.map((stage, index) => {
     const fallback =
-      fallbackSiteSettings.life.stages.find((item) => item.visual === stage.visual) ??
-      fallbackSiteSettings.life.stages[index % fallbackSiteSettings.life.stages.length];
+      fallbackSiteSettings.life.stages.find(
+        (item) => item.visual === stage.visual,
+      ) ??
+      fallbackSiteSettings.life.stages[
+        index % fallbackSiteSettings.life.stages.length
+      ];
     return {
       _key: stage._key || `${stage.visual || "stage"}-${index}`,
       age: localized(stage.age, fallback.age),
@@ -117,6 +136,7 @@ function mergeSettings(raw: RawSettings | null): SiteSettings {
   if (!raw) return fallback;
 
   return {
+    cinema: raw.cinema,
     pageLabels: {
       intro: localized(raw.pageLabels?.intro, fallback.pageLabels.intro),
       product: localized(raw.pageLabels?.product, fallback.pageLabels.product),
@@ -124,7 +144,10 @@ function mergeSettings(raw: RawSettings | null): SiteSettings {
     },
     navigation: {
       daily: localized(raw.navigation?.daily, fallback.navigation.daily),
-      products: localized(raw.navigation?.products, fallback.navigation.products),
+      products: localized(
+        raw.navigation?.products,
+        fallback.navigation.products,
+      ),
       life: localized(raw.navigation?.life, fallback.navigation.life),
     },
     language: {
@@ -137,19 +160,37 @@ function mergeSettings(raw: RawSettings | null): SiteSettings {
       title: localized(raw.dailyTitle, fallback.daily.title),
       body: localized(raw.dailyBody, fallback.daily.body),
       cta: localized(raw.dailyCta, fallback.daily.cta),
-      journeyLabel: localized(raw.dailyJourneyLabel, fallback.daily.journeyLabel),
+      journeyLabel: localized(
+        raw.dailyJourneyLabel,
+        fallback.daily.journeyLabel,
+      ),
       scenes: mergeDailyScenes(raw.dailyScenes),
-      closingTitle: localized(raw.dailyClosingTitle, fallback.daily.closingTitle),
+      closingTitle: localized(
+        raw.dailyClosingTitle,
+        fallback.daily.closingTitle,
+      ),
       closingBody: localized(raw.dailyClosingBody, fallback.daily.closingBody),
     },
     products: {
       eyebrow: localized(raw.productsEyebrow, fallback.products.eyebrow),
       title: localized(raw.productsTitle, fallback.products.title),
       body: localized(raw.productsBody, fallback.products.body),
-      transitionTitle: localized(raw.productsTransitionTitle, fallback.products.transitionTitle),
-      transitionBody: localized(raw.productsTransitionBody, fallback.products.transitionBody),
-      comingSoon: localized(raw.productsComingSoon, fallback.products.comingSoon),
-      visitProduct: localized(raw.productsVisit, fallback.products.visitProduct),
+      transitionTitle: localized(
+        raw.productsTransitionTitle,
+        fallback.products.transitionTitle,
+      ),
+      transitionBody: localized(
+        raw.productsTransitionBody,
+        fallback.products.transitionBody,
+      ),
+      comingSoon: localized(
+        raw.productsComingSoon,
+        fallback.products.comingSoon,
+      ),
+      visitProduct: localized(
+        raw.productsVisit,
+        fallback.products.visitProduct,
+      ),
       guide: localized(raw.productsGuide, fallback.products.guide),
       lead: localized(raw.productsLead, fallback.products.lead),
       support: localized(raw.productsSupport, fallback.products.support),
@@ -167,13 +208,19 @@ function mergeSettings(raw: RawSettings | null): SiteSettings {
       label: localized(raw.contactLabel, fallback.contact.label),
       title: localized(raw.contactTitle, fallback.contact.title),
       body: localized(raw.contactBody, fallback.contact.body),
-      email: raw.contactEmail?.trim() || raw.contact?.email?.trim() || fallback.contact.email,
+      email:
+        raw.contactEmail?.trim() ||
+        raw.contact?.email?.trim() ||
+        fallback.contact.email,
       location: localized(raw.contactLocation, fallback.contact.location),
       copyright: localized(raw.copyright, fallback.contact.copyright),
     },
     metadata: {
       title: localized(raw.metaTitle, fallback.metadata.title),
-      description: localized(raw.metaDescription, fallback.metadata.description),
+      description: localized(
+        raw.metaDescription,
+        fallback.metadata.description,
+      ),
     },
   };
 }
@@ -187,10 +234,21 @@ async function loadPageData(): Promise<PageData> {
     ]);
 
     return {
-      source: rawSettings || products?.length || socialLinks?.length ? "sanity" : "fallback",
+      source:
+        rawSettings || products?.length || socialLinks?.length
+          ? "sanity"
+          : "fallback",
       settings: mergeSettings(rawSettings),
-      products: rawSettings ? products ?? [] : products?.length ? products : fallbackPageData.products,
-      socialLinks: rawSettings ? socialLinks ?? [] : socialLinks?.length ? socialLinks : fallbackPageData.socialLinks,
+      products: rawSettings
+        ? (products ?? [])
+        : products?.length
+          ? products
+          : fallbackPageData.products,
+      socialLinks: rawSettings
+        ? (socialLinks ?? [])
+        : socialLinks?.length
+          ? socialLinks
+          : fallbackPageData.socialLinks,
     };
   } catch {
     return fallbackPageData;

@@ -13,6 +13,7 @@ export const siteSettings = defineType({
   title: "홈페이지 문구",
   type: "document",
   groups: [
+    { name: "cinema", title: "현재 영상형 홈페이지", default: true },
     { name: "navigation", title: "메뉴" },
     { name: "intro", title: "01 Intro" },
     { name: "daily", title: "이전 하루 데이터" },
@@ -23,14 +24,46 @@ export const siteSettings = defineType({
   ],
   fields: [
     defineField({
+      name: "cinema",
+      title: "영상형 홈페이지 · 한국어/English",
+      description:
+        "비어 있는 항목은 현재 디자인의 기본 문구를 사용합니다. 이전 Intro 장면 데이터는 보존됩니다.",
+      type: "object",
+      group: "cinema",
+      fields: [
+        ["heroSubtitle", "영상 마지막 설명"],
+        ["filmLabel", "영상 하단 문구"],
+        ["studioNav", "Studio 메뉴"],
+        ["appsNav", "Apps 메뉴"],
+        ["storyTitle", "철학 제목"],
+        ["storyBody", "철학 본문"],
+        ["worldsTitle", "다양한 logU 제목"],
+        ["worldsBody", "다양한 logU 설명"],
+        ["productTitle", "앱 소개 영역 제목"],
+        ["growingCaption", "자라는 순간 사진 설명"],
+        ["togetherCaption", "함께하는 순간 사진 설명"],
+        ["lookingBackCaption", "돌아보는 순간 사진 설명"],
+      ].map(([name, title]) =>
+        defineField({ name, title, type: "localizedText" }),
+      ),
+    }),
+    defineField({
       name: "pageLabels",
       title: "화면 이름",
       type: "object",
       group: "navigation",
       fields: [
         defineField({ name: "intro", title: "Intro", type: "localizedString" }),
-        defineField({ name: "product", title: "Product", type: "localizedString" }),
-        defineField({ name: "contact", title: "Contact", type: "localizedString" }),
+        defineField({
+          name: "product",
+          title: "Product",
+          type: "localizedString",
+        }),
+        defineField({
+          name: "contact",
+          title: "Contact",
+          type: "localizedString",
+        }),
       ],
     }),
     defineField({
@@ -40,7 +73,11 @@ export const siteSettings = defineType({
       group: "navigation",
       fields: [
         defineField({ name: "daily", title: "하루", type: "localizedString" }),
-        defineField({ name: "products", title: "제품", type: "localizedString" }),
+        defineField({
+          name: "products",
+          title: "제품",
+          type: "localizedString",
+        }),
         defineField({ name: "life", title: "삶", type: "localizedString" }),
       ],
     }),
@@ -60,7 +97,11 @@ export const siteSettings = defineType({
       type: "array",
       group: "intro",
       of: [{ type: "introScene" }],
-      validation: (rule) => rule.required().length(4).error("Intro 장면은 현재 홈페이지 구성에 맞게 4개여야 합니다."),
+      validation: (rule) =>
+        rule
+          .required()
+          .length(4)
+          .error("Intro 장면은 현재 홈페이지 구성에 맞게 4개여야 합니다."),
     }),
     localized("dailyEyebrow", "챕터 이름", "daily"),
     localized("dailyTitle", "첫 화면 제목", "daily", true),
@@ -102,7 +143,13 @@ export const siteSettings = defineType({
     localized("contactLabel", "Contact 표시 이름", "contact"),
     localized("contactTitle", "연락처 제목", "contact", true),
     localized("contactBody", "연락처 설명", "contact", true),
-    defineField({ name: "contactEmail", title: "이메일", type: "string", group: "contact", validation: (rule) => rule.email() }),
+    defineField({
+      name: "contactEmail",
+      title: "이메일",
+      type: "string",
+      group: "contact",
+      validation: (rule) => rule.email(),
+    }),
     localized("contactLocation", "위치 문구", "contact"),
     localized("copyright", "저작권 문구", "contact"),
     localized("metaTitle", "사이트 제목", "metadata"),
@@ -117,8 +164,18 @@ export const siteSettings = defineType({
         defineField({ name: "subline", title: "Subline", type: "string" }),
       ],
     }),
-    defineField({ name: "philosophy", title: "이전 Philosophy 데이터", type: "text", hidden: true }),
-    defineField({ name: "studio", title: "이전 Studio 데이터", type: "text", hidden: true }),
+    defineField({
+      name: "philosophy",
+      title: "이전 Philosophy 데이터",
+      type: "text",
+      hidden: true,
+    }),
+    defineField({
+      name: "studio",
+      title: "이전 Studio 데이터",
+      type: "text",
+      hidden: true,
+    }),
     defineField({
       name: "contact",
       title: "이전 Contact 데이터",
@@ -130,5 +187,7 @@ export const siteSettings = defineType({
       ],
     }),
   ],
-  preview: { prepare: () => ({ title: "홈페이지 전체 문구 · 한국어/English" }) },
+  preview: {
+    prepare: () => ({ title: "홈페이지 전체 문구 · 한국어/English" }),
+  },
 });

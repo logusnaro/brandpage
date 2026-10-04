@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { VideoHomepage } from "@/components/VideoHomepage";
 import { fetchPageData } from "@/sanity/lib/fetchPageData";
-import "./video-homepage.css";
+import "./cinema-homepage.css";
 
 export const revalidate = 60;
 
@@ -31,6 +31,7 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function Home() {
   const { settings, products, socialLinks } = await fetchPageData();
   const copy = {
+    cinema: settings.cinema,
     pageLabels: settings.pageLabels,
     introSubtitle: settings.intro.scenes.at(-1)?.body,
     productLead: settings.products.support,
@@ -39,5 +40,7 @@ export default async function Home() {
     copyright: settings.contact.copyright,
   };
 
-  return <VideoHomepage copy={copy} products={products} socialLinks={socialLinks} />;
+  return (
+    <VideoHomepage copy={copy} products={products} socialLinks={socialLinks} />
+  );
 }

@@ -97,6 +97,15 @@ export type SanityImage = {
   alt?: string;
 };
 
+export type ProductVideo = {
+  _key: string;
+  titleI18n?: Partial<LocalizedText>;
+  url: string;
+  aspect?: "landscape" | "portrait";
+  duration?: string;
+  poster?: SanityImage;
+};
+
 export type Product = {
   _id: string;
   name?: string;
@@ -110,6 +119,9 @@ export type Product = {
   appStoreUrl?: string;
   webUrl?: string;
   homeScreen?: SanityImage;
+  mascotImage?: SanityImage;
+  highlights?: Array<{ _key: string; label?: Partial<LocalizedText> }>;
+  videos?: ProductVideo[];
   screenshots?: SanityImage[];
   /** @deprecated legacy field */
   screenshot?: SanityImage;

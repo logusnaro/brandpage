@@ -60,6 +60,9 @@ export const productsQuery = groq`
     appStoreUrl,
     webUrl,
     homeScreen,
+    mascotImage,
+    highlights[]{ _key, label },
+    videos[]{ _key, titleI18n, url, aspect, duration, poster },
     screenshots[]{ ..., alt },
     screenshot,
     screenshotAlt

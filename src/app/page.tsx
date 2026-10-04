@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import { StudioHomepage } from "@/components/StudioHomepage";
+import { VideoHomepage } from "@/components/VideoHomepage";
 import { fetchPageData } from "@/sanity/lib/fetchPageData";
+import "./video-homepage.css";
 
 export const revalidate = 60;
 
@@ -29,6 +30,14 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function Home() {
   const { settings, products, socialLinks } = await fetchPageData();
+  const copy = {
+    pageLabels: settings.pageLabels,
+    introSubtitle: settings.intro.scenes.at(-1)?.body,
+    productLead: settings.products.support,
+    contactTitle: settings.contact.title,
+    contactBody: settings.contact.body,
+    copyright: settings.contact.copyright,
+  };
 
-  return <StudioHomepage settings={settings} products={products} socialLinks={socialLinks} />;
+  return <VideoHomepage copy={copy} products={products} socialLinks={socialLinks} />;
 }

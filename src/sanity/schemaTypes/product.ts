@@ -84,6 +84,56 @@ export const product = defineType({
       options: { hotspot: true },
     }),
     defineField({
+      name: "mascotImage",
+      title: "서비스 logU 이미지",
+      type: "image",
+      description: "제품 소개에 보이는 캐릭터 이미지입니다. 배경이 투명한 파일을 권장합니다.",
+      options: { hotspot: true },
+    }),
+    defineField({
+      name: "highlights",
+      title: "서비스 특징 · 한국어/English",
+      type: "array",
+      of: [{
+        type: "object",
+        fields: [defineField({ name: "label", title: "특징", type: "localizedString" })],
+        preview: { select: { title: "label.ko", subtitle: "label.en" } },
+      }],
+    }),
+    defineField({
+      name: "videos",
+      title: "서비스 영상",
+      description: "목록 순서대로 표시합니다. MP4 경로 또는 YouTube 링크를 넣으세요. 빈 목록으로 저장하면 영상을 숨길 수 있습니다.",
+      type: "array",
+      of: [{
+        type: "object",
+        fields: [
+          defineField({ name: "titleI18n", title: "영상 이름 · 한국어/English", type: "localizedString" }),
+          defineField({
+            name: "url",
+            title: "MP4 경로 또는 YouTube 링크",
+            type: "string",
+            validation: (rule) => rule.required().custom((value) => {
+              if (typeof value !== "string") return true;
+              if (/^\/[a-z0-9/_\-.]+$/i.test(value)) return true;
+              try { return new URL(value).protocol === "https:" || "HTTPS 링크 또는 /로 시작하는 경로를 입력하세요."; }
+              catch { return "HTTPS 링크 또는 /로 시작하는 경로를 입력하세요."; }
+            }),
+          }),
+          defineField({
+            name: "aspect",
+            title: "화면 비율",
+            type: "string",
+            options: { list: [{ title: "가로", value: "landscape" }, { title: "세로", value: "portrait" }] },
+            initialValue: "landscape",
+          }),
+          defineField({ name: "duration", title: "길이 표시 (예: 0:20)", type: "string" }),
+          defineField({ name: "poster", title: "미리보기 이미지", type: "image", options: { hotspot: true } }),
+        ],
+        preview: { select: { title: "titleI18n.ko", subtitle: "duration", media: "poster" } },
+      }],
+    }),
+    defineField({
       name: "screenshots",
       title: "Screenshots (popup gallery)",
       type: "array",

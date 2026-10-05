@@ -29,6 +29,7 @@ export default async function ManagePage() {
       </header>
 
       <nav className="manage-nav" aria-label="관리 메뉴">
+        <Link href="/admin/visits">방문 통계</Link>
         <a href="#dashboard">대시보드</a><a href="#release">릴리스</a><a href="#content">콘텐츠</a><Link href="/manage/operations">운영 대시보드</Link><a href="#brand">브랜드 운영</a>
       </nav>
 
@@ -66,6 +67,7 @@ export default async function ManagePage() {
       </section>
 
       <section id="brand" className="manage-section">
+        <div className="manage-links"><a href="file:///C:/Users/jkhon/0.logUs/08_sources/brandpage/images/"><strong>이미지 소스 폴더</strong><span>C:\Users\jkhon\0.logUs\08_sources\brandpage\images</span></a><a href="file:///C:/Users/jkhon/0.logUs/08_sources/brandpage/videos/"><strong>영상 소스 폴더</strong><span>C:\Users\jkhon\0.logUs\08_sources\brandpage\videos</span></a></div><p className="manage-description">로컬 PC 경로입니다. 웹 브라우저에서 폴더 링크가 차단되면 표시된 경로를 탐색기 주소창에 붙여 넣으세요.</p>
         <div className="manage-section-title"><p>Brand</p><h2>중앙 운영 연결</h2></div>
         <p className="manage-description">로컬 0.logUs의 실제 프로젝트·검증 상태를 관리자 전용 운영 대시보드에서 확인합니다.</p>
       </section>

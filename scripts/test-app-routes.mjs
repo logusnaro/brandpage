@@ -31,7 +31,10 @@ const manage = await page("/manage", 307);
 assert.ok(manage.headers.get("location")?.includes("/manage/login"));
 const operations = await page("/manage/operations", 307);
 assert.ok(operations.headers.get("location")?.includes("/manage/login"));
-await page("/admin/structure/siteSettings;siteSettings"); // Studio shell; writes require Sanity project permission.
+await page("/admin/structure/siteSettings;siteSettings", 307);
+await page("/admin/visits", 307);
+await page("/api/manage/stats", 401);
+await page("/analytics-info");
 await page("/api/manage/releases/fixture/download", 401);
 for (const path of ["/api/manage/releases", "/api/manage/releases/upload-url", "/api/manage/releases/fixture/share"]) {
   const response = await fetch(base + path, { method: "POST", headers: { "Content-Type": "application/json" }, body: "{}" });

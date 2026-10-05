@@ -5,6 +5,7 @@ import { apiVersion, dataset, projectId } from "./src/sanity/env";
 import { schemaTypes } from "./src/sanity/schemaTypes";
 import { structure } from "./src/sanity/structure";
 import { productTemplates } from "./src/sanity/productTemplates";
+import VisitStatistics from "./src/sanity/VisitStatistics";
 
 export default defineConfig({
   name: "logusstudio",
@@ -13,6 +14,7 @@ export default defineConfig({
   dataset,
   basePath: "/admin",
   plugins: [structureTool({ structure }), visionTool({ defaultApiVersion: apiVersion })],
+  tools: (prev) => [...prev, {name:"visits",title:"방문 통계",component:VisitStatistics}],
   schema: {
     types: schemaTypes,
     templates: (prev) => [...prev, ...productTemplates],

@@ -62,7 +62,7 @@ const rooms: Record<string, Room> = {
     ],
   },
   memogrip: {
-    hero: "/apps-art/memogrip-room-v2.webp",
+    hero: "/apps-art/memogrip-room-v3.webp",
     headline: text(
       "떠오른 생각은 가볍게.\n다시 찾을 때는 선명하게.",
       "Catch a thought.\nFind it when you need it.",
@@ -90,7 +90,7 @@ const rooms: Record<string, Room> = {
           "형식에 얽매이지 않고 떠오른 생각부터 남겨요.",
           "Capture what comes to mind without a rigid format.",
         ),
-        image: "/apps-art/memogrip-feature-1.webp",
+        image: "/apps-art/memogrip-feature-1-v2.webp",
       },
       {
         title: text("분류를 도와주는 AI", "A hand with classification"),

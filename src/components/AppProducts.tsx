@@ -71,7 +71,7 @@ const dayByBabyClips: FilmClip[] = [
 ];
 
 function neighborClips(hero: string): FilmClip[] {
-  const app = /^\/apps-art\/(memogrip|goodgo|bookbap)-room-v2\.webp$/.exec(hero)?.[1];
+  const app = /^\/apps-art\/(memogrip|goodgo|bookbap)-room-v[23]\.webp$/.exec(hero)?.[1];
   if (!app) return [];
   return [
     { kind: "intro", ko: "짧은 소개", en: "Short introduction", seconds: 20, aspect: "landscape" as const },
@@ -282,6 +282,7 @@ function collectionArt(product: Product) {
   if (product.homeScreen?.asset || product.screenshot?.asset) return { src: productImage(product), mascot: false };
   const name = (product.name || "").toLowerCase();
   const slug = isDayByBaby(product) ? "daybybaby" : ({ memo: "memogrip", allinmemo: "memogrip", readygo: "goodgo", innerbrary: "bookbap" } as Record<string, string>)[name] || name;
+  if (slug === "memogrip") return { src: "/apps-art/memogrip-v2.webp", mascot: false };
   return { src: ["daybybaby", "memogrip", "goodgo", "bookbap"].includes(slug) ? `/apps-art/${slug}-v1.webp` : productImage(product), mascot: false };
 }
 
@@ -428,7 +429,7 @@ export function ProductShowcase({
   const ppuri = isDayByBaby(product);
   const name = productName(product, locale);
   const room = appRoom(product);
-  const designed = ppuri || /^\/apps-art\/(memogrip|goodgo|bookbap)-room-v2\.webp$/.test(room.hero);
+  const designed = ppuri || /^\/apps-art\/(memogrip|goodgo|bookbap)-room-v[23]\.webp$/.test(room.hero);
   const detail = product.detail;
   const hero = detail?.heroImage?.asset
     ? urlFor(detail.heroImage).width(2000).url()

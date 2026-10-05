@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import { VisitTracker } from "@/components/VisitTracker";
 
 const pretendard = localFont({
   src: "./fonts/PretendardVariable.woff2",
@@ -27,6 +28,7 @@ export default function RootLayout({
     <html lang="ko" className={`${pretendard.variable} h-full`}>
       <body className="min-h-full bg-[var(--background)] text-[var(--ink)]">
         {children}
+        <VisitTracker />
       </body>
     </html>
   );

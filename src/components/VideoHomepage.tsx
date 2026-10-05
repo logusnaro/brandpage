@@ -615,6 +615,7 @@ export function VideoHomepage({ copy, products, socialLinks }: Props) {
               {localized(copy.cinema?.footerLegal, locale, locale === "ko"
                 ? "이용약관 · 개인정보처리방침"
                 : "Terms · Privacy")}
+              {" · "}<a href="/analytics-info">{locale === "ko" ? "방문 통계 안내" : "Visit analytics"}</a>
             </div>
             <div>
               {localized(copy.cinema?.footerBusiness, locale, locale === "ko" ? "사업자정보 확인" : "Business information")}

@@ -1,0 +1,12 @@
+const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict'),{spawn}=require('node:child_process'),{once}=require('node:events');
+const root=path.resolve(__dirname,'../..'),out=path.join(root,'public/films/apps-2026-10-06'),{jobs}=require(path.join(out,'storyboard.js'));
+const ff='C:/Users/jkhon/.codex/visualizations/2026/08/23/01a02efd-8933-7fb1-8295-35c1cad10105/intro-video-runtime/imageio_ffmpeg/binaries/ffmpeg-win-x86_64-v7.1.exe';
+async function command(args,expectedFailure=false){const p=spawn(ff,['-hide_banner',...args]);let log='';p.stderr.on('data',d=>log+=d);p.stdout.resume();const [code]=await once(p,'close');if(code&&!expectedFailure)throw Error(log);return log}
+(async()=>{const manifest=JSON.parse(fs.readFileSync(path.join(out,'manifest.json'),'utf8'));assert.equal(manifest.length,15);const report=[];
+ for(const j of jobs){const m=manifest.find(v=>v.key===j.key);assert.ok(m,j.key);const file=path.join(out,m.file),meta=await command(['-i',file],true);const match=/Duration: (\d+):(\d+):(\d+\.\d+)/.exec(meta);assert.ok(match,meta);const seconds=+match[1]*3600 + +match[2]*60 + +match[3];assert.ok(Math.abs(seconds-j.duration)<.1,j.key+' duration '+seconds);assert.ok(meta.includes(`${m.width}x${m.height}`),j.key+' resolution');assert.match(meta,/Video: h264/);assert.match(meta,/24 fps/);assert.match(meta,/Audio: aac.*48000 Hz, stereo/);assert.match(meta,/yuv420p/);
+  const validation=await command(['-loglevel','error','-i',file,'-map','0:v:0','-map','0:a:0','-f','null','-']);assert.equal(validation,'');assert.ok(fs.statSync(path.join(out,j.key+'.srt')).size>100);assert.ok(fs.statSync(path.join(out,m.poster)).size>10000);
+  for(const [frame,t]of [['first',0],['last',j.duration-.08]])await command(['-loglevel','error','-y','-ss',String(t),'-i',file,'-frames:v','1',path.join(root,'artifacts/app-films-2026-10-06',j.key+'-'+frame+'.png')]);
+  const audio=await command(['-i',file,'-vn','-af','volumedetect','-f','null','-']);const peak=/max_volume: (-?[\d.]+) dB/.exec(audio);assert.ok(peak && Number(peak[1])<=0,'Audio clipping '+j.key);report.push({...m,actualDuration:seconds,peakDB:Number(peak[1]),mediaQA:'PASS'});console.log('PASS '+j.key+' '+seconds+'s');
+ }
+ fs.writeFileSync(path.join(root,'artifacts/app-films-2026-10-06/verification.json'),JSON.stringify(report,null,2));console.log('15/15 encoded films: duration, orientation, codec, audio, full decode, posters, captions PASS');
+})().catch(e=>{console.error(e);process.exitCode=1});

@@ -40,12 +40,15 @@ const baselineProducts = load(execFileSync("git", ["show", "d42b89d:src/componen
 const baselineHome = load(execFileSync("git", ["show", "d42b89d:src/components/VideoHomepage.tsx"], { encoding: "utf8" }), { "@/components/AppProducts": baselineProducts });
 const render = (component, props) => renderToStaticMarkup(React.createElement(component, props)).replace(/\s+/g, " ");
 const baseCopy = { pageLabels: { contact: { ko: "Contact", en: "Contact" } }, contactTitle: { ko: "함께 남기고 싶은\n이야기가 있나요?" } };
-const props = { copy: baseCopy, products: launchCatalogue, socialLinks: [] };
+// Hold separately approved icon/film defaults fixed while comparing the CMS additions.
+// Their fallback behavior is covered by test-app-products.mjs.
+const fixedIcon = { asset: { _ref: "image-fixture-1000x1000-webp" } };
+const props = { copy: baseCopy, products: launchCatalogue.map(product => ({ ...product, appIcon: fixedIcon })), socialLinks: [] };
 assert.equal(render(home.VideoHomepage, props), render(baselineHome.VideoHomepage, props), "Unset CMS additions must preserve the complete current homepage markup");
 for (const locale of ["ko", "en"]) {
   for (const product of launchCatalogue) {
-    const props = { product, index: 0, locale };
-    assert.equal(render(products.ProductShowcase, props), render(baselineProducts.ProductShowcase, props), `Unchanged default app detail: ${product.name}/${locale}`);
+    const props = { product: { ...product, appIcon: fixedIcon, videos: [] }, index: 0, locale };
+    assert.equal(render(products.ProductShowcase, props), render(baselineProducts.ProductShowcase, props), `CMS baseline with fixed icon and hidden films: ${product.name}/${locale}`);
   }
 }
 const image = { asset: { _ref: "image-fixture-1000x1000-webp" } };
@@ -89,4 +92,4 @@ for (const template of templates) {
   assert.ok(template.value.detail.headlineI18n.ko && template.value.name.current);
 }
 console.log(`Admin content: ${Object.keys(settings.cinema).length} bilingual copy slots, 6 images, MP4 safety/mobile fallback, form integrity, 7 detail fields, merge wiring and 4 draft templates PASS.`);
-console.log("Design regression: entire homepage + 4 apps × 2 languages match d42b89d default SSR markup PASS.");
+console.log("CMS design regression: homepage + 4 apps × 2 languages match d42b89d with fixed icons and hidden films PASS; film/icon defaults are tested separately.");

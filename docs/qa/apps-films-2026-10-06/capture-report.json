@@ -1,0 +1,20 @@
+{
+  "memogrip": {
+    "errors": [],
+    "blockedExternalRequests": 1,
+    "source": "memo/client/src; original UI and ruleClassify, in-memory fixture adapter",
+    "productionDataWritten": false
+  },
+  "goodgo": {
+    "errors": [],
+    "blockedExternalRequests": 0,
+    "source": "readygo/design-preview/index.html",
+    "productionDataWritten": false
+  },
+  "bookbap": {
+    "errors": [],
+    "blockedExternalRequests": 2,
+    "source": "bookbap/src/App.tsx; original UI and local demo state",
+    "productionDataWritten": false
+  }
+}

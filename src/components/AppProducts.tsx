@@ -70,6 +70,25 @@ const dayByBabyClips: FilmClip[] = [
   },
 ];
 
+function neighborClips(hero: string): FilmClip[] {
+  const app = /^\/apps-art\/(memogrip|goodgo|bookbap)-room-v2\.webp$/.exec(hero)?.[1];
+  if (!app) return [];
+  return [
+    { kind: "intro", ko: "짧은 소개", en: "Short introduction", seconds: 20, aspect: "landscape" as const },
+    { kind: "guide", ko: "기능 가이드", en: "Feature guide", seconds: 35, aspect: "landscape" as const },
+    { kind: "full", ko: "소개 + 가이드", en: "Introduction + guide", seconds: 90, aspect: "landscape" as const },
+    { kind: "vertical-intro", ko: "세로 소개", en: "Vertical introduction", seconds: 20, aspect: "portrait" as const },
+    { kind: "vertical-guide", ko: "세로 가이드", en: "Vertical guide", seconds: 35, aspect: "portrait" as const },
+  ].map(({ kind, ko, en, seconds, aspect }) => ({
+    _key: `${app}-${kind}`,
+    titleI18n: { ko, en },
+    url: `/films/apps-2026-10-06/${app}-${kind}.mp4`,
+    localPoster: `/films/apps-2026-10-06/${app}-${kind}-poster.jpg`,
+    aspect,
+    duration: `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, "0")}`,
+  }));
+}
+
 export function localized(
   value: Partial<LocalizedText> | undefined,
   locale: Locale,
@@ -292,7 +311,7 @@ export function ProductCollection({ products, locale, limit, village = false, co
               </div>
               <div className="app-card-info">
                 <div className="app-card-summary">
-                  <span className="app-card-icon" aria-hidden="true">{product.appIcon?.asset ? <Image src={urlFor(product.appIcon).width(96).height(96).url()} alt="" width={48} height={48} /> : ppuri ? <Image src="/films/ppuri.webp" alt="" width={48} height={48} /> : <span>{name.charAt(0)}</span>}</span>
+                  <span className="app-card-icon" aria-hidden="true">{product.appIcon?.asset ? <Image src={urlFor(product.appIcon).width(96).height(96).url()} alt="" width={48} height={48} /> : ppuri ? <Image src="/apps-art/daybybaby-app-icon.png" alt="" width={48} height={48} /> : <span>{name.charAt(0)}</span>}</span>
                   <div className="app-card-name">
                     <h3>{name}</h3>
                     <p>{localized(product.shortDescriptionI18n, locale, localized(product.descriptionI18n, locale, product.description))}</p>
@@ -432,7 +451,7 @@ export function ProductShowcase({
           image: item.image?.asset ? urlFor(item.image).width(800).url() : "",
         }));
   const clips: FilmClip[] = (
-    product.videos == null && ppuri ? dayByBabyClips : product.videos || []
+    product.videos == null ? (ppuri ? dayByBabyClips : neighborClips(room.hero)) : product.videos
   ).filter((clip) => Boolean(clip.url && resolveClipSource(clip.url)));
   const mainClips = clips.filter((item) => item.aspect !== "portrait");
   const extraClips = clips.filter((item) => item.aspect === "portrait");
@@ -492,6 +511,13 @@ export function ProductShowcase({
             {product.appIcon?.asset ? (
               <Image
                 src={urlFor(product.appIcon).width(96).height(96).url()}
+                alt=""
+                width={44}
+                height={44}
+              />
+            ) : ppuri ? (
+              <Image
+                src="/apps-art/daybybaby-app-icon.png"
                 alt=""
                 width={44}
                 height={44}

@@ -80,7 +80,11 @@ for (const name of ["memogrip", "goodgo", "bookbap"]) {
   assert.ok(markup.includes("app-room-designed") && markup.includes(`/apps-art/${name}-room-v2.webp`));
   for (const index of [1, 2, 3]) assert.ok(markup.includes(`/apps-art/${name}-feature-${index}.webp`));
   assert.ok(!markup.includes("app-detail-bottom"), "No duplicate downloads");
-  assert.ok(!markup.includes("응급 연락처") && !markup.includes("film-video-area"));
+  assert.ok(!markup.includes("응급 연락처") && markup.includes("film-video-area"));
+  assert.ok(markup.includes(`/films/apps-2026-10-06/${name}-intro.mp4`));
+  assert.ok(markup.includes(`${name}-vertical-intro.mp4`) && markup.includes(`${name}-vertical-guide.mp4`));
+  const hidden = render(exports.ProductShowcase, { product: { ...product, name, displayName: name, videos: [] }, index: 0, locale: "ko" });
+  assert.ok(!hidden.includes("film-video-area"), "Explicit empty CMS array hides default films");
 }
 const custom = render(exports.ProductShowcase, { product: { ...product, detail: { headlineI18n: { ko: "관리자가 바꾼 제목" }, introI18n: { ko: "관리자가 바꾼 설명" } }, highlights: [{ _key: "custom", label: { ko: "맞춤 기능" }, description: { ko: "맞춤 설명" }, image: { asset: { _ref: "test" } } }] }, index: 0, locale: "ko" });
 for (const value of ["관리자가 바꾼 제목", "관리자가 바꾼 설명", "맞춤 기능", "맞춤 설명"]) assert.ok(custom.includes(value));

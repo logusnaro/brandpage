@@ -1,0 +1,50 @@
+<!doctype html><html lang="ko"><meta charset="utf-8"><title>logUs film composition</title>
+<style>@font-face{font-family:Film;src:url(assets/PretendardVariable.woff2);font-weight:100 900}*{box-sizing:border-box}body{margin:0;background:#f4f0e9}canvas{display:block;width:100vw;height:100vh;object-fit:contain}</style>
+<canvas id="film"></canvas><script src="storyboard.js"></script><script>
+const c=document.querySelector('canvas'),output=c.getContext('2d'),layer=document.createElement('canvas'),images=new Map(),issues=[];let ctx=layer.getContext('2d');
+const clamp=x=>Math.max(0,Math.min(1,x)),ease=x=>{x=clamp(x);return x*x*(3-2*x)};
+function imageURL(s){return s.screen?'screens/'+s.image+'.png':s.image}
+window.ready=(async()=>{await document.fonts.load('600 64px Film');await document.fonts.ready;for(const url of new Set(FILMS.jobs.flatMap(j=>j.scenes.map(imageURL)))){const im=new Image();im.src=url;await im.decode();images.set(url,im)}})();
+function box(x,y,w,h,r=28){ctx.beginPath();ctx.roundRect(x,y,w,h,r)}
+function text(s,x,y,size,weight=500,color='#243b37',max=1000){ctx.font=`${weight} ${size}px Film`;ctx.fillStyle=color;ctx.textBaseline='top';let yy=y;for(const line of s.split('\n')){const width=ctx.measureText(line).width;if(width>max+1)issues.push({text:line,width,max});ctx.fillText(line,x,yy);yy+=size*1.34}return yy}
+function wrapped(s,x,y,size,weight,color,max){ctx.font=`${weight} ${size}px Film`;let line='',yy=y;for(const word of s.split(' ')){const next=line?line+' '+word:word;if(ctx.measureText(next).width>max&&line){text(line,x,yy,size,weight,color,max);yy+=size*1.55;line=word}else line=next}text(line,x,yy,size,weight,color,max);return yy+size*1.55}
+function cover(im,x,y,w,h,push){const scale=Math.max(w/im.width,h/im.height)*(1+push),sw=w/scale,sh=h/scale;const align=im.width/im.height>2?.9:.5;ctx.drawImage(im,(im.width-sw)*align,(im.height-sh)/2,sw,sh,x,y,w,h)}
+function paintScene(job,s,local,duration){const a=FILMS.apps[job.app],portrait=job.aspect==='portrait',W=c.width,H=c.height;
+ ctx.fillStyle=a.bg;ctx.fillRect(0,0,W,H);
+ // Quiet depth, not a continuously bobbing character or handheld camera.
+ let g=ctx.createRadialGradient(W*.75,H*.46,15,W*.75,H*.46,W*.55);g.addColorStop(0,'#ffffffa0');g.addColorStop(1,'#ffffff00');ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+ const entry=ease(local/.85),stagger=ease((local-.13)/.9),im=images.get(imageURL(s));
+ const x=portrait?86:112,max=portrait?908:870;
+ text('logUs Studio',x,portrait?82:70,portrait?29:26,600,a.accent,max);
+ text(a.name,x,portrait?133:128,portrait?40:33,650,'#243b37',max);
+ ctx.save();ctx.globalAlpha=entry;ctx.translate(0,12*(1-entry));
+ text(s.tag,x,portrait?254:340,portrait?29:26,600,a.accent,max);
+ text(s.title,x,portrait?318:403,portrait?68:70,650,'#203a35',max);
+ ctx.globalAlpha=stagger;
+ wrapped(s.body,x,portrait?531:625,portrait?33:30,400,'#50655f',max);
+ ctx.restore();
+ const ix=portrait?86:(s.screen?1172:1060),iy=portrait?733:(s.screen?149:210),iw=portrait?908:(s.screen?356:748),ih=portrait?1010:(s.screen?770:660);
+ ctx.save();ctx.globalAlpha=ease((local-.08)/.9);ctx.translate(0,8*(1-entry));
+ if(s.screen){const phoneW=portrait?463:356,phoneH=phoneW*844/390,px=portrait?(W-phoneW)/2:ix,py=iy+(ih-phoneH)/2;
+  ctx.shadowColor='#23393028';ctx.shadowBlur=35;ctx.shadowOffsetY=18;ctx.fillStyle='#fffdf8';box(px-12,py-12,phoneW+24,phoneH+24,42);ctx.fill();ctx.shadowColor='transparent';
+  ctx.save();box(px,py,phoneW,phoneH,30);ctx.clip();ctx.drawImage(im,px,py,phoneW,phoneH);ctx.restore();
+  // Matched phone position stays fixed across the guide, avoiding jitter.
+ }else{ctx.save();box(ix,iy,iw,ih,portrait?48:36);ctx.clip();cover(im,ix,iy,iw,ih,.012*ease(local/duration));ctx.restore()}
+ ctx.restore();
+ const by=portrait?1791:956;
+ ctx.strokeStyle=a.accent+'35';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(x,by);ctx.lineTo(W-x,by);ctx.stroke();
+ text(s.screen?'앱 개발 화면 · 예시 데이터':'당신의 순간을 담고 간직하는 logU들의 이야기',x,by+23,portrait?23:21,400,'#718079',W-x*2);
+ const ixScene=job.scenes.indexOf(s);ctx.fillStyle=a.accent;const y=by-20;for(let i=0;i<job.scenes.length;i++){ctx.globalAlpha=i===ixScene?1:.2;box(x+i*38,y,26,3,2);ctx.fill()}ctx.globalAlpha=1;
+}
+window.renderFrame=(key,t)=>{const job=FILMS.jobs.find(j=>j.key===key);if(!job)throw Error(key);const p=job.aspect==='portrait';if(c.width!==(p?1080:1920)){c.width=p?1080:1920;c.height=p?1920:1080}issues.length=0;
+ if(layer.width!==c.width){layer.width=c.width;layer.height=c.height}
+ const d=job.duration/job.scenes.length,index=Math.min(job.scenes.length-1,Math.floor(t/d)),local=t-index*d,fade=.85;
+ paintScene(job,job.scenes[index],local,d);output.globalAlpha=1;output.drawImage(layer,0,0);
+ if(index>0&&local<fade){paintScene(job,job.scenes[index-1],d,d);output.globalAlpha=1-ease(local/fade);output.drawImage(layer,0,0);output.globalAlpha=1}
+ // Closing hold, followed by gentle fade to the same paper ground.
+ if(t>job.duration-.7){output.save();output.globalAlpha=.32*ease((t-job.duration+.7)/.7);output.fillStyle=FILMS.apps[job.app].bg;output.fillRect(0,0,c.width,c.height);output.restore()}
+ return {issues:[...issues],width:c.width,height:c.height};
+};
+window.frameJPEG=()=>c.toDataURL('image/jpeg',.91).split(',')[1];
+window.ready.then(()=>{const q=new URLSearchParams(location.search),key=q.get('film')||'memogrip-intro';window.renderFrame(key,2)});
+</script></html>

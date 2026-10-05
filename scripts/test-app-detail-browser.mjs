@@ -63,7 +63,9 @@ try {
       assert.equal(await page.locator(".app-room-neighbors a").count(), 3);
       assert.equal(await page.locator(".app-room-designed").count(), 1);
       if (slug !== "bebe") {
-        assert.equal(await page.locator(".film-player, .film-video-options, .app-detail-bottom").count(), 0);
+        assert.equal(await page.locator(".film-player").count(), 1);
+        assert.equal(await page.locator(".film-video-options button").count(), 3);
+        assert.equal(await page.locator(".app-detail-bottom").count(), 0);
         const sources = await page.locator(".app-room-features img").evaluateAll(imgs => imgs.map(img => img.getAttribute("src")));
         assert.equal(new Set(sources).size, 3, "Different feature scenes, not a repeated mascot");
       }

@@ -1,0 +1,243 @@
+{
+  "base": "https://logusstudio.com",
+  "checkedAt": "2026-10-05T21:37:29.766Z",
+  "pass": true,
+  "results": [
+    {
+      "route": "/",
+      "status": 200
+    },
+    {
+      "route": "/apps",
+      "status": 200
+    },
+    {
+      "route": "/apps/bebe?lang=ko",
+      "status": 200
+    },
+    {
+      "route": "/apps/bebe?lang=en",
+      "status": 200
+    },
+    {
+      "route": "/apps/memogrip?lang=ko",
+      "status": 200
+    },
+    {
+      "route": "/apps/goodgo?lang=ko",
+      "status": 200
+    },
+    {
+      "route": "/apps/bookbap?lang=ko",
+      "status": 200
+    },
+    {
+      "route": "/films/apps-2026-10-06/manifest.json",
+      "status": 200
+    },
+    {
+      "route": "/films/apps-2026-10-06/memogrip-intro.mp4",
+      "status": 206
+    },
+    {
+      "route": "/films/apps-2026-10-06/memogrip-intro-poster.jpg",
+      "status": 200
+    },
+    {
+      "route": "/films/apps-2026-10-06/memogrip-intro.srt",
+      "status": 200
+    },
+    {
+      "route": "/films/apps-2026-10-06/memogrip-guide.mp4",
+      "status": 206
+    },
+    {
+      "route": "/films/apps-2026-10-06/memogrip-guide-poster.jpg",
+      "status": 200
+    },
+    {
+      "route": "/films/apps-2026-10-06/memogrip-guide.srt",
+      "status": 200
+    },
+    {
+      "route": "/films/apps-2026-10-06/memogrip-vertical-intro.mp4",
+      "status": 206
+    },
+    {
+      "route": "/films/apps-2026-10-06/memogrip-vertical-intro-poster.jpg",
+      "status": 200
+    },
+    {
+      "route": "/films/apps-2026-10-06/memogrip-vertical-intro.srt",
+      "status": 200
+    },
+    {
+      "route": "/films/apps-2026-10-06/memogrip-vertical-guide.mp4",
+      "status": 206
+    },
+    {
+      "route": "/films/apps-2026-10-06/memogrip-vertical-guide-poster.jpg",
+      "status": 200
+    },
+    {
+      "route": "/films/apps-2026-10-06/memogrip-vertical-guide.srt",
+      "status": 200
+    },
+    {
+      "route": "/films/apps-2026-10-06/memogrip-full.mp4",
+      "status": 206
+    },
+    {
+      "route": "/films/apps-2026-10-06/memogrip-full-poster.jpg",
+      "status": 200
+    },
+    {
+      "route": "/films/apps-2026-10-06/memogrip-full.srt",
+      "status": 200
+    },
+    {
+      "route": "/films/apps-2026-10-06/goodgo-intro.mp4",
+      "status": 206
+    },
+    {
+      "route": "/films/apps-2026-10-06/goodgo-intro-poster.jpg",
+      "status": 200
+    },
+    {
+      "route": "/films/apps-2026-10-06/goodgo-intro.srt",
+      "status": 200
+    },
+    {
+      "route": "/films/apps-2026-10-06/goodgo-guide.mp4",
+      "status": 206
+    },
+    {
+      "route": "/films/apps-2026-10-06/goodgo-guide-poster.jpg",
+      "status": 200
+    },
+    {
+      "route": "/films/apps-2026-10-06/goodgo-guide.srt",
+      "status": 200
+    },
+    {
+      "route": "/films/apps-2026-10-06/goodgo-vertical-intro.mp4",
+      "status": 206
+    },
+    {
+      "route": "/films/apps-2026-10-06/goodgo-vertical-intro-poster.jpg",
+      "status": 200
+    },
+    {
+      "route": "/films/apps-2026-10-06/goodgo-vertical-intro.srt",
+      "status": 200
+    },
+    {
+      "route": "/films/apps-2026-10-06/goodgo-vertical-guide.mp4",
+      "status": 206
+    },
+    {
+      "route": "/films/apps-2026-10-06/goodgo-vertical-guide-poster.jpg",
+      "status": 200
+    },
+    {
+      "route": "/films/apps-2026-10-06/goodgo-vertical-guide.srt",
+      "status": 200
+    },
+    {
+      "route": "/films/apps-2026-10-06/goodgo-full.mp4",
+      "status": 206
+    },
+    {
+      "route": "/films/apps-2026-10-06/goodgo-full-poster.jpg",
+      "status": 200
+    },
+    {
+      "route": "/films/apps-2026-10-06/goodgo-full.srt",
+      "status": 200
+    },
+    {
+      "route": "/films/apps-2026-10-06/bookbap-intro.mp4",
+      "status": 206
+    },
+    {
+      "route": "/films/apps-2026-10-06/bookbap-intro-poster.jpg",
+      "status": 200
+    },
+    {
+      "route": "/films/apps-2026-10-06/bookbap-intro.srt",
+      "status": 200
+    },
+    {
+      "route": "/films/apps-2026-10-06/bookbap-guide.mp4",
+      "status": 206
+    },
+    {
+      "route": "/films/apps-2026-10-06/bookbap-guide-poster.jpg",
+      "status": 200
+    },
+    {
+      "route": "/films/apps-2026-10-06/bookbap-guide.srt",
+      "status": 200
+    },
+    {
+      "route": "/films/apps-2026-10-06/bookbap-vertical-intro.mp4",
+      "status": 206
+    },
+    {
+      "route": "/films/apps-2026-10-06/bookbap-vertical-intro-poster.jpg",
+      "status": 200
+    },
+    {
+      "route": "/films/apps-2026-10-06/bookbap-vertical-intro.srt",
+      "status": 200
+    },
+    {
+      "route": "/films/apps-2026-10-06/bookbap-vertical-guide.mp4",
+      "status": 206
+    },
+    {
+      "route": "/films/apps-2026-10-06/bookbap-vertical-guide-poster.jpg",
+      "status": 200
+    },
+    {
+      "route": "/films/apps-2026-10-06/bookbap-vertical-guide.srt",
+      "status": 200
+    },
+    {
+      "route": "/films/apps-2026-10-06/bookbap-full.mp4",
+      "status": 206
+    },
+    {
+      "route": "/films/apps-2026-10-06/bookbap-full-poster.jpg",
+      "status": 200
+    },
+    {
+      "route": "/films/apps-2026-10-06/bookbap-full.srt",
+      "status": 200
+    },
+    {
+      "route": "/films/apps-2026-10-06/index.html",
+      "status": 200
+    },
+    {
+      "route": "/apps-art/daybybaby-app-icon.png",
+      "status": 200
+    },
+    {
+      "route": "/opengraph-image",
+      "status": 200
+    },
+    {
+      "route": "/manage",
+      "status": 307
+    },
+    {
+      "route": "/manage/operations",
+      "status": 307
+    },
+    {
+      "route": "/api/manage/releases/fixture/download",
+      "status": 401
+    }
+  ]
+}

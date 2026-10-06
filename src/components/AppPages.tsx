@@ -31,7 +31,7 @@ function AppShell({
     >
       <header className="app-directory-header">
         <Link href="/" className="cinema-wordmark">
-          logUs{detail ? " " : <span>•</span>} Studio
+          logUs Studio
         </Link>
         <nav aria-label={locale === "ko" ? "페이지 이동" : "Navigation"}>
           {detail ? <Link href="/#studio">Studio</Link> : null}

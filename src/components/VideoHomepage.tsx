@@ -270,7 +270,7 @@ export function VideoHomepage({ copy, products, socialLinks }: Props) {
         className={`cinema-header ${activeSection === "intro" && !heroComplete ? "on-film" : ""}`}
       >
         <a href="#intro" className="cinema-wordmark">
-          logUs<span>•</span> Studio
+          logUs Studio
         </a>
         <nav
           className="cinema-nav"

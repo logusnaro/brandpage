@@ -19,9 +19,6 @@
   background: var(--room-paper);
   border-bottom: 1px solid #6c524416;
 }
-.app-room-site .app-directory-header .cinema-wordmark {
-  font-size: 25px;
-}
 .app-room-site .app-directory-header nav {
   gap: 38px;
 }
@@ -452,9 +449,6 @@
     gap: 15px;
     min-height: auto;
   }
-  .app-room-site .app-directory-header .cinema-wordmark {
-    font-size: 21px;
-  }
   .app-room-site .app-directory-header nav {
     gap: 16px;
   }
@@ -619,11 +613,6 @@
   min-height: 78px;
   padding: 18px 5.1vw;
   border: 0;
-}
-.app-room-site .app-directory-header .cinema-wordmark {
-  font-size: 27px;
-  font-weight: 750;
-  letter-spacing: -0.035em;
 }
 .app-room-site .app-directory-header nav a {
   font-size: 16px;
@@ -969,9 +958,6 @@
     padding: 16px 20px;
     flex-wrap: wrap;
     gap: 18px;
-  }
-  .app-room-site .app-directory-header .cinema-wordmark {
-    font-size: 22px;
   }
   .app-room-site .app-directory-header nav a {
     font-size: 12px;

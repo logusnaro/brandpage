@@ -32,8 +32,8 @@
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
   gap: 30px;
-  height: 82px;
-  padding: 0 4.2vw;
+  height: 78px;
+  padding: 0 5.1vw;
   background: rgb(243 240 232 / 96%);
   color: var(--film-ink);
   border-bottom: 1px solid rgb(37 59 49 / 12%);
@@ -48,18 +48,11 @@
 }
 .cinema-wordmark {
   color: inherit;
-  font-size: 22px;
-  font-weight: 620;
-  letter-spacing: -0.055em;
+  font-size: 27px;
+  font-weight: 750;
+  letter-spacing: -0.035em;
   text-decoration: none;
   white-space: nowrap;
-}
-.cinema-wordmark span {
-  display: inline-block;
-  margin: 0 6px;
-  color: #ce967e;
-  font-size: 15px;
-  vertical-align: 3px;
 }
 .cinema-nav {
   display: flex;
@@ -842,13 +835,13 @@
 }
 @media (max-width: 760px) {
   .cinema-header {
-    height: 68px;
+    height: 78px;
     padding: 0 20px;
     grid-template-columns: 1fr auto;
     gap: 12px;
   }
   .cinema-wordmark {
-    font-size: 19px;
+    font-size: 22px;
   }
   .cinema-nav {
     position: absolute;

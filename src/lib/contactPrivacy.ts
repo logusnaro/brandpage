@@ -1,4 +1,4 @@
-export const CONTACT_NOTICE_VERSION = "2026-10-23";
+export const CONTACT_NOTICE_VERSION = "2026-10-24";
 
 export const contactPrivacyNotice = {
   ko: {

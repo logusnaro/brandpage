@@ -1,3 +1,5 @@
+import type { CompanyInfo } from "@/lib/companyInfo";
+
 export type PublishStatus = "draft" | "published" | "unpublished";
 
 export type Locale = "ko" | "en";
@@ -83,6 +85,7 @@ export type ContactFormCopy = Partial<Record<
 >>;
 
 export type SiteSettings = {
+  businessInfo?: Partial<CompanyInfo>;
   cinema?: CinemaCopy;
   homepageMedia?: HomepageMedia;
   contactForm?: ContactFormCopy;

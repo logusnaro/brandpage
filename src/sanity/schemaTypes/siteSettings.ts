@@ -1,5 +1,6 @@
 import { defineField, defineType } from "sanity";
 import { introVideoUrl } from "../../lib/homepageMedia";
+import { defaultCompanyInfo } from "../../lib/companyInfo";
 
 const localized = (name: string, title: string, group: string, long = false) =>
   defineField({
@@ -23,8 +24,20 @@ export const siteSettings = defineType({
     { name: "life", title: "이전 삶 데이터" },
     { name: "contact", title: "엔딩/연락처" },
     { name: "metadata", title: "검색/공유" },
+    { name: "business", title: "사업자 정보" },
   ],
   fields: [
+    defineField({
+      name: "businessInfo", title: "홈페이지 하단 사업자 정보", type: "object", group: "business",
+      initialValue: defaultCompanyInfo,
+      description: "비어 있으면 확인된 사업자등록증·연락처와 2026-10-23 변경 주소를 사용합니다. 통신판매업 신고 정보는 증빙을 확인한 경우에만 입력하세요. 홈페이지 정책에도 동일한 정보가 표시됩니다.",
+      fields: [
+        ["name", "등록 상호"], ["representative", "대표자명"], ["registrationNumber", "사업자등록번호"],
+        ["address", "사업장 주소 · 한국어"], ["addressEn", "사업장 주소 · English"], ["postalCode", "우편번호"],
+        ["email", "문의 이메일"], ["phone", "문의 전화번호"], ["privacyOfficer", "개인정보 보호책임자"],
+        ["mailOrderNumber", "통신판매업 신고번호 · 해당 시"], ["mailOrderAuthority", "통신판매업 신고기관 · 해당 시"],
+      ].map(([name, title]) => defineField({ name, title, type: "string", validation: rule => name === "email" ? rule.email() : rule })),
+    }),
     defineField({
       name: "cinema",
       title: "영상형 홈페이지 · 한국어/English",
@@ -56,7 +69,7 @@ export const siteSettings = defineType({
         ["togetherCaption", "함께하는 순간 사진 설명"],
         ["lookingBackCaption", "돌아보는 순간 사진 설명"],
       ].map(([name, title]) =>
-        defineField({ name, title, type: "localizedText" }),
+        defineField({ name, title, type: "localizedText", hidden: name === "footerLegal" || name === "footerBusiness" }),
       ),
     }),
     defineField({

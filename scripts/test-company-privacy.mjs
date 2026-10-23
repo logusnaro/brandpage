@@ -90,6 +90,27 @@ assert.equal(failed.status, 503);
 assert.ok(!(await failed.text()).includes("DO_NOT_LEAK_SECRET"));
 console.log("Company/policies KO+EN, CMS fallback, contact consent/version validation, malformed input, private IDs and safe errors PASS.");
 
+// Validate the real schema definitions without launching the interactive Studio CLI.
+mocks.sanity = { defineType: value => value, defineField: value => value };
+mocks["../../lib/companyInfo"] = identity;
+mocks["../../lib/homepageMedia"] = { introVideoUrl: value => value || "" };
+const objects = load("src/sanity/schemaTypes/storyObjects.ts");
+const schemaTypes = [objects.localizedString, objects.localizedText, objects.dailyScene, objects.introScene, objects.lifeStage];
+for (const file of ["siteSettings", "product", "socialLink", "mascot", "legalDocument", "appRelease", "contactSubmission", "operationsSnapshot"]) {
+  schemaTypes.push(load(`src/sanity/schemaTypes/${file}.ts`)[file]);
+}
+const { validateSchema, groupProblems } = await import("@sanity/schema/_internal");
+const problems = groupProblems(validateSchema(schemaTypes).getTypes());
+const errors = problems.flatMap(group => group.problems).filter(problem => problem.severity === "error");
+assert.deepEqual(errors, [], "Studio schema errors");
+for (const definition of schemaTypes) {
+  const groups = new Set((definition.groups || []).map(group => group.name));
+  for (const field of definition.fields || []) for (const name of [field.group].flat().filter(Boolean)) {
+    assert.ok(groups.has(name), `Undefined field group ${definition.name}.${field.name}: ${name}`);
+  }
+}
+console.log(`Studio schema: ${schemaTypes.length} types, zero errors, field group references PASS.`);
+
 if (process.argv.includes("--sanity-probe")) {
   const { createClient } = await import("@sanity/client");
   const options = { projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID, dataset: process.env.NEXT_PUBLIC_SANITY_DATASET, apiVersion: "2026-10-23", useCdn: false, perspective: "raw" };

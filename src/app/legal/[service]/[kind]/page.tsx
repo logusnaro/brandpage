@@ -63,7 +63,7 @@ export default async function LegalDocumentPage({ params, searchParams }: Props)
       <article className="rounded-3xl border border-black/10 bg-white/70 p-6 shadow-sm sm:p-10">
         <header className="border-b border-black/10 pb-6">
           <nav className="flex flex-wrap justify-between gap-4 text-sm text-black/60" aria-label={locale === "ko" ? "정책 페이지 메뉴" : "Policy navigation"}>
-            <Link href="/">logUs Studio</Link>
+            <Link href="/" className="text-[22px] font-[750] tracking-[-0.035em] sm:text-[27px]">logUs Studio</Link>
             <Link href={`/legal/${resolvedParams.service}/${resolvedParams.kind}?lang=${locale === "ko" ? "en" : "ko"}`} lang={locale === "ko" ? "en" : "ko"}>{locale === "ko" ? "English" : "한국어"}</Link>
           </nav>
           <h1 className="mt-3 text-3xl font-semibold tracking-tight">{document.title}</h1>

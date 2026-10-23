@@ -3,8 +3,6 @@ import { getSanityAdminClient } from "@/lib/sanity-admin";
 import { randomUUID } from "node:crypto";
 import { CONTACT_NOTICE_VERSION } from "@/lib/contactPrivacy";
 
-export const preferredRegion = "iad1";
-
 function value(input: unknown, max: number) {
   return typeof input === "string" ? input.trim().slice(0, max) : "";
 }

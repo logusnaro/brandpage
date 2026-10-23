@@ -31,4 +31,6 @@
 - Vercel 미국 기본 함수 리전: https://vercel.com/docs/functions/configuring-functions/region
 - 수탁자 연락처: https://www.sanity.io/legal/privacy · https://vercel.com/legal/privacy-notice
 
-운영 반영 전: 관련 자동 검증과 Next build 결과 확인. 실제 정책의 최초 시행일은 배포 시점과 맞춘다. 화면 검증/캡처는 사용자 요청이 없어 생략한다.
+검증 완료: 기본 Turbopack 프로덕션 빌드와 GitHub CI 통과. 홈페이지·앱 목록·DayByBaby·한영 약관/방침 HTTP 200, 관리자 비인증 접근 차단, 잘못된 정책 경로 404를 확인했다. 실제 문의 API의 동의 누락 400, 정상 제출 201, 관리자 조회 가능·익명 조회 차단 및 합성 검증 문의 삭제를 확인했다. Sanity 스키마 13종과 그룹 참조 검증, 한영 콘텐츠 회귀 검증도 통과했다. 실제 사용자 문의는 변경하지 않았다.
+
+실제 정책의 최초 시행일은 배포 시점과 맞춘다. 화면 검증/캡처는 사용자 요청이 없어 생략한다. 공식 사이트 병합·배포와 운영 CMS 변경은 아직 수행하지 않았다.

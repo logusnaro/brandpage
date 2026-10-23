@@ -31,6 +31,7 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function Home() {
   const { settings, products, socialLinks } = await fetchPageData();
   const copy = {
+    businessInfo: settings.businessInfo,
     cinema: settings.cinema,
     homepageMedia: settings.homepageMedia,
     contactForm: settings.contactForm,

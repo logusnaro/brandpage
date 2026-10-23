@@ -6,6 +6,9 @@ import type { FormEvent } from "react";
 import { ProductCollection, ProductCollectionHeader, localized, brandCase } from "@/components/AppProducts";
 import "./app-products.css";
 import { homepageImage, introVideoUrl } from "@/lib/homepageMedia";
+import { CompanyInformation } from "@/components/CompanyInformation";
+import { ContactPrivacyNotice } from "@/components/ContactPrivacyNotice";
+import { CONTACT_NOTICE_VERSION, contactPrivacyNotice } from "@/lib/contactPrivacy";
 import type {
   Locale,
   LocalizedText,
@@ -15,6 +18,7 @@ import type {
 } from "@/sanity/lib/types";
 
 export type HomepageCopy = {
+  businessInfo?: SiteSettings["businessInfo"];
   cinema?: SiteSettings["cinema"];
   homepageMedia?: SiteSettings["homepageMedia"];
   contactForm?: SiteSettings["contactForm"];
@@ -239,6 +243,9 @@ export function VideoHomepage({ copy, products, socialLinks }: Props) {
           message: formData.get("message"),
           website: formData.get("website"),
           locale,
+          privacyConsent: formData.get("privacyConsent") === "on",
+          overseasConsent: formData.get("overseasConsent") === "on",
+          noticeVersion: CONTACT_NOTICE_VERSION,
         }),
       });
       const result = await response.json();
@@ -582,8 +589,12 @@ export function VideoHomepage({ copy, products, socialLinks }: Props) {
                     aria-hidden="true"
                     className="studio-honeypot"
                   />
+                  <ContactPrivacyNotice locale={locale} />
                   <label>
-                    <input required type="checkbox" /> {formCopy.consent}
+                    <input required type="checkbox" name="privacyConsent" aria-describedby="contact-privacy-notice" /> {formCopy.consent}
+                  </label>
+                  <label>
+                    <input required type="checkbox" name="overseasConsent" aria-describedby="contact-privacy-notice" /> {contactPrivacyNotice[locale].overseasConsent}
                   </label>
                   <button
                     className="studio-submit"
@@ -612,14 +623,11 @@ export function VideoHomepage({ copy, products, socialLinks }: Props) {
               )}
             </div>
             <div>
-              {localized(copy.cinema?.footerLegal, locale, locale === "ko"
-                ? "이용약관 · 개인정보처리방침"
-                : "Terms · Privacy")}
+              <a href={`/legal/studio/terms?lang=${locale}`}>{locale === "ko" ? "이용약관" : "Terms"}</a>
+              {" · "}<a href={`/legal/studio/privacy?lang=${locale}`}>{locale === "ko" ? "개인정보 처리방침" : "Privacy"}</a>
               {" · "}<a href="/analytics-info">{locale === "ko" ? "방문 통계 안내" : "Visit analytics"}</a>
             </div>
-            <div>
-              {localized(copy.cinema?.footerBusiness, locale, locale === "ko" ? "사업자정보 확인" : "Business information")}
-            </div>
+            <CompanyInformation info={copy.businessInfo} locale={locale} />
             <div className="studio-footer-social">
               {socialLinks.map((link) => (
                 <a

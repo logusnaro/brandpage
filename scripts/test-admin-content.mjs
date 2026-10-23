@@ -33,18 +33,23 @@ function load(text, overrides = {}) {
 }
 const media = load(source("src/lib/homepageMedia.ts"));
 mocks["@/lib/homepageMedia"] = media;
+mocks["@/lib/companyInfo"] = load(source("src/lib/companyInfo.ts"));
+mocks["@/lib/contactPrivacy"] = load(source("src/lib/contactPrivacy.ts"));
+mocks["@/components/CompanyInformation"] = load(source("src/components/CompanyInformation.tsx"));
+mocks["@/components/ContactPrivacyNotice"] = load(source("src/components/ContactPrivacyNotice.tsx"));
 const products = load(source("src/components/AppProducts.tsx"));
 mocks["@/components/AppProducts"] = products;
 const home = load(source("src/components/VideoHomepage.tsx"));
-const baselineProducts = load(execFileSync("git", ["show", "d42b89d:src/components/AppProducts.tsx"], { encoding: "utf8" }));
-const baselineHome = load(execFileSync("git", ["show", "d42b89d:src/components/VideoHomepage.tsx"], { encoding: "utf8" }), { "@/components/AppProducts": baselineProducts });
+const baselineProducts = load(execFileSync("git", ["show", "1f90ec4:src/components/AppProducts.tsx"], { encoding: "utf8" }));
+const baselineHome = load(execFileSync("git", ["show", "1f90ec4:src/components/VideoHomepage.tsx"], { encoding: "utf8" }), { "@/components/AppProducts": baselineProducts });
 const render = (component, props) => renderToStaticMarkup(React.createElement(component, props)).replace(/\s+/g, " ");
 const baseCopy = { pageLabels: { contact: { ko: "Contact", en: "Contact" } }, contactTitle: { ko: "함께 남기고 싶은\n이야기가 있나요?" } };
 // Hold separately approved icon/film defaults fixed while comparing the CMS additions.
 // Their fallback behavior is covered by test-app-products.mjs.
 const fixedIcon = { asset: { _ref: "image-fixture-1000x1000-webp" } };
 const props = { copy: baseCopy, products: launchCatalogue.map(product => ({ ...product, appIcon: fixedIcon })), socialLinks: [] };
-assert.equal(render(home.VideoHomepage, props), render(baselineHome.VideoHomepage, props), "Unset CMS additions must preserve the complete current homepage markup");
+const withoutUpdatedContact = html => html.replace(/<form\b[\s\S]*?<\/form>/g, "<form/>").replace(/<footer\b[\s\S]*?<\/footer>/g, "<footer/>");
+assert.equal(withoutUpdatedContact(render(home.VideoHomepage, props)), withoutUpdatedContact(render(baselineHome.VideoHomepage, props)), "Company/privacy changes preserve the homepage outside the requested form and footer");
 for (const locale of ["ko", "en"]) {
   for (const product of launchCatalogue) {
     const props = { product: { ...product, appIcon: fixedIcon, videos: [] }, index: 0, locale };
@@ -53,7 +58,7 @@ for (const locale of ["ko", "en"]) {
 }
 const image = { asset: { _ref: "image-fixture-1000x1000-webp" } };
 const settings = {
-  cinema: Object.fromEntries(["heroSubtitle", "storyTitle", "storyBody", "worldsTitle", "worldsBody", "filmLabel", "studioNav", "appsNav", "growingCaption", "togetherCaption", "lookingBackCaption", "appsHeading", "productTitle", "appsDescription", "appsMore", "comingSoonTitle", "comingSoonBody", "comingSoonCaption", "growingNote", "platformRoadmap", "footerLegal", "footerBusiness"].map(key => [key, { ko: `수정-${key}`, en: `Edited-${key}` }])),
+  cinema: Object.fromEntries(["heroSubtitle", "storyTitle", "storyBody", "worldsTitle", "worldsBody", "filmLabel", "studioNav", "appsNav", "growingCaption", "togetherCaption", "lookingBackCaption", "appsHeading", "productTitle", "appsDescription", "appsMore", "comingSoonTitle", "comingSoonBody", "comingSoonCaption", "growingNote", "platformRoadmap"].map(key => [key, { ko: `수정-${key}`, en: `Edited-${key}` }])),
   homepageMedia: Object.fromEntries(["heroPoster", "growingImage", "togetherImage", "lookingBackImage", "contactImage", "villageImage"].map(key => [key, image])),
   contactForm: Object.fromEntries(["eyebrow", "inquiry", "product", "collaboration", "other", "name", "email", "message", "consent", "submit"].map(key => [key, { ko: `폼-${key}` }])),
 };
@@ -92,4 +97,4 @@ for (const template of templates) {
   assert.ok(template.value.detail.headlineI18n.ko && template.value.name.current);
 }
 console.log(`Admin content: ${Object.keys(settings.cinema).length} bilingual copy slots, 6 images, MP4 safety/mobile fallback, form integrity, 7 detail fields, merge wiring and 4 draft templates PASS.`);
-console.log("CMS design regression: homepage + 4 apps × 2 languages match d42b89d with fixed icons and hidden films PASS; film/icon defaults are tested separately.");
+console.log("CMS design regression: unchanged homepage regions + 4 apps × 2 languages match the approved baseline PASS; company/privacy behavior is checked separately.");

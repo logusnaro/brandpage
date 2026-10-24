@@ -3,7 +3,6 @@ import type { Product, LocalizedText } from "../sanity/lib/types";
 type Feature = { title: LocalizedText; body: LocalizedText; image: string };
 type Room = {
   hero: string;
-  mascotName?: LocalizedText;
   headline: LocalizedText;
   intro: LocalizedText;
   videoHeading: LocalizedText;
@@ -113,7 +112,6 @@ const rooms: Record<string, Room> = {
   },
   goodgo: {
     hero: "/apps-art/goodgo-room-v2.webp",
-    mascotName: text("져니 · Jeony", "Jeony"),
     headline: text(
       "나서기 전의 하루를,\n조금 더 여유롭게.",
       "A little more calm.\nBefore you head out.",
@@ -123,7 +121,7 @@ const rooms: Record<string, Room> = {
       "Work back from arrival time to plan preparation and departure.",
     ),
     videoHeading: text(
-      "출발하기 전,\n함께 살펴봐요.",
+      "출발하기 전,\n저니와 준비해요.",
       "Before you leave,\ntake a look.",
     ),
     videoBody: text(

@@ -297,7 +297,9 @@ function collectionArt(product: Product) {
   return { src: ["daybybaby", "memogrip", "goodgo", "bookbap"].includes(slug) ? `/apps-art/${slug}-v1.webp` : productImage(product), mascot: false };
 }
 
-function collectionAppIcon(product: Product) {
+function productAppIcon(product: Product) {
+  if (isDayByBaby(product)) return "/apps-art/daybybaby-app-icon.png";
+
   const rawName = (product.name || product.displayName).toLowerCase().replace(/[^a-z]/g, "");
   const slug = ({
     memo: "memogrip",
@@ -330,7 +332,7 @@ export function ProductCollection({ products, locale, limit, village = false, co
           const ppuri = isDayByBaby(product);
           const name = productName(product, locale);
           const art = collectionArt(product);
-          const icon = collectionAppIcon(product);
+          const icon = productAppIcon(product);
           return (
             <Link className={`app-card app-palette-${index % 4}`} key={product._id} href={productPath(product, locale)}>
               <div className={`app-card-art ${art.mascot ? "has-mascot" : ""}`}>
@@ -457,6 +459,7 @@ export function ProductShowcase({
   const room = appRoom(product);
   const appSlug = /^\/apps-art\/(memogrip|goodgo|bookbap)-room-v[23]\.webp$/.exec(room.hero)?.[1];
   const memogrip = appSlug === "memogrip";
+  const appIcon = productAppIcon(product);
   const designed = ppuri || Boolean(appSlug);
   const detail = product.detail;
   const hero = detail?.heroImage?.asset
@@ -539,9 +542,9 @@ export function ProductShowcase({
             Apps <span>/</span> {name}
           </Link>
           <div className="app-room-identity">
-            {memogrip ? (
+            {appIcon ? (
               <Image
-                src="/apps-art/memogrip-app-icon.png"
+                src={appIcon}
                 alt=""
                 width={44}
                 height={44}

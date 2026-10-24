@@ -89,6 +89,17 @@ function neighborClips(hero: string): FilmClip[] {
   }));
 }
 
+function primaryClipPriority(clip: FilmClip) {
+  const title = [clip.titleI18n?.ko, clip.titleI18n?.en]
+    .filter(Boolean)
+    .join(" ")
+    .toLowerCase();
+  if (/소개\s*\+\s*가이드|introduction\s*\+\s*guide/.test(title)) return 0;
+  if (/짧은\s*소개|short\s+introduction/.test(title)) return 1;
+  if (/기능\s*가이드|feature\s+guide/.test(title)) return 2;
+  return 3;
+}
+
 export function localized(
   value: Partial<LocalizedText> | undefined,
   locale: Locale,
@@ -471,7 +482,9 @@ export function ProductShowcase({
   const clips: FilmClip[] = (
     product.videos == null ? (ppuri ? dayByBabyClips : neighborClips(room.hero)) : product.videos
   ).filter((clip) => Boolean(clip.url && resolveClipSource(clip.url)));
-  const mainClips = clips.filter((item) => item.aspect !== "portrait");
+  const mainClips = clips
+    .filter((item) => item.aspect !== "portrait")
+    .sort((a, b) => primaryClipPriority(a) - primaryClipPriority(b));
   const extraClips = clips.filter((item) => item.aspect === "portrait");
   const activeIndex = Math.min(selectedClip, mainClips.length - 1);
   const clip = mainClips[activeIndex];
@@ -829,3 +842,4 @@ export function ProductShowcase({
     </article>
   );
 }
+

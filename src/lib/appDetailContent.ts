@@ -117,7 +117,7 @@ const rooms: Record<string, Room> = {
       "A little more calm.\nBefore you head out.",
     ),
     intro: text(
-      "도착할 시간부터 거꾸로, 준비와 출발의 흐름을 정리해요.",
+      "날씨, 교통, 준비시간, 준비물.. 모두 져니가 챙겨줘요.",
       "Work back from arrival time to plan preparation and departure.",
     ),
     videoHeading: text(
@@ -134,7 +134,7 @@ const rooms: Record<string, Room> = {
     ),
     features: [
       {
-        title: text("시간을 거꾸로", "Work backwards"),
+        title: text("준비부터 준비하자", "Work backwards"),
         body: text(
           "도착 시간과 이동 시간을 기준으로 준비와 출발 시간을 계산해요.",
           "Calculate preparation and departure from arrival and travel time.",

@@ -3,6 +3,7 @@ import type { Product, LocalizedText } from "../sanity/lib/types";
 type Feature = { title: LocalizedText; body: LocalizedText; image: string };
 type Room = {
   hero: string;
+  mascotName?: LocalizedText;
   headline: LocalizedText;
   intro: LocalizedText;
   videoHeading: LocalizedText;

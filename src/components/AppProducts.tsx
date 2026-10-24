@@ -587,11 +587,6 @@ export function ProductShowcase({
               </span>
             )}
             <span>{name}</span>
-            {localized(room.mascotName, locale) ? (
-              <small className="app-room-mascot-name">
-                {localized(room.mascotName, locale)}
-              </small>
-            ) : null}
           </div>
           <h1 id={`film-service-${index}`}>
             {localized(detail?.headlineI18n, locale, room.headline[locale])}

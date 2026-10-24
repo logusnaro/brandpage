@@ -682,17 +682,6 @@
   font-size: 28px;
   font-weight: 750;
 }
-.app-room-mascot-name {
-  padding: 6px 10px;
-  border: 1px solid rgba(232, 108, 82, 0.28);
-  border-radius: 999px;
-  background: rgba(232, 108, 82, 0.08);
-  color: #a95847;
-  font-size: 12px;
-  font-weight: 560;
-  line-height: 1;
-  white-space: nowrap;
-}
 .app-room-designed .app-room-mark,
 .app-room-designed .app-room-identity img {
   width: 74px;
@@ -991,10 +980,6 @@
   .app-room-designed .app-room-identity {
     font-size: 22px;
     gap: 14px;
-  }
-  .app-room-mascot-name {
-    padding: 5px 8px;
-    font-size: 10px;
   }
   .app-room-designed .app-room-mark,
   .app-room-designed .app-room-identity img {

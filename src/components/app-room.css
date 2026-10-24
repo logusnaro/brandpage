@@ -992,6 +992,10 @@
     font-size: 22px;
     gap: 14px;
   }
+  .app-room-mascot-name {
+    padding: 5px 8px;
+    font-size: 10px;
+  }
   .app-room-designed .app-room-mark,
   .app-room-designed .app-room-identity img {
     width: 54px;

@@ -223,3 +223,9 @@
     line-height: 1.78;
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  :global(html) {
+    scroll-behavior: auto;
+  }
+}

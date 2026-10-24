@@ -89,6 +89,17 @@ function neighborClips(hero: string): FilmClip[] {
   }));
 }
 
+function primaryClipPriority(clip: FilmClip) {
+  const title = [clip.titleI18n?.ko, clip.titleI18n?.en]
+    .filter(Boolean)
+    .join(" ")
+    .toLowerCase();
+  if (/소개\s*\+\s*가이드|introduction\s*\+\s*guide/.test(title)) return 0;
+  if (/짧은\s*소개|short\s+introduction/.test(title)) return 1;
+  if (/기능\s*가이드|feature\s+guide/.test(title)) return 2;
+  return 3;
+}
+
 export function localized(
   value: Partial<LocalizedText> | undefined,
   locale: Locale,
@@ -286,6 +297,22 @@ function collectionArt(product: Product) {
   return { src: ["daybybaby", "memogrip", "goodgo", "bookbap"].includes(slug) ? `/apps-art/${slug}-v1.webp` : productImage(product), mascot: false };
 }
 
+function productAppIcon(product: Product) {
+  if (isDayByBaby(product)) return "/apps-art/daybybaby-app-icon.png";
+
+  const rawName = (product.name || product.displayName).toLowerCase().replace(/[^a-z]/g, "");
+  const slug = ({
+    memo: "memogrip",
+    allinmemo: "memogrip",
+    memogrip: "memogrip",
+    readygo: "goodgo",
+    goodgo: "goodgo",
+    innerbrary: "bookbap",
+    bookbap: "bookbap",
+  } as Record<string, string>)[rawName];
+  return slug ? `/apps-art/${slug}-app-icon.png` : null;
+}
+
 export function ProductCollection({ products, locale, limit, village = false, copy, villageImage }: { products: Product[]; locale: Locale; limit?: number; village?: boolean; copy?: CinemaCopy; villageImage?: SanityImage }) {
   const shown = limit ? products.slice(0, limit) : products;
   const panorama = homepageImage(villageImage, "/apps-art/village-v1.webp");
@@ -305,6 +332,7 @@ export function ProductCollection({ products, locale, limit, village = false, co
           const ppuri = isDayByBaby(product);
           const name = productName(product, locale);
           const art = collectionArt(product);
+          const icon = productAppIcon(product);
           return (
             <Link className={`app-card app-palette-${index % 4}`} key={product._id} href={productPath(product, locale)}>
               <div className={`app-card-art ${art.mascot ? "has-mascot" : ""}`}>
@@ -312,7 +340,7 @@ export function ProductCollection({ products, locale, limit, village = false, co
               </div>
               <div className="app-card-info">
                 <div className="app-card-summary">
-                  <span className="app-card-icon" aria-hidden="true">{product.appIcon?.asset ? <Image src={urlFor(product.appIcon).width(96).height(96).url()} alt="" width={48} height={48} /> : ppuri ? <Image src="/apps-art/daybybaby-app-icon.png" alt="" width={48} height={48} /> : <span>{name.charAt(0)}</span>}</span>
+                  <span className="app-card-icon" aria-hidden="true">{icon ? <Image src={icon} alt="" width={48} height={48} /> : product.appIcon?.asset ? <Image src={urlFor(product.appIcon).width(96).height(96).url()} alt="" width={48} height={48} /> : ppuri ? <Image src="/apps-art/daybybaby-app-icon.png" alt="" width={48} height={48} /> : <span>{name.charAt(0)}</span>}</span>
                   <div className="app-card-name">
                     <h3>{name}</h3>
                     <p>{localized(product.shortDescriptionI18n, locale, localized(product.descriptionI18n, locale, product.description))}</p>
@@ -429,7 +457,10 @@ export function ProductShowcase({
   const ppuri = isDayByBaby(product);
   const name = productName(product, locale);
   const room = appRoom(product);
-  const designed = ppuri || /^\/apps-art\/(memogrip|goodgo|bookbap)-room-v[23]\.webp$/.test(room.hero);
+  const appSlug = /^\/apps-art\/(memogrip|goodgo|bookbap)-room-v[23]\.webp$/.exec(room.hero)?.[1];
+  const memogrip = appSlug === "memogrip";
+  const appIcon = productAppIcon(product);
+  const designed = ppuri || Boolean(appSlug);
   const detail = product.detail;
   const hero = detail?.heroImage?.asset
     ? urlFor(detail.heroImage).width(2000).url()
@@ -454,7 +485,9 @@ export function ProductShowcase({
   const clips: FilmClip[] = (
     product.videos == null ? (ppuri ? dayByBabyClips : neighborClips(room.hero)) : product.videos
   ).filter((clip) => Boolean(clip.url && resolveClipSource(clip.url)));
-  const mainClips = clips.filter((item) => item.aspect !== "portrait");
+  const mainClips = clips
+    .filter((item) => item.aspect !== "portrait")
+    .sort((a, b) => primaryClipPriority(a) - primaryClipPriority(b));
   const extraClips = clips.filter((item) => item.aspect === "portrait");
   const activeIndex = Math.min(selectedClip, mainClips.length - 1);
   const clip = mainClips[activeIndex];
@@ -509,7 +542,14 @@ export function ProductShowcase({
             Apps <span>/</span> {name}
           </Link>
           <div className="app-room-identity">
-            {product.appIcon?.asset ? (
+            {appIcon ? (
+              <Image
+                src={appIcon}
+                alt=""
+                width={44}
+                height={44}
+              />
+            ) : product.appIcon?.asset ? (
               <Image
                 src={urlFor(product.appIcon).width(96).height(96).url()}
                 alt=""
@@ -572,18 +612,22 @@ export function ProductShowcase({
             <div className="app-room-video-copy">
               <span className="app-eyebrow">{name.toUpperCase()} VIDEO</span>
               <h2>
-                {localized(
-                  detail?.videoHeadingI18n,
-                  locale,
-                  room.videoHeading[locale],
-                )}
+                {memogrip && locale === "ko"
+                  ? "그리피의 하루를\n만나보세요."
+                  : localized(
+                      detail?.videoHeadingI18n,
+                      locale,
+                      room.videoHeading[locale],
+                    )}
               </h2>
               <p>
-                {localized(
-                  detail?.videoBodyI18n,
-                  locale,
-                  room.videoBody[locale],
-                )}
+                {memogrip && locale === "ko"
+                  ? "간단해요. 메모를 적으면 알아서 분류해줘요."
+                  : localized(
+                      detail?.videoBodyI18n,
+                      locale,
+                      room.videoBody[locale],
+                    )}
               </p>
               <Image
                 src={mascot}
@@ -801,3 +845,4 @@ export function ProductShowcase({
     </article>
   );
 }
+

@@ -210,7 +210,7 @@ export const product = defineType({
     defineField({
       name: "videos",
       title: "서비스 영상",
-      description: "목록 순서대로 표시합니다. MP4 경로 또는 YouTube 링크를 넣으세요. 빈 목록으로 저장하면 영상을 숨길 수 있습니다.",
+      description: "가로 영상은 소개 + 가이드 → 짧은 소개 → 기능 가이드 순으로 표시합니다. 그 외 영상은 목록 순서를 유지합니다. MP4 경로 또는 YouTube 링크를 넣으세요. 빈 목록으로 저장하면 영상을 숨길 수 있습니다.",
       type: "array",
       of: [{
         type: "object",
@@ -294,3 +294,4 @@ export const product = defineType({
     }),
   },
 });
+

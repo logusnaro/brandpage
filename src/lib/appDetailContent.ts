@@ -113,6 +113,7 @@ const rooms: Record<string, Room> = {
   },
   goodgo: {
     hero: "/apps-art/goodgo-room-v2.webp",
+    mascotName: text("져니 · Jeony", "Jeony"),
     headline: text(
       "나서기 전의 하루를,\n조금 더 여유롭게.",
       "A little more calm.\nBefore you head out.",

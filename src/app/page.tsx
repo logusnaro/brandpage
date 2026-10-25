@@ -29,7 +29,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function Home() {
-  const { settings, products, socialLinks } = await fetchPageData();
+  const { settings, products } = await fetchPageData();
   const copy = {
     businessInfo: settings.businessInfo,
     cinema: settings.cinema,
@@ -44,6 +44,6 @@ export default async function Home() {
   };
 
   return (
-    <VideoHomepage copy={copy} products={products} socialLinks={socialLinks} />
+    <VideoHomepage copy={copy} products={products} />
   );
 }

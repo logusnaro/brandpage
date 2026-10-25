@@ -4,12 +4,12 @@ import Image from "next/image";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { CSSProperties } from "react";
 import { urlFor } from "@/sanity/lib/image";
-import type { Locale, Product, SiteSettings, SocialLink } from "@/sanity/lib/types";
+import type { Locale, Product, SiteSettings } from "@/sanity/lib/types";
 import { StudioFooter } from "@/components/StudioFooter";
 import { ContactPrivacyNotice } from "@/components/ContactPrivacyNotice";
 import { CONTACT_NOTICE_VERSION, contactPrivacyNotice } from "@/lib/contactPrivacy";
 
-type Props = { settings: SiteSettings; products: Product[]; socialLinks: SocialLink[] };
+type Props = { settings: SiteSettings; products: Product[] };
 
 const introArtworkCycle = [
   { src: "/story/daily/daily-01-wake-v1.webp", alt: "아침을 맞는 사람과 logu", focus: "54% center", mobileFocus: "57% center" },
@@ -56,7 +56,7 @@ function productGallery(product: Product, index: number) {
   return image ? [urlFor(image).width(900).height(1400).fit("crop").url()] : [productFallbackImages[index % productFallbackImages.length]];
 }
 
-export function StudioHomepage({ settings, products, socialLinks }: Props) {
+export function StudioHomepage({ settings, products }: Props) {
   const [locale, setLocale] = useState<Locale>("ko");
   const [languageOpen, setLanguageOpen] = useState(false);
   const [sceneIndex, setSceneIndex] = useState(0);
@@ -234,7 +234,7 @@ export function StudioHomepage({ settings, products, socialLinks }: Props) {
           <div className="studio-contact-head"><h2>{localized(settings.pageLabels.contact, locale, "Contact")}</h2></div>
           <div className="studio-contact-body"><div className="studio-contact-image"><Image src="/story/intro/intro-05-family-dinner-v2.webp" alt="가족의 이야기를 함께 바라보는 logu" fill sizes="(max-width: 800px) 92vw, 43vw" className="studio-cover" /></div>
           <div className="studio-contact-copy" ref={contactCopyRef}><p className="studio-contact-label">{formCopy.eyebrow}</p><h3>{contactTitleFirst}{contactTitleLast ? <><br /><span className="studio-question-line" ref={questionLineRef}>{contactTitleLast}</span></> : <span className="studio-question-line" ref={questionLineRef}>{contactTitleFirst}</span>}</h3><p className="studio-contact-body-copy">{contactBody}</p>{!formSent ? <form ref={formRef} className="studio-contact-form" onSubmit={submitContact}><select name="inquiryType" aria-label={formCopy.inquiry} required defaultValue=""><option value="" disabled>{formCopy.inquiry}</option><option>{formCopy.product}</option><option>{formCopy.collaboration}</option><option>{formCopy.other}</option></select><input name="name" required placeholder={formCopy.name} /><input name="email" required type="email" placeholder={formCopy.email} /><textarea name="message" required placeholder={formCopy.message} /><input name="website" tabIndex={-1} autoComplete="off" aria-hidden="true" className="studio-honeypot" /><ContactPrivacyNotice locale={locale} /><label><input required type="checkbox" name="privacyConsent" aria-describedby="contact-privacy-notice" /> {formCopy.consent}</label><label><input required type="checkbox" name="overseasConsent" aria-describedby="contact-privacy-notice" /> {contactPrivacyNotice[locale].overseasConsent}</label><button className="studio-submit" type="submit" disabled={formSending}>{formSending ? "…" : formCopy.submit}</button>{formError ? <p role="alert">{formError}</p> : null}</form> : null}{formSent ? <div className="studio-sent"><h4>{formCopy.sent}</h4><p>{formCopy.sentBody}</p></div> : null}</div></div>
-          <StudioFooter businessInfo={settings.businessInfo} copyright={settings.contact.copyright} locale={locale} socialLinks={socialLinks} tagline={localized(settings.cinema?.footerTagline, locale, locale === "ko" ? "작은 순간을 기록합니다." : "We record little moments.")} />
+          <StudioFooter businessInfo={settings.businessInfo} copyright={settings.contact.copyright} locale={locale} tagline={localized(settings.cinema?.footerTagline, locale, locale === "ko" ? "작은 순간을 기록합니다." : "We record little moments.")} />
         </section>
       </main>
 

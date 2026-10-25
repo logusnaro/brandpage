@@ -14,7 +14,6 @@ import type {
   LocalizedText,
   Product,
   SiteSettings,
-  SocialLink,
 } from "@/sanity/lib/types";
 
 export type HomepageCopy = {
@@ -32,10 +31,9 @@ export type HomepageCopy = {
 type Props = {
   copy: HomepageCopy;
   products: Product[];
-  socialLinks: SocialLink[];
 };
 
-export function VideoHomepage({ copy, products, socialLinks }: Props) {
+export function VideoHomepage({ copy, products }: Props) {
   const [locale, setLocale] = useState<Locale>("ko");
   const [languageOpen, setLanguageOpen] = useState(false);
   const [heroComplete, setHeroComplete] = useState(false);
@@ -620,7 +618,6 @@ export function VideoHomepage({ copy, products, socialLinks }: Props) {
             businessInfo={copy.businessInfo}
             copyright={copy.copyright}
             locale={locale}
-            socialLinks={socialLinks}
             tagline={localized(copy.cinema?.footerTagline, locale, defaultUi.footerTagline)}
           />
         </section>

@@ -6,7 +6,7 @@ import type { FormEvent } from "react";
 import { ProductCollection, ProductCollectionHeader, localized, brandCase } from "@/components/AppProducts";
 import "./app-products.css";
 import { homepageImage, introVideoUrl } from "@/lib/homepageMedia";
-import { CompanyInformation } from "@/components/CompanyInformation";
+import { StudioFooter } from "@/components/StudioFooter";
 import { ContactPrivacyNotice } from "@/components/ContactPrivacyNotice";
 import { CONTACT_NOTICE_VERSION, contactPrivacyNotice } from "@/lib/contactPrivacy";
 import type {
@@ -151,6 +151,7 @@ export function VideoHomepage({ copy, products, socialLinks }: Props) {
           pause: "일시정지",
           play: "계속 보기",
           explore: "우리의 세계 만나보기",
+          footerTagline: "작은 순간을 기록합니다.",
           film: "작은 순간들이 살아가는 곳",
           empty: "새 서비스를 준비하고 있습니다.",
           studio: "Studio",
@@ -173,6 +174,7 @@ export function VideoHomepage({ copy, products, socialLinks }: Props) {
           pause: "Pause",
           play: "Continue",
           explore: "Explore our world",
+          footerTagline: "We record little moments.",
           film: "A home for little moments",
           empty: "New services are on their way.",
           studio: "Studio",
@@ -614,33 +616,13 @@ export function VideoHomepage({ copy, products, socialLinks }: Props) {
               ) : null}
             </div>
           </div>
-          <footer className="studio-footer">
-            <div>
-              {localized(
-                copy.copyright,
-                locale,
-                "© 2026 logUs Studio. All rights reserved.",
-              )}
-            </div>
-            <div>
-              <a href={`/legal/studio/terms?lang=${locale}`}>{locale === "ko" ? "이용약관" : "Terms"}</a>
-              {" · "}<a href={`/legal/studio/privacy?lang=${locale}`}>{locale === "ko" ? "개인정보 처리방침" : "Privacy"}</a>
-              {" · "}<a href="/analytics-info">{locale === "ko" ? "방문 통계 안내" : "Visit analytics"}</a>
-            </div>
-            <CompanyInformation info={copy.businessInfo} locale={locale} />
-            <div className="studio-footer-social">
-              {socialLinks.map((link) => (
-                <a
-                  key={link._id}
-                  href={link.url}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  {link.label || link.platform}
-                </a>
-              ))}
-            </div>
-          </footer>
+          <StudioFooter
+            businessInfo={copy.businessInfo}
+            copyright={copy.copyright}
+            locale={locale}
+            socialLinks={socialLinks}
+            tagline={localized(copy.cinema?.footerTagline, locale, defaultUi.footerTagline)}
+          />
         </section>
       </main>
     </div>

@@ -69,7 +69,7 @@ export type CinemaCopy = Partial<
   Record<
     | "appsHeading" | "appsDescription" | "appsMore"
     | "comingSoonTitle" | "comingSoonBody" | "comingSoonCaption"
-    | "growingNote" | "platformRoadmap" | "footerLegal" | "footerBusiness",
+    | "growingNote" | "platformRoadmap" | "footerLegal" | "footerBusiness" | "footerTagline",
     Partial<LocalizedText>
   >
 >;

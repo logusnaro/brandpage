@@ -65,6 +65,7 @@ export const siteSettings = defineType({
         ["platformRoadmap", "앱인토스 제공 계획 안내"],
         ["footerLegal", "푸터 약관·개인정보 안내 문구"],
         ["footerBusiness", "푸터 사업자 정보 문구"],
+        ["footerTagline", "푸터 브랜드 문구"],
         ["growingCaption", "자라는 순간 사진 설명"],
         ["togetherCaption", "함께하는 순간 사진 설명"],
         ["lookingBackCaption", "돌아보는 순간 사진 설명"],

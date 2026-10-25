@@ -1,12 +1,11 @@
 import { CompanyInformation } from "@/components/CompanyInformation";
 import type { CompanyInfo } from "@/lib/companyInfo";
-import type { Locale, LocalizedText, SocialLink } from "@/sanity/lib/types";
+import type { Locale, LocalizedText } from "@/sanity/lib/types";
 
 type Props = {
   businessInfo?: Partial<CompanyInfo>;
   copyright?: Partial<LocalizedText>;
   locale: Locale;
-  socialLinks: SocialLink[];
   tagline: string;
 };
 
@@ -19,7 +18,7 @@ function copyrightLine(value: string | undefined, locale: Locale) {
     .trim() || fallback;
 }
 
-export function StudioFooter({ businessInfo, copyright, locale, socialLinks, tagline }: Props) {
+export function StudioFooter({ businessInfo, copyright, locale, tagline }: Props) {
   const ko = locale === "ko";
 
   return (
@@ -36,15 +35,6 @@ export function StudioFooter({ businessInfo, copyright, locale, socialLinks, tag
         <span aria-hidden="true"> · </span>
         <a href="/analytics-info">{ko ? "방문 통계 안내" : "Analytics Information"}</a>
       </nav>
-      {socialLinks.length ? (
-        <div className="studio-footer-social">
-          {socialLinks.map((link) => (
-            <a key={link._id} href={link.url} target="_blank" rel="noreferrer">
-              {link.label || link.platform}
-            </a>
-          ))}
-        </div>
-      ) : null}
     </footer>
   );
 }

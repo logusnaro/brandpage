@@ -768,8 +768,11 @@ button { color: inherit; }
 .studio-contact-form label { color: #777; font-size: 11px; }
 .studio-contact-form label input { width: auto; margin-right: 4px; }
 .studio-submit { justify-self: end; padding: 7px 13px; border: 1px solid var(--studio-ink); border-radius: 999px; background: var(--studio-ink); color: #fff; font-size: 11px; }
-.studio-footer { position: static; display: grid; justify-items: end; gap: 3px; margin-top: 75px; padding: 25px 125px 10px 0; border-top: 1px solid #bbb; color: #777; font-size: 11px; text-align: right; }
-.studio-footer-social { margin-top: 10px; }
+.studio-footer { position: static; display: grid; justify-items: center; gap: 4px; margin-top: 75px; padding: 25px 16px 10px; border-top: 1px solid #bbb; color: #777; font-size: 11px; text-align: center; }
+.studio-footer-tagline, .studio-footer-copyright { margin: 0; }
+.studio-footer-links { display: flex; flex-wrap: wrap; justify-content: center; }
+.studio-footer-links a, .studio-footer-social a { margin-left: 0; }
+.studio-footer-social { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; margin-top: 6px; }
 
 @media (max-width: 800px) {
   .studio-topbar { height: 64px; padding: 0 17px; }
@@ -815,4 +818,5 @@ button { color: inherit; }
   .studio-contact-copy h3 { font-size: 50px; }
   .studio-contact-form { width: 100% !important; margin-top: 32px; }
   .studio-footer { margin-top: 75px; padding: 25px 0 10px; }
+  .studio-footer-links a, .studio-footer-social a { margin-left: 0; }
 }

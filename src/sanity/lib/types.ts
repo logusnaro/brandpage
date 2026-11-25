@@ -1,3 +1,5 @@
+import type { CompanyInfo } from "@/lib/companyInfo";
+
 export type PublishStatus = "draft" | "published" | "unpublished";
 
 export type Locale = "ko" | "en";
@@ -67,7 +69,7 @@ export type CinemaCopy = Partial<
   Record<
     | "appsHeading" | "appsDescription" | "appsMore"
     | "comingSoonTitle" | "comingSoonBody" | "comingSoonCaption"
-    | "growingNote" | "platformRoadmap" | "footerLegal" | "footerBusiness",
+    | "growingNote" | "platformRoadmap" | "footerLegal" | "footerBusiness" | "footerTagline",
     Partial<LocalizedText>
   >
 >;
@@ -83,6 +85,7 @@ export type ContactFormCopy = Partial<Record<
 >>;
 
 export type SiteSettings = {
+  businessInfo?: Partial<CompanyInfo>;
   cinema?: CinemaCopy;
   homepageMedia?: HomepageMedia;
   contactForm?: ContactFormCopy;

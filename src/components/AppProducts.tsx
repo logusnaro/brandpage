@@ -120,7 +120,6 @@ function isDayByBaby(product: Product) {
     )
   );
 }
-
 function productName(product: Product, locale: Locale = "ko") {
   const translated = localized(product.displayNameI18n, locale);
   if (translated) return translated;

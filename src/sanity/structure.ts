@@ -18,6 +18,6 @@ export const structure: StructureResolver = (S) =>
       S.documentTypeListItem("mascot").title("logU 캐릭터 관리"),
       S.documentTypeListItem("appRelease").title("앱 릴리스 관리"),
       S.documentTypeListItem("legalDocument").title("약관·정책 관리"),
-      S.documentTypeListItem("contactSubmission").title("문의함"),
+      S.listItem().title("문의함").schemaType("contactSubmission").child(S.documentTypeList("contactSubmission").title("문의함 · 처리 완료 후 삭제").initialValueTemplates([])),
       S.documentTypeListItem("socialLink").title("SNS 링크"),
     ]);

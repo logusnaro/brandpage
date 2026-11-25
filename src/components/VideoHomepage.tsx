@@ -6,15 +6,18 @@ import type { FormEvent } from "react";
 import { ProductCollection, ProductCollectionHeader, localized, brandCase } from "@/components/AppProducts";
 import "./app-products.css";
 import { homepageImage, introVideoUrl } from "@/lib/homepageMedia";
+import { StudioFooter } from "@/components/StudioFooter";
+import { ContactPrivacyNotice } from "@/components/ContactPrivacyNotice";
+import { CONTACT_NOTICE_VERSION, contactPrivacyNotice } from "@/lib/contactPrivacy";
 import type {
   Locale,
   LocalizedText,
   Product,
   SiteSettings,
-  SocialLink,
 } from "@/sanity/lib/types";
 
 export type HomepageCopy = {
+  businessInfo?: SiteSettings["businessInfo"];
   cinema?: SiteSettings["cinema"];
   homepageMedia?: SiteSettings["homepageMedia"];
   contactForm?: SiteSettings["contactForm"];
@@ -28,10 +31,9 @@ export type HomepageCopy = {
 type Props = {
   copy: HomepageCopy;
   products: Product[];
-  socialLinks: SocialLink[];
 };
 
-export function VideoHomepage({ copy, products, socialLinks }: Props) {
+export function VideoHomepage({ copy, products }: Props) {
   const [locale, setLocale] = useState<Locale>("ko");
   const [languageOpen, setLanguageOpen] = useState(false);
   const [heroComplete, setHeroComplete] = useState(false);
@@ -147,6 +149,7 @@ export function VideoHomepage({ copy, products, socialLinks }: Props) {
           pause: "일시정지",
           play: "계속 보기",
           explore: "우리의 세계 만나보기",
+          footerTagline: "작은 순간을 기록합니다.",
           film: "작은 순간들이 살아가는 곳",
           empty: "새 서비스를 준비하고 있습니다.",
           studio: "Studio",
@@ -169,6 +172,7 @@ export function VideoHomepage({ copy, products, socialLinks }: Props) {
           pause: "Pause",
           play: "Continue",
           explore: "Explore our world",
+          footerTagline: "We record little moments.",
           film: "A home for little moments",
           empty: "New services are on their way.",
           studio: "Studio",
@@ -239,6 +243,9 @@ export function VideoHomepage({ copy, products, socialLinks }: Props) {
           message: formData.get("message"),
           website: formData.get("website"),
           locale,
+          privacyConsent: formData.get("privacyConsent") === "on",
+          overseasConsent: formData.get("overseasConsent") === "on",
+          noticeVersion: CONTACT_NOTICE_VERSION,
         }),
       });
       const result = await response.json();
@@ -582,8 +589,12 @@ export function VideoHomepage({ copy, products, socialLinks }: Props) {
                     aria-hidden="true"
                     className="studio-honeypot"
                   />
+                  <ContactPrivacyNotice locale={locale} />
                   <label>
-                    <input required type="checkbox" /> {formCopy.consent}
+                    <input required type="checkbox" name="privacyConsent" aria-describedby="contact-privacy-notice" /> {formCopy.consent}
+                  </label>
+                  <label>
+                    <input required type="checkbox" name="overseasConsent" aria-describedby="contact-privacy-notice" /> {contactPrivacyNotice[locale].overseasConsent}
                   </label>
                   <button
                     className="studio-submit"
@@ -603,36 +614,12 @@ export function VideoHomepage({ copy, products, socialLinks }: Props) {
               ) : null}
             </div>
           </div>
-          <footer className="studio-footer">
-            <div>
-              {localized(
-                copy.copyright,
-                locale,
-                "© 2026 logUs Studio. All rights reserved.",
-              )}
-            </div>
-            <div>
-              {localized(copy.cinema?.footerLegal, locale, locale === "ko"
-                ? "이용약관 · 개인정보처리방침"
-                : "Terms · Privacy")}
-              {" · "}<a href="/analytics-info">{locale === "ko" ? "방문 통계 안내" : "Visit analytics"}</a>
-            </div>
-            <div>
-              {localized(copy.cinema?.footerBusiness, locale, locale === "ko" ? "사업자정보 확인" : "Business information")}
-            </div>
-            <div className="studio-footer-social">
-              {socialLinks.map((link) => (
-                <a
-                  key={link._id}
-                  href={link.url}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  {link.label || link.platform}
-                </a>
-              ))}
-            </div>
-          </footer>
+          <StudioFooter
+            businessInfo={copy.businessInfo}
+            copyright={copy.copyright}
+            locale={locale}
+            tagline={localized(copy.cinema?.footerTagline, locale, defaultUi.footerTagline)}
+          />
         </section>
       </main>
     </div>

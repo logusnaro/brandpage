@@ -15,6 +15,7 @@ import type {
 } from "./types";
 
 type RawSettings = Partial<{
+  businessInfo: SiteSettings["businessInfo"];
   cinema: SiteSettings["cinema"];
   homepageMedia: SiteSettings["homepageMedia"];
   contactForm: SiteSettings["contactForm"];
@@ -139,6 +140,7 @@ export function mergeSettings(raw: RawSettings | null): SiteSettings {
   if (!raw) return fallback;
 
   return {
+    businessInfo: raw.businessInfo,
     cinema: raw.cinema,
     homepageMedia: raw.homepageMedia,
     contactForm: raw.contactForm,

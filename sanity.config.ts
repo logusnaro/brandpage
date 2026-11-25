@@ -17,10 +17,13 @@ export default defineConfig({
   tools: (prev) => [...prev, {name:"visits",title:"방문 통계",component:VisitStatistics}],
   schema: {
     types: schemaTypes,
-    templates: (prev) => [...prev, ...productTemplates],
+    templates: (prev) => [...prev.filter(template => template.schemaType !== "contactSubmission"), ...productTemplates],
   },
   document: {
     actions: (prev, context) => {
+      if (context.schemaType === "contactSubmission") {
+        return prev.filter(action => action.action === "delete");
+      }
       if (context.schemaType === "siteSettings") {
         return prev.filter((action) => action.action !== "delete");
       }

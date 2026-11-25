@@ -75,7 +75,7 @@ export const fallbackSiteSettings: SiteSettings = {
     body: { ko: "서비스, 협업 또는 logUs Studio에 관해 함께 나누고 싶은 이야기를 남겨주세요.", en: "Leave us a story about a service, a collaboration, or something you would like to share with logUs Studio." },
     email: "logus.naro@gmail.com",
     location: { ko: "대한민국에서 만들고 있습니다.", en: "Made in Korea." },
-    copyright: { ko: "© 2026 logUs Studio. 작은 순간을 기록합니다.", en: "© 2026 logUs Studio. Keeping the little things." },
+    copyright: { ko: "© 2026 logUs Studio.", en: "© 2026 logUs Studio." },
   },
   metadata: {
     title: { ko: "logUs Studio — 작은 순간이 당신의 이야기가 됩니다.", en: "logUs Studio — The little becomes your story." },

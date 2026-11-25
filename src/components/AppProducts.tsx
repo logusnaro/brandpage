@@ -120,7 +120,6 @@ function isDayByBaby(product: Product) {
     )
   );
 }
-
 function productName(product: Product, locale: Locale = "ko") {
   const translated = localized(product.displayNameI18n, locale);
   if (translated) return translated;
@@ -159,6 +158,7 @@ function FeatureGlyph({ index, app }: { index: number; app: string }) {
     memogrip: ["M4 20h4L20 8l-4-4L4 16v4ZM13 7l4 4", "M3 6h7l2 3h9v11H3V6Z", "M3 4h14v11H3V4Zm2 15h10m-5-4v4M19 9h3v12h-6V9h3"],
     goodgo: ["M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18Zm0 4v5l4 2", "M3 5l6-2 6 2 6-2v16l-6 2-6-2-6 2V5Zm6-2v16m6-14v16", "M4 6h3m3 0h10M4 12h3m3 0h10M4 18h3m3 0h10"],
     bookbap: ["M12 5C8 3 5 3 2 4v15c3-1 6-1 10 1 4-2 7-2 10-1V4c-3-1-6-1-10 1Zm0 0v15", "M4 6h6v6H4V6Zm10 0h6v6h-6V6ZM10 12c0 4-2 6-6 6m16-6c0 4-2 6-6 6", "M10 3a7 7 0 1 0 0 14 7 7 0 0 0 0-14Zm5 12 6 6"],
+    callkeep: ["M4 4h16v16H4zM8 8h8m-8 4h8m-8 4h5", "M6.5 3.5 9 3l1.5 4-2 1.5a14 14 0 0 0 7 7l1.5-2 4 1.5-.5 2.5a3 3 0 0 1-3.2 2.5A17 17 0 0 1 4 6.7a3 3 0 0 1 2.5-3.2Z", "M12 7v5l3 2m5-2a8 8 0 1 1-2.3-5.7M17 3v4h4"],
   };
   const path = appPaths[app]?.[index % 3];
   return (
@@ -240,7 +240,7 @@ export function ProductDownloads({
             >
               <StoreGlyph platform={item.platform} />
               {platformName(item.platform, locale)} ·{" "}
-            {locale === "ko" ? (item.platform === "android" ? "출시 예정" : "준비 중") : "Coming soon"}
+            {locale === "ko" ? (isDayByBaby(product) ? "준비 중" : item.platform === "android" ? "출시 예정" : "준비 중") : "Coming soon"}
               {localized(item.noteI18n, locale) ? (
                 <small>{localized(item.noteI18n, locale)}</small>
               ) : null}
@@ -289,6 +289,13 @@ export function ProductCollectionHeader({ locale, directory = false, description
 }
 
 function collectionArt(product: Product) {
+  const rawName = (product.name || product.displayName).toLowerCase().replace(/[^a-z0-9]/g, "");
+  if (rawName === "readygo" || rawName === "goodgo") {
+    return { src: "/apps-art/goodgo-jeony-v3.png", mascot: true };
+  }
+  if (rawName === "callkeep") {
+    return { src: "/apps-art/callkeep-characters-phone-concept.png", mascot: false };
+  }
   if (product.mascotImage?.asset) return { src: urlFor(product.mascotImage).width(1000).url(), mascot: true };
   if (product.homeScreen?.asset || product.screenshot?.asset) return { src: productImage(product), mascot: false };
   const name = (product.name || "").toLowerCase();
@@ -309,6 +316,7 @@ function productAppIcon(product: Product) {
     goodgo: "goodgo",
     innerbrary: "bookbap",
     bookbap: "bookbap",
+    callkeep: "callkeep",
   } as Record<string, string>)[rawName];
   return slug ? `/apps-art/${slug}-app-icon.png` : null;
 }
@@ -457,15 +465,22 @@ export function ProductShowcase({
   const ppuri = isDayByBaby(product);
   const name = productName(product, locale);
   const room = appRoom(product);
-  const appSlug = /^\/apps-art\/(memogrip|goodgo|bookbap)-room-v[23]\.webp$/.exec(room.hero)?.[1];
+  const appSlug = /^\/apps-art\/(memogrip|goodgo|bookbap)-room-v[23]\.webp$/.exec(room.hero)?.[1]
+    || (room.hero === "/apps-art/callkeep-characters-phone-concept.png" ? "callkeep" : undefined);
   const memogrip = appSlug === "memogrip";
+  const goodgo = appSlug === "goodgo";
+  const callkeep = appSlug === "callkeep";
   const appIcon = productAppIcon(product);
   const designed = ppuri || Boolean(appSlug);
   const detail = product.detail;
-  const hero = detail?.heroImage?.asset
+  const hero = callkeep
+    ? room.hero
+    : detail?.heroImage?.asset
     ? urlFor(detail.heroImage).width(2000).url()
     : room.hero;
-  const mascot = product.mascotImage?.asset
+  const mascot = goodgo
+    ? "/apps-art/goodgo-jeony-v3.png"
+    : product.mascotImage?.asset
     ? urlFor(product.mascotImage).width(500).url()
     : ppuri
       ? "/films/ppuri.webp"
@@ -518,7 +533,7 @@ export function ProductShowcase({
 
   return (
     <article
-      className={`app-room-service ${designed ? "app-room-designed" : ""} ${ppuri ? "app-room-ppuri" : "app-room-neighbor"}`}
+      className={`app-room-service ${designed ? "app-room-designed" : ""} ${ppuri ? "app-room-ppuri" : "app-room-neighbor"} ${callkeep ? "app-room-callkeep" : ""}`}
       aria-labelledby={`film-service-${index}`}
     >
       <section className="app-room-hero">
@@ -530,6 +545,10 @@ export function ProductShowcase({
                 ? locale === "ko"
                   ? "아기 logU 푸리가 기다리는 따뜻한 방"
                   : "Ppuri in a warm little nursery"
+                : callkeep
+                  ? locale === "ko"
+                    ? "콜킵 캐릭터 케피, 이음, 다미"
+                    : "CallKeep characters Kefi, Ieum and Dami"
                 : name + " logU"
             }
             fill
@@ -596,9 +615,17 @@ export function ProductShowcase({
           {productDownloads(product).length > 0 &&
           productDownloads(product).every((item) => !item.url) ? (
             <p className="app-room-launch-note">
-              {locale === "ko"
-                ? "출시 후 다운로드 링크가 열립니다."
-                : "Download links will open at launch."}
+              {ppuri
+                ? locale === "ko"
+                  ? "서비스 준비 후 다운로드 링크를 안내합니다."
+                  : "Download links will appear when the service is ready."
+                : callkeep
+                  ? locale === "ko"
+                    ? "웹 앱 공개 후 접속 링크를 안내합니다."
+                    : "The web app link will appear when it is ready."
+                : locale === "ko"
+                  ? "출시 후 다운로드 링크가 열립니다."
+                  : "Download links will open at launch."}
             </p>
           ) : null}
         </div>
@@ -845,4 +872,3 @@ export function ProductShowcase({
     </article>
   );
 }
-

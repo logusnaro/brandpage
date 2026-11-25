@@ -19,6 +19,15 @@ export function httpsUrl(value?: string) {
 }
 
 export function productDownloads(product: Product) {
+  const dayByBaby = /^(bebe|daybybaby)$/i.test(product.name || "") ||
+    /^(?:\[:\]\s*|logUs:\s*)?(bebe|daybybaby)$/i.test(product.displayName.trim());
+  if (dayByBaby) {
+    return [
+      { platform: "android", label: "Google Play", url: undefined, planned: true, noteI18n: undefined },
+      { platform: "ios", label: "App Store", url: undefined, planned: true, noteI18n: undefined },
+    ];
+  }
+
   if (product.platforms != null) {
     const labels = { android: "Google Play", ios: "App Store", toss: "앱인토스", web: "Web" };
     const seen = new Set<string>();
@@ -29,7 +38,6 @@ export function productDownloads(product: Product) {
       return [{ platform: item.platform, label: labels[item.platform], url, planned: !url, noteI18n: item.noteI18n }];
     });
   }
-  const dayByBaby = /^(?:bebe|daybybaby)$/i.test(product.name || "");
   const androidStatus = product.androidStatus || (dayByBaby && !product.googlePlayUrl ? "planned" : undefined);
   const iosStatus = product.iosStatus || (dayByBaby && !product.appStoreUrl ? "planned" : undefined);
   return [

@@ -294,4 +294,3 @@ export const product = defineType({
     }),
   },
 });
-

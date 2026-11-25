@@ -208,6 +208,55 @@ const rooms: Record<string, Room> = {
       },
     ],
   },
+  callkeep: {
+    hero: "/apps-art/callkeep-characters-phone-concept.png",
+    headline: text(
+      "전화할 사람도,\n다음 할 일도 한곳에.",
+      "People to call.\nNext steps, together.",
+    ),
+    intro: text(
+      "프로젝트별로 연락할 사람을 모으고, 통화 결과와 다음 연락을 직접 기록해요.",
+      "Group people to call by project, then record each outcome and follow-up yourself.",
+    ),
+    videoHeading: text(
+      "연락이 많은 날도,\n차근차근 이어가도록.",
+      "Keep every call moving.",
+    ),
+    videoBody: text(
+      "여러 사람에게 연락하고, 결과와 다음 할 일을 정리하는 CallKeep을 소개해요.",
+      "Meet CallKeep: a clear place for calls, outcomes and what comes next.",
+    ),
+    featureHeading: text(
+      "연락의 흐름을 놓치지 않도록.",
+      "Keep every conversation on track.",
+    ),
+    features: [
+      {
+        title: text("프로젝트별 연락", "Calls by project"),
+        body: text(
+          "한 프로젝트에 여러 연락 대상을 모아 차례로 관리해요.",
+          "Group several people under a project and work through them one by one.",
+        ),
+        image: "",
+      },
+      {
+        title: text("결과를 직접 기록", "Record each outcome"),
+        body: text(
+          "전화 후 결과와 메모를 직접 남겨 다음 행동을 정리해요.",
+          "After each call, record the result and a note to guide your next step.",
+        ),
+        image: "",
+      },
+      {
+        title: text("다음 연락까지 관리", "Keep follow-ups in view"),
+        body: text(
+          "다시 연락할 대상과 예정된 후속 일을 한눈에 살펴봐요.",
+          "See who needs another call and keep upcoming follow-ups in view.",
+        ),
+        image: "",
+      },
+    ],
+  },
 };
 
 export function appRoom(product: Product): Room {

@@ -666,6 +666,15 @@
 .app-room-designed .app-room-hero {
   min-height: clamp(580px, 40.8vw, 720px);
 }
+.app-room-callkeep .app-room-scene img {
+  width: 70% !important;
+  left: 30% !important;
+  object-fit: contain;
+  object-position: center right;
+}
+.app-room-designed.app-room-callkeep .app-room-scene::after {
+  background: linear-gradient(90deg, #fbf8f2 0%, #fbf8f2 24%, #fbf8f270 39%, transparent 58%);
+}
 .app-room-designed .app-room-copy {
   width: 57%;
   padding: 30px 0 42px 5.1vw;
@@ -1006,7 +1015,22 @@
   .app-room-designed .app-room-scene {
     height: 260px;
   }
+  .app-room-callkeep .app-room-scene img {
+    width: 100% !important;
+    left: 0 !important;
+    object-fit: contain;
+    object-position: center;
+  }
   .app-room-designed .app-room-scene::after {
+    background: linear-gradient(
+      180deg,
+      #fbf8f2 0%,
+      transparent 15%,
+      transparent 82%,
+      #fbf8f2
+    );
+  }
+  .app-room-designed.app-room-callkeep .app-room-scene::after {
     background: linear-gradient(
       180deg,
       #fbf8f2 0%,

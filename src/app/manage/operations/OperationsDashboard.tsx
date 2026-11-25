@@ -21,7 +21,7 @@ const appSpecs = [
   { id: "proj-memo", name: "memo", purpose: "범용 메모 앱", features: "자유 입력 · 일정/할 일/아이디어/노트 분류 · 플래너 · 히스토리", stack: "React/Vite/Capacitor · 온디바이스 SQLite · Supabase logus-brain", source: "중앙 기능 인벤토리" },
   { id: "proj-bebe-design-test", name: "bebe_design_test", purpose: "디자인 프로토타입", features: "Bebe 홈 화면 · 기록 UI 시안", stack: "HTML · CSS · JavaScript", source: "중앙 기능 인벤토리" },
   { id: "proj-hts-wife", name: "HTS-wife", purpose: "투자자 수급 Windows 위젯", features: "키움 REST API 투자주체별 수급 · DEMO/MOCK/LIVE · 주문/계좌 기능 없음", stack: "Windows 앱 · Kiwoom REST · OS 암호화 저장소", source: "앱 README" },
-  { id: "proj-innerbrary", name: "BookBap", purpose: "독서 기록 앱", features: "책 검색/ISBN · 독서 회차 · 읽기 세션 · 페이지 캡처/OCR · 기록 보관", stack: "React/Vite · Supabase logus-brain", source: "docs/03-functional-specification.md" },
+  { id: "proj-bookbap", name: "BookBap", purpose: "독서 기록 앱", features: "책 검색/ISBN · 독서 회차 · 읽기 세션 · 페이지 캡처/OCR · 기록 보관", stack: "React/Vite · Supabase logus-brain", source: "docs/03-functional-specification.md" },
   { id: "proj-linkplan", name: "LinkPlan", purpose: "가족 공동 플래너", features: "Checklist · Bucket · Package · 오늘/할 일 위젯 · 가족 공간 동기화", stack: "Android/Room · Supabase logus-brain", source: "앱 README" },
   { id: "proj-logus-remote", name: "logUs Remote", purpose: "집 PC 상태 원격 확인 도구", features: "Android 앱/위젯 · Windows 에이전트 · 상태 모드 동기화 · 전원 경고", stack: "Android/Kotlin · .NET 8 · Tailscale", source: "앱 README" },
   { id: "proj-pw-manager", name: "pw-manager", purpose: "비밀번호 변경 작업 오케스트레이션 코어", features: "대상 정규화 · 안전한 비밀번호 생성 · 상태 가드 · 비밀 마스킹 감사", stack: "로컬 Node.js · 브라우저/MFA 자동화는 미구현", source: "앱 README" },

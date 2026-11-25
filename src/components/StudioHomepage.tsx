@@ -218,9 +218,10 @@ export function StudioHomepage({ settings, products, socialLinks }: Props) {
           <div className="studio-product-track">
             {products.map((product, index) => {
               const title = productName(product);
+              const dayByBaby = /^(bebe|daybybaby)$/i.test(product.name || "") || /^(?:\[:\]\s*|logUs:\s*)?(bebe|daybybaby)$/i.test(product.displayName.trim());
               return <button type="button" className="studio-product-card" key={product._id} onClick={() => setActiveProduct(index)}>
                 <span className="studio-product-image"><Image src={productImage(product, index)} alt={product.screenshotAlt || title} fill sizes="(max-width: 700px) 78vw, 30vw" className="studio-cover" /></span>
-                <span className="studio-product-title">{title}</span><span className="studio-product-status">{product.appStoreUrl || product.webUrl ? "Available" : "Coming soon"}</span>
+                <span className="studio-product-title">{title}</span><span className="studio-product-status">{dayByBaby ? locale === "ko" ? "준비 중" : "In preparation" : product.appStoreUrl || product.webUrl ? "Available" : "Coming soon"}</span>
               </button>;
             })}
           </div>
@@ -235,7 +236,7 @@ export function StudioHomepage({ settings, products, socialLinks }: Props) {
         </section>
       </main>
 
-      {active ? <div className="studio-modal" role="dialog" aria-modal="true" aria-label={productName(active)} onClick={() => setActiveProduct(null)}><div className="studio-modal-card" onClick={(event) => event.stopPropagation()}><button type="button" className="studio-modal-close" onClick={() => setActiveProduct(null)} aria-label="닫기">×</button><div className="studio-modal-gallery">{activeGallery.map((image, index) => <Image key={`${image}-${index}`} src={image} alt={`${productName(active)} 화면 ${index + 1}`} width={360} height={560} className="studio-modal-shot" />)}</div><div className="studio-modal-copy"><p>{localized(active.categoryI18n, locale, "Service")}</p><h2>{productName(active)}</h2><div>{localized(active.descriptionI18n, locale, active.description)}</div>{active.appStoreUrl || active.webUrl ? <a href={active.appStoreUrl || active.webUrl} target="_blank" rel="noreferrer">서비스 보기 ↗</a> : <span>Coming soon</span>}</div></div></div> : null}
+      {active ? <div className="studio-modal" role="dialog" aria-modal="true" aria-label={productName(active)} onClick={() => setActiveProduct(null)}><div className="studio-modal-card" onClick={(event) => event.stopPropagation()}><button type="button" className="studio-modal-close" onClick={() => setActiveProduct(null)} aria-label="닫기">×</button><div className="studio-modal-gallery">{activeGallery.map((image, index) => <Image key={`${image}-${index}`} src={image} alt={`${productName(active)} 화면 ${index + 1}`} width={360} height={560} className="studio-modal-shot" />)}</div><div className="studio-modal-copy"><p>{localized(active.categoryI18n, locale, "Service")}</p><h2>{productName(active)}</h2><div>{localized(active.descriptionI18n, locale, active.description)}</div>{active.appStoreUrl || active.webUrl ? <a href={active.appStoreUrl || active.webUrl} target="_blank" rel="noreferrer">서비스 보기 ↗</a> : <span>{/^(bebe|daybybaby)$/i.test(active.name || "") ? locale === "ko" ? "준비 중" : "In preparation" : "Coming soon"}</span>}</div></div></div> : null}
     </div>
   );
 }
